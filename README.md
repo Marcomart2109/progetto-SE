@@ -1,9 +1,9 @@
 # Software Engineering Project - Group 7 2023/2024
 
 ## Desktop RuleMaster
-Desktop RuleMaster is a standalone, single-user desktop application designed to simplify task automation through personalized rules and triggers.
+Desktop RuleMaster is a standalone, single-user desktop application designed to simplify task automation through personalized rules.
 
-Similar in spirit to IFTTT, this application allows users to create rules specifying triggers based on time, which, when verified, execute corresponding actions.
+Similar in spirit to IFTTT, this application allows users to create rules specifying triggers, which, when verified, execute corresponding actions.
 
 The development of Desktop RuleMaster followed the Scrum methodology, emphasizing iterative development, collaboration, and adaptability throughout the software development lifecycle.
 
