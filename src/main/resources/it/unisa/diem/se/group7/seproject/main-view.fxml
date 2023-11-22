@@ -42,6 +42,8 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -106,7 +108,7 @@
         </AnchorPane>
       <AnchorPane id="Content" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-1.0" minWidth="-1.0" prefHeight="1015.0" prefWidth="944.0">
         <children>
-                  <Button layoutX="768.0" layoutY="23.0" mnemonicParsing="false" onAction="#addNewRule" text="Add a new rule" textAlignment="CENTER" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="35.0">
+                  <Button layoutX="768.0" layoutY="23.0" mnemonicParsing="false" onAction="#addNewRule" text="Add a new rule" textAlignment="CENTER" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="35.0">
                      <font>
                         <Font size="12.0" />
                      </font>
@@ -140,6 +142,33 @@
                         <Color red="0.624" green="0.624" blue="0.624" fx:id="x22" />
                      </textFill>
                   </Label>
+                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="100.0">
+                     <children>
+                        <Label text="TestRule">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                           <padding>
+                              <Insets bottom="30.0" />
+                           </padding>
+                        </Label>
+                        <Label text="Trigger">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </Label>
+                        <TextArea prefHeight="200.0" prefWidth="200.0" text="If the current time is ..." />
+                        <Label text="Action">
+                           <padding>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </padding>
+                        </Label>
+                        <TextField text="Then ..." />
+                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
+                  </VBox>
                </children>
         </AnchorPane>
       </items>

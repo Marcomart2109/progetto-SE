@@ -10,6 +10,11 @@ public class Rule {
         this.name = name;
     }
 
+    public Rule(Trigger trigger, Action action) {
+        this.action = action;
+        this.trigger = trigger;
+    }
+
     public String getName() {
         return name;
     }
