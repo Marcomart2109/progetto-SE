@@ -1,9 +1,6 @@
 package it.unisa.diem.se.group7.seproject.Controller;
 
-import it.unisa.diem.se.group7.seproject.Model.ActionType;
-import it.unisa.diem.se.group7.seproject.Model.Rule;
-import it.unisa.diem.se.group7.seproject.Model.RuleManager;
-import it.unisa.diem.se.group7.seproject.Model.TriggerType;
+import it.unisa.diem.se.group7.seproject.Model.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
