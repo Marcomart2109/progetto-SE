@@ -1,10 +1,10 @@
-package it.unisa.diem.se.group7.seproject.Model;
+package it.unisa.diem.se.group7.seproject.Model.Actions;
 
+import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 
-public class ShowDialogBoxAction implements Action{
+public class ShowDialogBoxAction implements Action {
     private String message;
 
 

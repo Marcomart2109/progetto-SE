@@ -1,9 +1,11 @@
-package it.unisa.diem.se.group7.seproject.Model;
+package it.unisa.diem.se.group7.seproject.Model.Actions;
+
+import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
 
 import java.io.*;
 import javax.sound.sampled.*;
 
-public class PlayAudioAction implements Action{
+public class PlayAudioAction implements Action {
     private Clip clip;
 
     public PlayAudioAction(File audioFile){

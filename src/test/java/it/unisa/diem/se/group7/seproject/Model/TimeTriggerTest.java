@@ -1,5 +1,6 @@
 package it.unisa.diem.se.group7.seproject.Model;
 
+import it.unisa.diem.se.group7.seproject.Model.Triggers.TimeTrigger;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;

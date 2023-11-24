@@ -1,7 +1,7 @@
 package it.unisa.diem.se.group7.seproject.Controller;
 
-import it.unisa.diem.se.group7.seproject.Model.Rule;
-import it.unisa.diem.se.group7.seproject.Model.RuleManager;
+import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
+import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
