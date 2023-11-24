@@ -2,6 +2,7 @@ package it.unisa.diem.se.group7.seproject.Controller;
 
 import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
 import it.unisa.diem.se.group7.seproject.Model.Actions.ActionType;
+import it.unisa.diem.se.group7.seproject.Model.Actions.PlayAudioAction;
 import it.unisa.diem.se.group7.seproject.Model.Actions.ShowDialogBoxAction;
 import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
@@ -11,6 +12,7 @@ import it.unisa.diem.se.group7.seproject.Model.Triggers.TriggerType;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
+import java.io.File;
 import java.net.URL;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
@@ -18,11 +20,12 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class RuleController implements Initializable {
 
-    RuleManager ruleManager;
+    private RuleManager ruleManager;
 
     @FXML
     private ComboBox<ActionType> actionMenu;
@@ -37,10 +40,19 @@ public class RuleController implements Initializable {
 
     private ActionType selectedAction;
 
+    private File selectedFile;
+
+    @FXML
+    private Button selectFileButton;
+
     @FXML
     private HBox timeTriggerInput;
+
     @FXML
     private HBox dialogBoxInput;
+
+    @FXML
+    private HBox audioFileInput;
 
     @FXML
     private Spinner<Integer> hourTimeInput;
@@ -60,10 +72,15 @@ public class RuleController implements Initializable {
         //Hidden elements don't occupy space
         timeTriggerInput.managedProperty().bind(timeTriggerInput.visibleProperty());
         dialogBoxInput.managedProperty().bind(dialogBoxInput.visibleProperty());
+        audioFileInput.managedProperty().bind(audioFileInput.visibleProperty());
 
         //Display of the inputs according to user choice in the comboBox menu
+        //Triggers
         timeTriggerInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.TIME_TRIGGER));
+        //Actions
         dialogBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.SHOW_DIALOG_BOX));
+        audioFileInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.PLAY_AUDIO));
+
         //Setup spinner component for time and minutes
         Integer currenthours = LocalTime.now().getHour();
         Integer currentminutes = LocalTime.now().getMinute();
@@ -130,14 +147,32 @@ public class RuleController implements Initializable {
     private Action createAction() {
         var action = switch (selectedAction) {
             case SHOW_DIALOG_BOX -> new ShowDialogBoxAction(messageActionInput.getText());
+            case PLAY_AUDIO -> new PlayAudioAction(selectedFile);
 
             default -> throw new IllegalStateException("Unexpected value: " + selectedAction);
         };
         return action;
     }
     // Temporary implementation
-    boolean validInputs() {
+    private boolean validInputs() {
         return !ruleNameField.getText().isBlank() && selectedTrigger != null && selectedAction != null;
+    }
+
+    @FXML
+    void chooseAudioFileAction(ActionEvent event) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Audio File");
+
+        // Set the file extension filters if needed
+        // Example: Allow only audio files
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Audio Files", "*.mp3", "*.wav", "*.ogg");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        // Show the file chooser dialog
+        selectedFile = fileChooser.showOpenDialog(null);
+        if(selectedFile != null) {
+            selectFileButton.setText("File selected");
+        }
     }
 }
 

@@ -92,6 +92,11 @@
                               </Label>
                            </children>
                         </HBox>
+                        <HBox fx:id="audioFileInput" alignment="CENTER_LEFT" prefHeight="27.0" prefWidth="377.0" spacing="10.0" visible="false">
+                           <children>
+                              <Button fx:id="selectFileButton" mnemonicParsing="false" onAction="#chooseAudioFileAction" text="Choose an audio file" />
+                           </children>
+                        </HBox>
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
