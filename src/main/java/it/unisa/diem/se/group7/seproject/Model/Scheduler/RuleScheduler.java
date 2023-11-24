@@ -10,11 +10,16 @@ import java.util.concurrent.TimeUnit;
 
 public class RuleScheduler {
 
+    private static final RuleScheduler INSTANCE = new RuleScheduler();
     private final ScheduledExecutorService scheduler;
     private final RuleManager ruleManager = RuleManager.getInstance();
 
-    public RuleScheduler() {
+    private RuleScheduler() {
         this.scheduler = Executors.newScheduledThreadPool(1);
+    }
+
+    public static RuleScheduler getInstance() {
+        return INSTANCE;
     }
 
     public void startScheduler() {
@@ -32,6 +37,7 @@ public class RuleScheduler {
             }
         }
     }
+
     public void stopScheduler() {
         scheduler.shutdown();
     }

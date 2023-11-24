@@ -5,7 +5,7 @@ import javafx.collections.ObservableList;
 
 public class RuleManager {
     private ObservableList<Rule> rules;
-    private static RuleManager manager;
+    private static final RuleManager INSTANCE = new RuleManager();
 
     private RuleManager() {
         this.rules = FXCollections.observableArrayList();
@@ -13,10 +13,7 @@ public class RuleManager {
 
     // Method to get rule manager singleton instance
     public static RuleManager getInstance() {
-        if (manager == null) {
-            manager = new RuleManager();
-        }
-        return manager;
+        return INSTANCE;
     }
 
     public void addRule(Rule rule) {

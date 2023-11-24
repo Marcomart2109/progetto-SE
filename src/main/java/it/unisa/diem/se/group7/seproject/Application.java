@@ -18,7 +18,7 @@ public class Application extends javafx.application.Application {
         stage.show();
 
         //Create and start RuleScheduler to check rules activation periodically
-        RuleScheduler ruleScheduler = new RuleScheduler();
+        RuleScheduler ruleScheduler = RuleScheduler.getInstance();
         ruleScheduler.startScheduler();
 
         stage.setOnCloseRequest(event -> {
