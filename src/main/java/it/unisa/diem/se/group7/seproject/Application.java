@@ -1,6 +1,6 @@
 package it.unisa.diem.se.group7.seproject;
 
-import it.unisa.diem.se.group7.seproject.Model.RuleScheduler;
+import it.unisa.diem.se.group7.seproject.Model.Scheduler.RuleScheduler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

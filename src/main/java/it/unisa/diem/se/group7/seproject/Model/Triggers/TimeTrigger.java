@@ -1,4 +1,4 @@
-package it.unisa.diem.se.group7.seproject.Model;
+package it.unisa.diem.se.group7.seproject.Model.Triggers;
 
 import java.time.LocalTime;
 

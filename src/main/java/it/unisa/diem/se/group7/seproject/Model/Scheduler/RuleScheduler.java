@@ -1,9 +1,9 @@
-package it.unisa.diem.se.group7.seproject.Model;
+package it.unisa.diem.se.group7.seproject.Model.Scheduler;
 
-import javafx.application.Platform;
+import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
+import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
 import javafx.collections.ObservableList;
 
-import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
