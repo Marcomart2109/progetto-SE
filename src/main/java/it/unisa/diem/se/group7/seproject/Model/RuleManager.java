@@ -38,4 +38,5 @@ public class RuleManager {
     public ObservableList<Rule> getRules() {
         return rules;
     }
+
 }
