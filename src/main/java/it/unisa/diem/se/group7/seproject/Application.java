@@ -13,6 +13,7 @@ public class Application extends javafx.application.Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Desktop RuleMaster");
+        stage.setMaximized(true);
         stage.setScene(scene);
         stage.show();
 
