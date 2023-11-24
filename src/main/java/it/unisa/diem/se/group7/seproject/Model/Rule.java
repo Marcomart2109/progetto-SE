@@ -7,7 +7,7 @@ public class Rule {
     Trigger trigger;
     boolean fired;
 
-    public Rule(String name) {
+    public Rule(String name, String timeTrigger, String showDialogBox) {
         this.name = name;
         this.fired = false;
         this.action = null;
