@@ -9,6 +9,7 @@ public class TestPlayAudioAction {
         String path  = "C:\\Users\\Alessandro Pasquale\\Downloads\\file_example_WAV_1MG.wav";
         PlayAudioAction paa = new PlayAudioAction(new File(path));
         paa.execute();
+        System.out.println("prova");
     }
 
 }

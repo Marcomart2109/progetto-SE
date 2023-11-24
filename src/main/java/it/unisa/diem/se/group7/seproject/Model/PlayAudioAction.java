@@ -12,8 +12,8 @@ public class PlayAudioAction implements Action{
                 // Create an audio input stream from the audio file
                 AudioInputStream ais = AudioSystem.getAudioInputStream(audioFile);
                 // Create a Clip instance useful to load the audio data prior to playback, rather than being streamed in real time
-                this.clip = AudioSystem.getClip();
-                this.clip.open(ais);
+                clip = AudioSystem.getClip();
+                clip.open(ais);
             } catch (LineUnavailableException exc) {
                 throw new RuntimeException("Sorry. Cannot play audio files.");
             } catch (UnsupportedAudioFileException exc) {
@@ -24,18 +24,26 @@ public class PlayAudioAction implements Action{
         }
     }
 
-    // the action run when the corresponding rule is activated
     @Override
     public void execute() {
         if (clip != null) {
-            clip.start();
-            clip.addLineListener(event -> {
-                if (event.getType() == LineEvent.Type.STOP) {
-                    clip.close();
+            // Create a new thread for audio playback
+            Thread audioThread = new Thread(){
+                @Override
+                public void run() {
+                    clip.addLineListener(event -> {
+                        if (event.getType() == LineEvent.Type.STOP) {
+                            clip = null;
+                        }
+                    });
+                    while (clip != null) {
+                        clip.start();
+                    }
                 }
-            });
+            };
+            // Start the audio playback in a separate thread
+            audioThread.start();
         }
     }
-
 }
 
