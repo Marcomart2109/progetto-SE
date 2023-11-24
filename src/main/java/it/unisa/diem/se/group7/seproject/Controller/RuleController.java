@@ -8,8 +8,11 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 public class RuleController implements Initializable {
 
@@ -28,26 +31,34 @@ public class RuleController implements Initializable {
 
     private ActionType selectedAction;
 
+    @FXML
+    private HBox timeTriggerInput;
+    @FXML
+    private HBox dialogBoxInput;
+
+    @FXML
+    private TextField hourTimeInput;
+
+    @FXML
+    private TextField minuteTimeInput;
+
+    @FXML
+    private TextField messageActionInput;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ruleManager = RuleManager.getInstance();
-        //Initialize the combo box menus
+        //Initialization of the combo box menus
         triggerMenu.getItems().addAll(TriggerType.values());
         actionMenu.getItems().addAll(ActionType.values());
+        //Hidden elements don't occupy space
+        timeTriggerInput.managedProperty().bind(timeTriggerInput.visibleProperty());
+        dialogBoxInput.managedProperty().bind(dialogBoxInput.visibleProperty());
 
-    }
-    @FXML
-    void selectedAction(ActionEvent event) {
-        selectedAction = actionMenu.getSelectionModel().getSelectedItem();
-        System.out.println("Action: " + selectedAction);
+        //Display of the inputs according to user choice in the comboBox menu
+        timeTriggerInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.TIME_TRIGGER));
+        dialogBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.SHOW_DIALOG_BOX));
 
-    }
-
-    @FXML
-    void selectedTrigger(ActionEvent event) {
-        selectedTrigger = triggerMenu.getSelectionModel().getSelectedItem();
-        System.out.println("Trigger: " + selectedTrigger);
     }
 
     @FXML
@@ -55,19 +66,63 @@ public class RuleController implements Initializable {
 
         if(validInputs()) {
             //Creation of the Rule
-            //SimpleTriggerFactory triggerFactory = new SimpleTriggerFactory();
-            //SimpleActionFactory actionFactory = new SimpleActionFactory();
 
-            //ruleManager.addRule(new Rule(triggerFactory.create(selectedTrigger), actionFactory.create(selectedAction));
+            Rule rule = new Rule(ruleNameField.getText(), createTrigger(), createAction());
+            ruleManager.addRule(rule);
+            closeWindow();
 
         } else {
-            System.out.println("You need to fill all the inputs to create a Rule!");
+            showErrorAlert("ERROR", "You need to fill all the inputs to create a Rule!");
         }
-
     }
 
+    private void closeWindow() {
+        // Get the Stage from any JavaFX Node in the current scene
+        Stage stage = (Stage) ruleNameField.getScene().getWindow();
+        stage.close();
+    }
+    private void showErrorAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+    @FXML
+    void specifiedAction(ActionEvent event) {
+        selectedAction = actionMenu.getSelectionModel().getSelectedItem();
+    }
+
+    @FXML
+    void specifiedTrigger(ActionEvent event) {
+        selectedTrigger = triggerMenu.getSelectionModel().getSelectedItem();
+    }
+
+    private Trigger createTrigger() {
+        var trigger = switch (selectedTrigger) {
+            case TIME_TRIGGER -> new TimeTrigger(Integer.parseInt(hourTimeInput.getText()), Integer.parseInt(minuteTimeInput.getText()));
+
+            default -> throw new IllegalStateException("Unexpected value: " + selectedTrigger);
+        };
+
+        return trigger;
+    }
+
+    private Action createAction() {
+        var action = switch (selectedAction) {
+            case SHOW_DIALOG_BOX -> new ShowDialogBoxAction(messageActionInput.getText());
+
+            default -> throw new IllegalStateException("Unexpected value: " + selectedAction);
+        };
+        return action;
+    }
+    // Temporary implementation
     boolean validInputs() {
-        return !ruleNameField.getText().isBlank() && selectedTrigger != null && selectedAction != null;
+        if (!ruleNameField.getText().isBlank() && selectedTrigger != null && selectedAction != null) {
+            return !hourTimeInput.getText().isEmpty() && !minuteTimeInput.getText().isEmpty() && !messageActionInput.getText().isEmpty();
+        }
+        return false;
     }
 }
 
