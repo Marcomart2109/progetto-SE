@@ -1,15 +1,23 @@
 package it.unisa.diem.se.group7.seproject.Model;
 
+import it.unisa.diem.se.group7.seproject.Model.Actions.ShowDialogBoxAction;
+import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
+import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
+import it.unisa.diem.se.group7.seproject.Model.Triggers.TimeTrigger;
 import javafx.collections.ObservableList;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.sql.Time;
 
 import static org.junit.Assert.*;
 
 class RuleManagerTest {
 
         private RuleManager ruleManager;
+        Rule rule1;
+        Rule rule2;
 
     @BeforeEach
     public void setUp() {
@@ -17,6 +25,8 @@ class RuleManagerTest {
         ruleManager = RuleManager.getInstance();
         // Pulisci la lista delle regole prima di ogni test
         ruleManager.getRules().clear();
+        rule1 = new Rule("prova1",new TimeTrigger(10,20), new ShowDialogBoxAction());
+        rule2 = new Rule("prova2",new TimeTrigger(21,12), new ShowDialogBoxAction());
     }
 
         @Test
@@ -28,33 +38,30 @@ class RuleManagerTest {
 
         @Test
         public void testAddRule() {
-            Rule rule = new Rule("prova4","TIME_TRIGGER","SHOW_DIALOG_BOX");
 
-            ruleManager.addRule(rule);
+            ruleManager.addRule(rule1);
 
-            assertTrue("La regola dovrebbe essere presente", ruleManager.getRules().contains(rule));
+            assertTrue("La regola dovrebbe essere presente", ruleManager.getRules().contains(rule1));
         }
 
         @Test
         public void testRemoveRule() {
-            Rule rule = new Rule("prova","TIME_TRIGGER","SHOW_DIALOG_BOX");
 
-            ruleManager.addRule(rule);
-            boolean removed = ruleManager.removeRule(rule);
+            ruleManager.addRule(rule1);
+            boolean removed = ruleManager.removeRule(rule1);
 
             assertTrue("La regola dovrebbe essere rimossa", removed);
-            assertFalse("La regola non dovrebbe essere più presente", ruleManager.getRules().contains(rule));
+            assertFalse("La regola non dovrebbe essere più presente", ruleManager.getRules().contains(rule1));
         }
 
         @Test
         public void testGetRule() {
-            Rule rule = new Rule("prova","TIME_TRIGGER","SHOW_DIALOG_BOX");
 
-            ruleManager.addRule(rule);
+            ruleManager.addRule(rule1);
             Rule retrievedRule = ruleManager.getRule(0);
 
             assertNotNull("La regola dovrebbe essere recuperata", retrievedRule);
-            assertSame("Le istanze devono essere le stesse", rule, retrievedRule);
+            assertSame("Le istanze devono essere le stesse", rule1, retrievedRule);
         }
 
         @Test
@@ -63,8 +70,6 @@ class RuleManagerTest {
             assertNotNull("La lista delle regole non dovrebbe essere nulla", rules);
             assertEquals("La lista delle regole dovrebbe essere vuota inizialmente", 0, rules.size());
 
-            Rule rule1 = new Rule("prova","TIME_TRIGGER","SHOW_DIALOG_BOX");
-            Rule rule2 = new Rule("prova2","TIME_TRIGGER","SHOW_DIALOG_BOX");
 
             ruleManager.addRule(rule1);
             ruleManager.addRule(rule2);

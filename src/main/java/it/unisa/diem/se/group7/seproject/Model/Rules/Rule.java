@@ -10,13 +10,6 @@ public class Rule {
     Trigger trigger;
     boolean fired;
 
-    public Rule(String name, String timeTrigger, String showDialogBox) {
-        this.name = name;
-        this.fired = false;
-        this.action = null;
-        this.trigger = null;
-    }
-
     public Rule(String name, Trigger trigger, Action action) {
         this.name = name;
         this.action = action;
