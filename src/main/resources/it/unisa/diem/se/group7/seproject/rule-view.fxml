@@ -27,9 +27,9 @@
                         <Label text="Name" />
                         <TextField fx:id="ruleNameField" />
                         <Label text="Specify a trigger" />
-                        <ComboBox fx:id="triggerMenu" onAction="#selectedTrigger" prefWidth="150.0" />
+                        <ComboBox fx:id="triggerMenu" onAction="#specifiedTrigger" prefWidth="150.0" />
                         <Label text="Specify an action" />
-                        <ComboBox fx:id="actionMenu" onAction="#selectedAction" prefWidth="150.0" />
+                        <ComboBox fx:id="actionMenu" onAction="#specifiedAction" prefWidth="150.0" />
                         <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <Button mnemonicParsing="false" onAction="#createNewRule" text="Create" />
@@ -46,13 +46,52 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Label>
+                        <Label text="Custom triggers and actions inputs">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Label text="Input a time " />
-                        <TextField promptText="eg. 13:20" />
+                        <Label text="Trigger">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <HBox fx:id="timeTriggerInput" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="27.0" prefWidth="376.0" visible="false">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <children>
+                              <TextField fx:id="hourTimeInput" prefWidth="50.0" promptText="H">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Label text=":" />
+                              <TextField fx:id="minuteTimeInput" prefWidth="50.0" promptText="M">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </TextField>
+                              <Label text="Input a time in hour and minutes">
+                                 <HBox.margin>
+                                    <Insets left="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <Label text="Action">
+                           <font>
+                              <Font size="16.0" />
+                           </font></Label>
+                        <HBox fx:id="dialogBoxInput" prefHeight="29.0" prefWidth="376.0" visible="false">
+                           <children>
+                              <Label text="Input a message">
+                                 <graphic>
+                                    <TextField fx:id="messageActionInput" maxWidth="200.0" />
+                                 </graphic>
+                              </Label>
+                           </children>
+                        </HBox>
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

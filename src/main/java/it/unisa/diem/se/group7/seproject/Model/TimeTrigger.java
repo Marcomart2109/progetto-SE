@@ -15,6 +15,9 @@ public class TimeTrigger implements Trigger {
         this.activationTime = LocalTime.of(hour, minute);
     }
 
+    public TimeTrigger() {
+    }
+
     public LocalTime getActivationTime() {
         return activationTime;
     }

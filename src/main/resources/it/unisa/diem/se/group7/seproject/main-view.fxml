@@ -106,7 +106,7 @@
                   </Label>
           </children>
         </AnchorPane>
-      <AnchorPane id="Content" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-1.0" minWidth="-1.0" prefHeight="1015.0" prefWidth="944.0">
+      <AnchorPane id="Content" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="1015.0" prefWidth="944.0">
         <children>
                   <Button layoutX="768.0" layoutY="23.0" mnemonicParsing="false" onAction="#addNewRule" text="Add a new rule" textAlignment="CENTER" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="35.0">
                      <font>

@@ -1,5 +1,8 @@
 package it.unisa.diem.se.group7.seproject.Model;
 
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
+
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -8,45 +11,28 @@ import java.util.concurrent.TimeUnit;
 public class RuleScheduler {
 
     private final ScheduledExecutorService scheduler;
-    private final List<Rule> rules;
+    private final RuleManager ruleManager = RuleManager.getInstance();
 
-    public RuleScheduler(List<Rule> rules) {
-        this.rules = rules;
+    public RuleScheduler() {
         this.scheduler = Executors.newScheduledThreadPool(1);
     }
 
     public void startScheduler() {
         // Schedule the task to run every 1 minute
-        scheduler.scheduleAtFixedRate(this::valutaRegole, 0, 5, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(this::evaluateRules, 0, 5, TimeUnit.SECONDS);
     }
 
     private void evaluateRules() {
         System.out.println("Evaluating rules...");
+        ObservableList<Rule> rules = ruleManager.getRules();
 
         for (Rule rule : rules) {
-            if (rule.getTrigger().evaluate()) {
-                System.out.println("Rule '" + rule.getName() + "' is triggered!");
-                // Perform the action associated with the triggered rule
+            if (rule.evaluate()) {
                 rule.execute();
             }
         }
     }
-
-
-    //public static void main(String[] args) {
-
-        // Create a list of rules (Assuming you have a Rule class)
-      //  List<Rule> rules = List.of(
-           //     new Rule("Rule1", /* other parameters */),
-             //   new Rule("Rule2", /* other parameters */),
-                // Add more rules as needed
-       // );
-
-        // Create an instance of RuleScheduler
-        //RuleScheduler ruleScheduler = new RuleScheduler(rules);
-
-        // Start the scheduler
-    //    ruleScheduler.startScheduler();
-    //}
-
+    public void stopScheduler() {
+        scheduler.shutdown();
+    }
 }

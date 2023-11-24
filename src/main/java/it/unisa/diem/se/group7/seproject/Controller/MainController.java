@@ -3,7 +3,6 @@ package it.unisa.diem.se.group7.seproject.Controller;
 import it.unisa.diem.se.group7.seproject.Model.Rule;
 import it.unisa.diem.se.group7.seproject.Model.RuleManager;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,9 +40,6 @@ public class MainController implements Initializable {
         ruleManager = RuleManager.getInstance();
         ObservableList<Rule> rules = ruleManager.getRules();
 
-        rules.add(
-                new Rule("Rule1")
-        );
         rulesClm.setCellValueFactory(new PropertyValueFactory<Rule, String>("name"));
         indexClm.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(rules.indexOf(cellData.getValue()) + 1));
 
