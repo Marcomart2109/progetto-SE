@@ -3,7 +3,7 @@ package it.unisa.diem.se.group7.seproject.Model.Actions;
 import java.io.*;
 import javax.sound.sampled.*;
 
-public class PlayAudioAction implements Action {
+public class PlayAudioAction implements Action, Serializable {
     private Clip clip;
 
     public PlayAudioAction(File audioFile){

@@ -4,7 +4,9 @@ import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
-public class ShowDialogBoxAction implements Action {
+import java.io.Serializable;
+
+public class ShowDialogBoxAction implements Action, Serializable {
     private String message;
 
 

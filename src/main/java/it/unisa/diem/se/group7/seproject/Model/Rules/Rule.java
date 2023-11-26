@@ -3,7 +3,9 @@ package it.unisa.diem.se.group7.seproject.Model.Rules;
 import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
 
-public class Rule {
+import java.io.Serializable;
+
+public class Rule implements Serializable {
 
     String name;
     Action action;

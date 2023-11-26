@@ -1,8 +1,9 @@
 package it.unisa.diem.se.group7.seproject.Model.Triggers;
 
+import java.io.Serializable;
 import java.time.LocalTime;
 
-public class TimeTrigger implements Trigger {
+public class TimeTrigger implements Trigger, Serializable {
     /*
     public TimeTrigger(LocalTime activationTime) {
         this.activationTime = activationTime;

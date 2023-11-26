@@ -1,7 +1,9 @@
 package it.unisa.diem.se.group7.seproject.Controller;
 
 import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
+import it.unisa.diem.se.group7.seproject.Model.Rules.RuleBackup;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
+import it.unisa.diem.se.group7.seproject.Model.Scheduler.RuleScheduler;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -32,6 +35,9 @@ public class MainController implements Initializable {
     @FXML
     private TableView<Rule> tableView;
 
+    @FXML
+    private MenuBar menuBar;
+
     private RuleManager ruleManager;
 
     @Override
@@ -39,6 +45,8 @@ public class MainController implements Initializable {
 
         ruleManager = RuleManager.getInstance();
         ObservableList<Rule> rules = ruleManager.getRules();
+
+        RuleBackup.loadFromBinaryFile(rules); // load data from binary file to rules ObservableList
 
         rulesClm.setCellValueFactory(new PropertyValueFactory<Rule, String>("name"));
         indexClm.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(rules.indexOf(cellData.getValue()) + 1));

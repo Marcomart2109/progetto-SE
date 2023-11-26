@@ -1,5 +1,8 @@
 package it.unisa.diem.se.group7.seproject;
 
+import it.unisa.diem.se.group7.seproject.Controller.MainController;
+import it.unisa.diem.se.group7.seproject.Model.Rules.RuleBackup;
+import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
 import it.unisa.diem.se.group7.seproject.Model.Scheduler.RuleScheduler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,6 +15,7 @@ public class Application extends javafx.application.Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+
         stage.setTitle("Desktop RuleMaster");
         stage.setMaximized(true);
         stage.setScene(scene);
@@ -21,7 +25,12 @@ public class Application extends javafx.application.Application {
         RuleScheduler ruleScheduler = RuleScheduler.getInstance();
         ruleScheduler.startScheduler();
 
+        RuleManager rm = RuleManager.getInstance();
+
         stage.setOnCloseRequest(event -> {
+            //save rules content on binary file
+            RuleBackup.saveOnBinaryFile(rm.getRules());
+
             // Stop the scheduler when the window is closed
             if (ruleScheduler != null) {
                 ruleScheduler.stopScheduler();
