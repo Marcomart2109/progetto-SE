@@ -3,10 +3,8 @@ package it.unisa.diem.se.group7.seproject.Controller;
 import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleBackup;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
-import it.unisa.diem.se.group7.seproject.Model.Scheduler.RuleScheduler;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +14,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -66,7 +63,7 @@ public class MainController implements Initializable {
         String backupPath = "src/main/resources/saved.bin";
         RuleBackup.loadFromBinaryFile(rules, backupPath);
 
-        rulesClm.setCellValueFactory(new PropertyValueFactory<Rule, String>("name"));
+        rulesClm.setCellValueFactory(new PropertyValueFactory<>("name"));
         indexClm.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(rules.indexOf(cellData.getValue()) + 1));
 /*        indexClm.setCellValueFactory(new PropertyValueFactory<Rule,Trigger>("trigger"));
         rulesClm.setCellValueFactory(new PropertyValueFactory<Rule,Action>("action"));*/
@@ -103,7 +100,6 @@ public class MainController implements Initializable {
                 ruleNameLabel.setText("");
                 triggerDetailText.setText("");
                 actionDetailText.setText("");
-                rulesClm.setText(""); // Set to an empty string or any default value
             }
         });
     }
