@@ -46,7 +46,9 @@ public class MainController implements Initializable {
         ruleManager = RuleManager.getInstance();
         ObservableList<Rule> rules = ruleManager.getRules();
 
-        RuleBackup.loadFromBinaryFile(rules); // load data from binary file to rules ObservableList
+        // load data from the binary file with the specified path to rules ObservableList
+        String backupPath = "src/main/resources/saved.bin";
+        RuleBackup.loadFromBinaryFile(rules, backupPath);
 
         rulesClm.setCellValueFactory(new PropertyValueFactory<Rule, String>("name"));
         indexClm.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(rules.indexOf(cellData.getValue()) + 1));

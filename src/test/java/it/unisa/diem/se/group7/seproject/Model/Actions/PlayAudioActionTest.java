@@ -1,5 +1,6 @@
 package it.unisa.diem.se.group7.seproject.Model.Actions;
 
+import it.unisa.diem.se.group7.seproject.Model.Rules.RuleBackup;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,11 +8,12 @@ import org.junit.Test;
 import java.io.File;
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PlayAudioActionTest {
-    private String path, incorrectPath;
-    private File testFile, incorrectFile;
+    private String path, wrongPath;
+    private File testFile, wrongFile;
 
     @Before
     public void setUp(){
@@ -21,9 +23,8 @@ public class PlayAudioActionTest {
             testFile.createNewFile();
         }catch(IOException exc){}
 
-        incorrectPath = "";
-        incorrectFile = new File(incorrectPath);
-
+        wrongPath = "";
+        wrongFile = new File(wrongPath);
     }
 
     @Test
@@ -36,7 +37,7 @@ public class PlayAudioActionTest {
     @Test
     public void testNoFileFound() {
         assertThrows(NoFileFoundException.class, () -> {
-            PlayAudioAction paa = new PlayAudioAction(incorrectFile);
+            PlayAudioAction paa = new PlayAudioAction(wrongFile);
         });
     }
 

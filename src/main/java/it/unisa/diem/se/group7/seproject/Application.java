@@ -28,8 +28,9 @@ public class Application extends javafx.application.Application {
         RuleManager rm = RuleManager.getInstance();
 
         stage.setOnCloseRequest(event -> {
-            //save rules content on binary file
-            RuleBackup.saveOnBinaryFile(rm.getRules());
+            //save rules content on the binary file with the specified path
+            String backupPath = "src/main/resources/saved.bin";
+            RuleBackup.saveOnBinaryFile(rm.getRules(), backupPath);
 
             // Stop the scheduler when the window is closed
             if (ruleScheduler != null) {
