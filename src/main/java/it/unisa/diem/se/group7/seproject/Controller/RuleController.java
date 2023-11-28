@@ -9,6 +9,8 @@ import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.TimeTrigger;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.TriggerType;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
@@ -28,6 +30,9 @@ public class RuleController implements Initializable {
     private RuleManager ruleManager;
 
     @FXML
+    private Label titleLabel;
+
+    @FXML
     private ComboBox<ActionType> actionMenu;
 
     @FXML
@@ -35,10 +40,6 @@ public class RuleController implements Initializable {
 
     @FXML
     private ComboBox<TriggerType> triggerMenu;
-
-    private TriggerType selectedTrigger;
-
-    private ActionType selectedAction;
 
     private File selectedFile;
 
@@ -63,9 +64,19 @@ public class RuleController implements Initializable {
     @FXML
     private TextField messageActionInput;
 
+    @FXML
+    private Button createRuleButton;
+
+    @FXML
+    private Button editRuleButton;
+
+    private Rule ruleBeingEdited;
+
+    //TODO: Refractor initialize method creating a createRuleInit method to improve code readability
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ruleManager = RuleManager.getInstance();
+        titleLabel.setText("Create a rule");
         //Initialization of the combo box menus
         triggerMenu.getItems().addAll(TriggerType.values());
         actionMenu.getItems().addAll(ActionType.values());
@@ -93,6 +104,7 @@ public class RuleController implements Initializable {
         hourTimeInput.setValueFactory(hourValueFactory);
         minuteTimeInput.setValueFactory(minuteValueFactory);
 
+        editRuleButton.setManaged(false);
 
     }
 
@@ -102,7 +114,7 @@ public class RuleController implements Initializable {
         if(validInputs()) {
             //Creation of the Rule
 
-            Rule rule = new Rule(ruleNameField.getText(), createTrigger(), createAction());
+            Rule rule = new Rule(ruleNameField.getText(), createTrigger(triggerMenu.getSelectionModel().getSelectedItem()), createAction(actionMenu.getSelectionModel().getSelectedItem()));
             ruleManager.addRule(rule);
             closeWindow();
 
@@ -124,17 +136,8 @@ public class RuleController implements Initializable {
         alert.showAndWait();
     }
 
-    @FXML
-    void specifiedAction(ActionEvent event) {
-        selectedAction = actionMenu.getSelectionModel().getSelectedItem();
-    }
 
-    @FXML
-    void specifiedTrigger(ActionEvent event) {
-        selectedTrigger = triggerMenu.getSelectionModel().getSelectedItem();
-    }
-
-    private Trigger createTrigger() {
+    private Trigger createTrigger(TriggerType selectedTrigger) {
         var trigger = switch (selectedTrigger) {
             case TIME_TRIGGER -> new TimeTrigger(hourTimeInput.getValue(), minuteTimeInput.getValue());
 
@@ -144,7 +147,7 @@ public class RuleController implements Initializable {
         return trigger;
     }
 
-    private Action createAction() {
+    private Action createAction(ActionType selectedAction) {
         var action = switch (selectedAction) {
             case SHOW_DIALOG_BOX -> new ShowDialogBoxAction(messageActionInput.getText());
             case PLAY_AUDIO -> new PlayAudioAction(selectedFile);
@@ -153,13 +156,13 @@ public class RuleController implements Initializable {
         };
         return action;
     }
-    // Temporary implementation
+    // TODO: This method should be implemented
     private boolean validInputs() {
-        return !ruleNameField.getText().isBlank() && selectedTrigger != null && selectedAction != null;
+        return true;
     }
 
     @FXML
-    void chooseAudioFileAction(ActionEvent event) {
+    public void chooseAudioFileAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Audio File");
 
@@ -172,6 +175,33 @@ public class RuleController implements Initializable {
         selectedFile = fileChooser.showOpenDialog(null);
         if(selectedFile != null) {
             selectFileButton.setText("File selected");
+        }
+    }
+
+    public void editRuleInit(Rule ruleToEdit) {
+        this.ruleBeingEdited = ruleToEdit;
+        titleLabel.setText("Edit a rule");
+
+        ruleNameField.setText(ruleToEdit.getName());
+        triggerMenu.setValue(ruleToEdit.getTrigger().getTYPE());
+        actionMenu.setValue(ruleToEdit.getAction().getTYPE());
+        createRuleButton.setManaged(false);
+        editRuleButton.setManaged(true);
+
+    }
+    public void editRule(ActionEvent event) {
+        if (validInputs()) {
+            if (ruleBeingEdited != null) {
+                // Update the existing rule with the edited values
+                ruleBeingEdited.setName(ruleNameField.getText());
+                ruleBeingEdited.setTrigger(createTrigger(triggerMenu.getSelectionModel().getSelectedItem()));
+                ruleBeingEdited.setAction(createAction(actionMenu.getSelectionModel().getSelectedItem()));
+                closeWindow();
+            } else {
+                showErrorAlert("ERROR", "No rule is being edited.");
+            }
+        } else {
+            showErrorAlert("ERROR", "You need to fill all the inputs to edit a Rule!");
         }
     }
 }
