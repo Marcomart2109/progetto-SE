@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -51,28 +52,49 @@ public class MainController implements Initializable {
     @FXML
     private TextArea actionDetailText;
 
+    private ObservableList<Rule> rules;
+
     private RuleManager ruleManager;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         ruleManager = RuleManager.getInstance();
-        ObservableList<Rule> rules = ruleManager.getRules();
+        rules = ruleManager.getRules();
 
         // load data from the binary file with the specified path to rules ObservableList
         String backupPath = "src/main/resources/saved.bin";
         RuleBackup.loadFromBinaryFile(rules, backupPath);
 
+        initTableView();
+        initDetailBox();
+    }
+
+    /**
+     * Initializes the TableView by setting up the cell value factories, cell factories, and event handlers.
+     * The TableView displays a list of Rule objects.
+     * The name property of each Rule is displayed in the rulesClm column.
+     * The index of each Rule object in the rules list plus one is displayed in the indexClm column.
+     * The rulesClm column uses a TextFieldTableCell cell factory for editing the name property.
+     * When the name is edited in the rulesClm column, the corresponding Rule object's name property is updated.
+     *
+     * Multiple selection is enabled on the TableView.
+     * The TableView is populated with the rules list.
+     */
+    private void initTableView() {
+
         rulesClm.setCellValueFactory(new PropertyValueFactory<>("name"));
         indexClm.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(rules.indexOf(cellData.getValue()) + 1));
+        rulesClm.setCellFactory(TextFieldTableCell.forTableColumn());
+        rulesClm.setOnEditCommit(event -> {
+            Rule rule = event.getRowValue();
+            rule.setName(event.getNewValue());
+        });
 /*        indexClm.setCellValueFactory(new PropertyValueFactory<Rule,Trigger>("trigger"));
         rulesClm.setCellValueFactory(new PropertyValueFactory<Rule,Action>("action"));*/
 
         //Allow multiple selection on tableView
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-        initDetailBox();
-
         tableView.setItems(rules);
 
     }

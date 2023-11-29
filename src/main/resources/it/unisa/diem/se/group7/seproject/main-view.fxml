@@ -121,9 +121,9 @@
                 <Color red="0.624" green="0.624" blue="0.624" fx:id="x2" />
                      </textFill>
                   </Label>
-                  <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+                  <TableView fx:id="tableView" editable="true" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
                     <columns>
-                      <TableColumn fx:id="indexClm" maxWidth="115.17129516601562" prefWidth="115.17129516601562" resizable="false" text="Index" />
+                      <TableColumn fx:id="indexClm" editable="false" maxWidth="115.17129516601562" prefWidth="115.17129516601562" resizable="false" text="Index" />
                       <TableColumn fx:id="rulesClm" prefWidth="834.8286743164062" resizable="false" text="Rules" />
                     </columns>
                      <columnResizePolicy>
