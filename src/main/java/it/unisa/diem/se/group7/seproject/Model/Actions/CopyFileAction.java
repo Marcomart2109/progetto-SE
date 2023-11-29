@@ -35,12 +35,11 @@ public class CopyFileAction implements Action{
 
     // The following method check if the object file is really a file and if it is placed in the directory dir.
     private boolean validateFile(File file){
-        if(!file.isFile()){
+        boolean isFile = file.isFile();
+        if(!isFile){
             System.err.println(file.getPath() + " is not a file!");
-            return false;
         }
-
-        return true;
+        return isFile;
     }
 
     private boolean validateDir(File dir){
