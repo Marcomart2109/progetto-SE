@@ -7,10 +7,10 @@ import java.io.Serializable;
 
 public class Rule implements Serializable {
 
-    String name;
-    Action action;
-    Trigger trigger;
-    boolean fired;
+    private String name;
+    private Action action;
+    private Trigger trigger;
+    private boolean fired;
 
     public Rule(String name, Trigger trigger, Action action) {
         this.name = name;
@@ -44,6 +44,8 @@ public class Rule implements Serializable {
     }
 
     public void setAction(Action action) {
+        //Whenever I change the action the rule became firable again
+        fired = false;
         this.action = action;
     }
 
@@ -52,6 +54,8 @@ public class Rule implements Serializable {
     }
 
     public void setTrigger(Trigger trigger) {
+        //Whenever I change the trigger the rule became firable again
+        fired = false;
         this.trigger = trigger;
     }
 
