@@ -3,9 +3,11 @@ package it.unisa.diem.se.group7.seproject.Model.Actions;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 
-public class AppendToFileAction implements Action{
+public class AppendToFileAction implements Action, Serializable {
 
+    private final ActionType TYPE = ActionType.APPEND_TO_FILE;
     private File filePath;
     private String text;
 
@@ -57,6 +59,16 @@ public class AppendToFileAction implements Action{
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public ActionType getTYPE() {
+        return TYPE;
+    }
+
+    @Override
+    public String toString() {
+        return "THEN append to the file: \"" + filePath + "\" the message: \"" + text + "\"";
     }
 }
 
