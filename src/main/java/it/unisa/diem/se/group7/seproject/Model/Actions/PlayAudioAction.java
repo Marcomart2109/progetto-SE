@@ -5,8 +5,11 @@ import javax.sound.sampled.*;
 
 public class PlayAudioAction implements Action, Serializable {
     private Clip clip;
+    private File audioFile;
+    private final ActionType TYPE = ActionType.PLAY_AUDIO;
 
     public PlayAudioAction(File audioFile){
+        this.audioFile = audioFile;
         try {
             // Create an audio input stream from the audio file
             AudioInputStream ais = AudioSystem.getAudioInputStream(audioFile);
@@ -22,6 +25,10 @@ public class PlayAudioAction implements Action, Serializable {
         } catch (IOException exc) {
             throw new RuntimeException("IOException: " + exc);
         }
+    }
+    @Override
+    public ActionType getTYPE() {
+        return TYPE;
     }
 
     @Override
@@ -46,5 +53,9 @@ public class PlayAudioAction implements Action, Serializable {
         }
     }
 
+    @Override
+    public String toString() {
+        return "THEN play an audio from \"" + audioFile + "\"";
+    }
 }
 

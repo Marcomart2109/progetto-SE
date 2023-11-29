@@ -3,6 +3,8 @@ package it.unisa.diem.se.group7.seproject.Model.Rules;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.util.Collection;
+
 public class RuleManager {
     private ObservableList<Rule> rules;
     private static final RuleManager INSTANCE = new RuleManager();
@@ -22,6 +24,10 @@ public class RuleManager {
 
     public boolean removeRule(Rule rule) {
         return rules.remove(rule);
+    }
+
+    public boolean removeAll(Collection<Rule> rules) {
+        return this.rules.removeAll(rules);
     }
 
     public Rule getRule(int index) {
