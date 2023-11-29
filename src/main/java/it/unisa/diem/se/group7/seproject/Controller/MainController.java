@@ -152,32 +152,42 @@ public class MainController implements Initializable {
     }
     @FXML
     public void editRuleAction(ActionEvent event) {
-        Rule selectedItem = tableView.getSelectionModel().getSelectedItem();
-        try {
-            // Load the FXML file for the new view
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/unisa/diem/se/group7/seproject/rule-view.fxml"));
-            Parent root = loader.load();
+        ObservableList<Rule> selectedItems = tableView.getSelectionModel().getSelectedItems();
 
-            RuleController ruleController = loader.getController();
-            ruleController.editRuleInit(selectedItem);
+        if (selectedItems.size() == 1) {
+            Rule selectedItem = selectedItems.get(0);
+            try {
+                // Load the FXML file for the new view
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/unisa/diem/se/group7/seproject/rule-view.fxml"));
+                Parent root = loader.load();
 
-            // Create a new stage for the new view
-            Stage newStage = new Stage();
-            newStage.initStyle(StageStyle.UTILITY);
-            newStage.initModality(Modality.APPLICATION_MODAL); // Block events to other windows
-            newStage.setTitle("Desktop RuleMaster - Edit an existing rule");
+                RuleController ruleController = loader.getController();
+                ruleController.editRuleInit(selectedItem);
 
-            // Set the new scene on the stage
-            Scene scene = new Scene(root);
-            newStage.setScene(scene);
+                // Create a new stage for the new view
+                Stage newStage = new Stage();
+                newStage.initStyle(StageStyle.UTILITY);
+                newStage.initModality(Modality.APPLICATION_MODAL); // Block events to other windows
+                newStage.setTitle("Desktop RuleMaster - Edit an existing rule");
 
-            // Show the new stage
-            newStage.showAndWait();
+                // Set the new scene on the stage
+                Scene scene = new Scene(root);
+                newStage.setScene(scene);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+                // Show the new stage
+                newStage.showAndWait();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // Display an error message if more than one item is selected
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Multiple Items Selected");
+            alert.setContentText("Please select only one rule to edit.");
+            alert.showAndWait();
         }
-
     }
     @FXML
     public void deleteRuleAction(ActionEvent event) {
