@@ -149,6 +149,7 @@ public class RuleController implements Initializable {
             case SHOW_DIALOG_BOX -> new ShowDialogBoxAction(messageActionInput.getText());
             case PLAY_AUDIO -> new PlayAudioAction(selectedFile);
 
+
             default -> throw new IllegalStateException("Unexpected value: " + selectedAction);
         };
         return action;
