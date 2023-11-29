@@ -32,8 +32,7 @@ public class CopyFileAction implements Action{
             throw new RuntimeException("Error occurred during the copy of the chosen file!");
         }
     }
-
-    // The following method check if the object file is really a file and if it is placed in the directory dir.
+    
     private boolean validateFile(File file){
         boolean isFile = file.isFile();
         if(!isFile){
