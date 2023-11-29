@@ -2,21 +2,21 @@ package it.unisa.diem.se.group7.seproject.Model.Actions;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
-public class CopyFileAction implements Action{
+public class CopyFileAction implements Action, Serializable {
     File destDir; // destination directory
     File file;
+    private final ActionType TYPE = ActionType.COPY_FILE;
 
     public CopyFileAction(File destDir, File file){
-        if(this.validateDir(destDir) && this.validateFile(file)){
-            this.destDir = destDir;
-            this.file = file;
-        }
+        this.destDir = destDir;
+        this.file = file;
     }
 
     @Override
@@ -32,21 +32,10 @@ public class CopyFileAction implements Action{
             throw new RuntimeException("Error occurred during the copy of the chosen file!");
         }
     }
-    
-    private boolean validateFile(File file){
-        boolean isFile = file.isFile();
-        if(!isFile){
-            System.err.println(file.getPath() + " is not a file!");
-        }
-        return isFile;
-    }
 
-    private boolean validateDir(File dir){
-        boolean isDir = dir.isDirectory();
-        if(!isDir){
-            System.err.println(dir.getPath() + " is not a directory!");
-        }
-        return isDir;
+    @Override
+    public ActionType getTYPE() {
+        return TYPE;
     }
 
 }

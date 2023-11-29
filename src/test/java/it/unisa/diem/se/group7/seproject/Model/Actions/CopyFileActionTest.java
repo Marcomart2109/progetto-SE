@@ -6,13 +6,18 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CopyFileActionTest {
-    File origDir; // origin directory
-    File destDir; // destination directory
-    File testFile;
+    private File origDir; // origin directory
+    private File destDir; // destination directory
+    private File origFile; // original file
+    private CopyFileAction cfa;
+
     @Before
     public void setUp(){
         origDir = new File("src/main/resources/origin_directory");
@@ -21,18 +26,31 @@ public class CopyFileActionTest {
         origDir.mkdir();
         destDir.mkdir();
 
-        testFile = new File("src/main/resources/origin_directory/testFile.txt");
+        origFile = new File("src/main/resources/origin_directory/testFile.txt");
         try{
-            testFile.createNewFile();
+            origFile.createNewFile();
         }catch(IOException exc){}
+
+        cfa = new CopyFileAction(destDir, origFile);
     }
 
     @Test
     public void testNoExceptionThrown(){
         assertAll(()-> {
-            CopyFileAction cfa = new CopyFileAction(destDir, testFile);
             cfa.execute();
         });
+    }
+
+    @Test
+    public void testFileCopiedWithSuccess(){
+        String copyPath = destDir.getPath() + "/" + origFile.getName();
+
+        File copyFile = new File(copyPath);
+
+        cfa.execute();
+
+        assertTrue(copyFile.isFile() && copyFile.exists());
+
     }
 
     @After
