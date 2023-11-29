@@ -20,7 +20,7 @@
                <children>
                   <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Label text="Create a new rule">
+                        <Label fx:id="titleLabel" text="Create a new rule">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -28,12 +28,13 @@
                         <Label text="Name" />
                         <TextField fx:id="ruleNameField" />
                         <Label text="Specify a trigger" />
-                        <ComboBox fx:id="triggerMenu" onAction="#specifiedTrigger" prefWidth="150.0" />
+                        <ComboBox fx:id="triggerMenu" prefWidth="150.0" />
                         <Label text="Specify an action" />
-                        <ComboBox fx:id="actionMenu" onAction="#specifiedAction" prefWidth="150.0" />
+                        <ComboBox fx:id="actionMenu" prefWidth="150.0" />
                         <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Button mnemonicParsing="false" onAction="#createNewRule" text="Create" />
+                              <Button fx:id="createRuleButton" mnemonicParsing="false" onAction="#createNewRule" text="Create" />
+                              <Button fx:id="editRuleButton" mnemonicParsing="false" onAction="#editRule" text="Edit" />
                            </children>
                         </HBox>
                      </children>

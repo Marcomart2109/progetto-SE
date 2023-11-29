@@ -1,6 +1,6 @@
 package it.unisa.diem.se.group7.seproject.Model.Actions;
 
-import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
+
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public class ShowDialogBoxAction implements Action, Serializable {
     private String message;
+    private final ActionType TYPE = ActionType.SHOW_DIALOG_BOX;
 
 
     public ShowDialogBoxAction(String message) {
@@ -19,6 +20,10 @@ public class ShowDialogBoxAction implements Action, Serializable {
 
     public String getMessage() {
         return message;
+    }
+    @Override
+    public ActionType getTYPE() {
+        return TYPE;
     }
 
     @Override
@@ -33,5 +38,10 @@ public class ShowDialogBoxAction implements Action, Serializable {
             // Show the alert
             alert.show();
         });
+    }
+
+    @Override
+    public String toString() {
+        return "THEN show an alert displaing the message \"" + message + "\"";
     }
 }
