@@ -1,16 +1,11 @@
 package it.unisa.diem.se.group7.seproject.Controller;
 
-import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
-import it.unisa.diem.se.group7.seproject.Model.Actions.ActionType;
-import it.unisa.diem.se.group7.seproject.Model.Actions.PlayAudioAction;
-import it.unisa.diem.se.group7.seproject.Model.Actions.ShowDialogBoxAction;
+import it.unisa.diem.se.group7.seproject.Model.Actions.*;
 import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.TimeTrigger;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.TriggerType;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
@@ -26,7 +21,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class RuleController implements Initializable {
-
+    @FXML
+    public Button appendFileChooserButton;
     private RuleManager ruleManager;
 
     @FXML
@@ -41,7 +37,7 @@ public class RuleController implements Initializable {
     @FXML
     private ComboBox<TriggerType> triggerMenu;
 
-    private File selectedFile;
+    private File selectedAudioFile;
 
     @FXML
     private Button selectFileButton;
@@ -56,6 +52,9 @@ public class RuleController implements Initializable {
     private HBox audioFileInput;
 
     @FXML
+    private HBox appendToFileInputBox;
+
+    @FXML
     private Spinner<Integer> hourTimeInput;
 
     @FXML
@@ -65,12 +64,17 @@ public class RuleController implements Initializable {
     private TextField messageActionInput;
 
     @FXML
+    private  TextField appendToFileTextfield;
+
+    @FXML
     private Button createRuleButton;
 
     @FXML
     private Button editRuleButton;
 
     private Rule ruleBeingEdited;
+    private File selectedAppendFile;
+
 
     //TODO: Refractor initialize method creating a createRuleInit method to improve code readability
     @Override
@@ -84,6 +88,7 @@ public class RuleController implements Initializable {
         timeTriggerInput.managedProperty().bind(timeTriggerInput.visibleProperty());
         dialogBoxInput.managedProperty().bind(dialogBoxInput.visibleProperty());
         audioFileInput.managedProperty().bind(audioFileInput.visibleProperty());
+        appendToFileInputBox.managedProperty().bind(appendToFileInputBox.visibleProperty());
 
         //Display of the inputs according to user choice in the comboBox menu
         //Triggers
@@ -91,6 +96,7 @@ public class RuleController implements Initializable {
         //Actions
         dialogBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.SHOW_DIALOG_BOX));
         audioFileInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.PLAY_AUDIO));
+        appendToFileInputBox.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.APPEND_TO_FILE));
 
         //Setup spinner component for time and minutes
         Integer currenthours = LocalTime.now().getHour();
@@ -150,7 +156,8 @@ public class RuleController implements Initializable {
     private Action createAction(ActionType selectedAction) {
         var action = switch (selectedAction) {
             case SHOW_DIALOG_BOX -> new ShowDialogBoxAction(messageActionInput.getText());
-            case PLAY_AUDIO -> new PlayAudioAction(selectedFile);
+            case PLAY_AUDIO -> new PlayAudioAction(selectedAudioFile);
+            case APPEND_TO_FILE -> new AppendToFileAction(selectedAppendFile,appendToFileTextfield.getText());
 
             default -> throw new IllegalStateException("Unexpected value: " + selectedAction);
         };
@@ -172,8 +179,8 @@ public class RuleController implements Initializable {
         fileChooser.getExtensionFilters().add(extFilter);
 
         // Show the file chooser dialog
-        selectedFile = fileChooser.showOpenDialog(null);
-        if(selectedFile != null) {
+        selectedAudioFile = fileChooser.showOpenDialog(null);
+        if(selectedAudioFile != null) {
             selectFileButton.setText("File selected");
         }
     }
@@ -202,6 +209,22 @@ public class RuleController implements Initializable {
             }
         } else {
             showErrorAlert("ERROR", "You need to fill all the inputs to edit a Rule!");
+        }
+    }
+
+    public void appendFileChooseAction(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Text File");
+
+        // Set the file extension filters if needed
+        // Example: Allow only text files
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text Files", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        // Show the file chooser dialog
+        selectedAppendFile = fileChooser.showOpenDialog(null);
+        if(selectedAppendFile != null) {
+            appendFileChooserButton.setText("File selected");
         }
     }
 }
