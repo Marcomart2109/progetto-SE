@@ -12,38 +12,45 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PlayAudioActionTest {
-    private String path, wrongPath;
-    private File testFile, wrongFile;
+    private File wrongFile, absentFile, audioFile;
 
     @Before
     public void setUp(){
-        path = "src/main/resources/testFile.txt";
-        testFile = new File(path);
+        wrongFile = new File("src/main/resources/testFile.txt");
         try{
-            testFile.createNewFile();
+            wrongFile.createNewFile();
         }catch(IOException exc){}
 
-        wrongPath = "";
-        wrongFile = new File(wrongPath);
+        absentFile = new File("");
+
+        audioFile = new File("src/main/resources/file_example_WAV_1MG.wav");
     }
 
     @Test
     public void testInvalidAudioFile() {
         assertThrows(UnsupportedFileFormatException.class, () -> {
-            PlayAudioAction paa = new PlayAudioAction(testFile);
+            PlayAudioAction paa = new PlayAudioAction(wrongFile);
         });
     }
 
     @Test
     public void testNoFileFound() {
         assertThrows(NoFileFoundException.class, () -> {
-            PlayAudioAction paa = new PlayAudioAction(wrongFile);
+            PlayAudioAction paa = new PlayAudioAction(absentFile);
+        });
+    }
+
+    @Test
+    public void testNoExceptionThrown(){
+        assertAll(()-> {
+            PlayAudioAction paa = new PlayAudioAction(audioFile);
+            paa.execute();
         });
     }
 
     @After
     public void cleanUp(){
-        testFile.delete();
+        wrongFile.delete();
     }
 
 }
