@@ -50,7 +50,6 @@ public class SimpleRule implements Rule, Serializable {
         return name;
     }
 
-    @Override
     public boolean isFired() {
         return fired;
     }

@@ -18,10 +18,6 @@ public interface Rule {
 
     public abstract Trigger getTrigger();
 
-    public abstract boolean isFired();
-
-    public abstract void setFired(boolean fired);
-
     public abstract void setTrigger(Trigger trigger);
 
     public abstract void setAction(Action action);

@@ -10,10 +10,17 @@ public abstract class RuleDecorator implements Rule, Serializable {
     private String name;
     private Action action;
     private Trigger trigger;
-    private boolean fired;
 
+    public RuleDecorator(Rule rule, String name, Trigger trigger, Action action) {
+        this.rule = rule;
+        this.name = name;
+        this.action = action;
+        this.trigger = trigger;
+    }
+
+    @Override
     public abstract boolean evaluate();
-
+    @Override
     public abstract void execute();
 
     @Override
@@ -32,22 +39,12 @@ public abstract class RuleDecorator implements Rule, Serializable {
     }
 
     @Override
-    public void setTrigger(Trigger trigger) {
-        setFired(false);
-    }
-
-    @Override
     public void setAction(Action action) {
-
+        this.action = action;
     }
     @Override
-    public boolean isFired() {
-        return fired;
-    }
-
-    @Override
-    public void setFired(boolean fired) {
-        this.fired = fired;
+    public void setTrigger(Trigger trigger) {
+        this.trigger = trigger;
     }
 
     @Override
