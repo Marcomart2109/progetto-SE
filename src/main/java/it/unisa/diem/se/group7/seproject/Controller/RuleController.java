@@ -3,10 +3,12 @@ package it.unisa.diem.se.group7.seproject.Controller;
 import it.unisa.diem.se.group7.seproject.Model.Actions.*;
 import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
+import it.unisa.diem.se.group7.seproject.Model.Rules.RuleSleepDecorator;
 import it.unisa.diem.se.group7.seproject.Model.Rules.SimpleRule;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.TimeTrigger;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.TriggerType;
+import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
@@ -18,12 +20,26 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class RuleController implements Initializable {
     @FXML
     public Button appendFileChooserButton;
+    @FXML
+    public Spinner<Integer> sleepingDaySpinner;
+    @FXML
+    public Spinner<Integer> sleepingHourSpinner;
+    @FXML
+    public Spinner<Integer> sleepingMinuteSpinner;
+    @FXML
+    public VBox sleepingBoxInput;
+    @FXML
+    public CheckBox onceActivationCheckbox;
+    @FXML
+    public CheckBox twiceActivationCheckbox;
+    @FXML
     private RuleManager ruleManager;
 
     @FXML
@@ -99,6 +115,21 @@ public class RuleController implements Initializable {
         audioFileInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.PLAY_AUDIO));
         appendToFileInputBox.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.APPEND_TO_FILE));
 
+        setUpTimeSpinner();
+        setUpDateSpinner();
+
+        //Bindings for Activation checkboxes
+        onceActivationCheckbox.disableProperty().bind(twiceActivationCheckbox.selectedProperty());
+        twiceActivationCheckbox.disableProperty().bind(onceActivationCheckbox.selectedProperty());
+        //Bindings for sleeping time display when the user select the right checkbox
+        sleepingBoxInput.visibleProperty().bind(sleepingBoxInput.managedProperty());
+        sleepingBoxInput.managedProperty().bind(twiceActivationCheckbox.selectedProperty());
+
+        editRuleButton.setManaged(false);
+
+    }
+
+    private void setUpTimeSpinner() {
         //Setup spinner component for time and minutes
         Integer currenthours = LocalTime.now().getHour();
         Integer currentminutes = LocalTime.now().getMinute();
@@ -110,18 +141,30 @@ public class RuleController implements Initializable {
 
         hourTimeInput.setValueFactory(hourValueFactory);
         minuteTimeInput.setValueFactory(minuteValueFactory);
+    }
 
-        editRuleButton.setManaged(false);
+    private void setUpDateSpinner() {
+        SpinnerValueFactory<Integer> dayValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 99);
+        SpinnerValueFactory<Integer> hourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23);
+        SpinnerValueFactory<Integer> minuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59);
+
+        sleepingDaySpinner.setValueFactory(dayValueFactory);
+        sleepingHourSpinner.setValueFactory(hourValueFactory);
+        sleepingMinuteSpinner.setValueFactory(minuteValueFactory);
 
     }
 
     @FXML
     void createNewRule(ActionEvent event) {
-
+        Rule rule = null;
         if(validInputs()) {
-            //Creation of the Rule
-
-            Rule rule = new SimpleRule(ruleNameField.getText(), createTrigger(triggerMenu.getSelectionModel().getSelectedItem()), createAction(actionMenu.getSelectionModel().getSelectedItem()));
+            if(onceActivationCheckbox.isSelected()) {
+                rule = new SimpleRule(ruleNameField.getText(), createTrigger(triggerMenu.getSelectionModel().getSelectedItem()), createAction(actionMenu.getSelectionModel().getSelectedItem()));
+            }
+            if(twiceActivationCheckbox.isSelected()) {
+                rule = new RuleSleepDecorator(new SimpleRule(ruleNameField.getText(), createTrigger(triggerMenu.getSelectionModel().getSelectedItem()), createAction(actionMenu.getSelectionModel().getSelectedItem())),
+                        sleepingDaySpinner.getValue(), sleepingHourSpinner.getValue(), sleepingMinuteSpinner.getValue());
+            }
             ruleManager.addRule(rule);
             closeWindow();
 

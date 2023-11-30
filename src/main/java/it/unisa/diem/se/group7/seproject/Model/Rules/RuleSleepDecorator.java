@@ -7,30 +7,44 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class RuleSleepDecorator extends RuleDecorator {
-
+    private Rule rule;
     private boolean firedOnce;
     private boolean canFireAgain;
     private Duration sleepingPeriod;
     private LocalDateTime lastExecutionTime;
 
-    public RuleSleepDecorator(Rule rule, String name, Trigger trigger, Action action, int days, int hours, int minutes) {
-        super(rule, name, trigger, action);
+    public RuleSleepDecorator(Rule rule, int days, int hours, int minutes) {
+        this.rule = rule;
         this.sleepingPeriod = Duration.ofDays(days).plusHours(hours).plusMinutes(minutes);
         firedOnce = false;
         canFireAgain = true; //By default, the rule can be fired again if sleeping period is set
     }
+
     @Override
     public boolean evaluate() {
-        return getTrigger().evaluate();
+        // Check if the trigger condition is met and if the sleeping period has elapsed
+        boolean triggerConditionMet = rule.getTrigger().evaluate();
+
+        if (!firedOnce && triggerConditionMet) {
+            System.out.println("Rule \"" + rule.getName() + "\" is triggered");
+            return true;
+        }
+
+        if (firedOnce && canFireAgain && isSleepingPeriodElapsed()) {
+            System.out.println("Rule \"" + rule.getName() + "\" is triggered again after " + sleepingPeriod + " of sleeping period");
+            canFireAgain = false;
+            return true;
+        }
+
+        return false;
     }
+
 
     @Override
     public void execute() {
-        if (!firedOnce || (canFireAgain && isSleepingPeriodElapsed())) {
-            getAction().execute();
-            lastExecutionTime = LocalDateTime.now();
-            firedOnce = true;
-        }
+        rule.getAction().execute();
+        lastExecutionTime = LocalDateTime.now();
+        firedOnce = true;
     }
 
     private boolean isSleepingPeriodElapsed() {
@@ -38,8 +52,10 @@ public class RuleSleepDecorator extends RuleDecorator {
             return true; // Rule hasn't been executed yet.
         }
 
-        LocalDateTime nextAllowedExecutionTime = lastExecutionTime.plus(sleepingPeriod);
-        return LocalDateTime.now().isAfter(nextAllowedExecutionTime);
+        LocalDateTime now = LocalDateTime.now();
+        Duration timeSinceLastExecution = Duration.between(lastExecutionTime, now);
+
+        return timeSinceLastExecution.compareTo(sleepingPeriod) >= 0;
     }
 
     // Additional methods to set sleeping period and toggle canFireAgain as needed
@@ -50,5 +66,20 @@ public class RuleSleepDecorator extends RuleDecorator {
 
     public void setCanFireAgain(boolean canFireAgain) {
         this.canFireAgain = canFireAgain;
+    }
+
+    @Override
+    public String getName() {
+        return rule.getName();
+    }
+
+    @Override
+    public Action getAction() {
+        return rule.getAction();
+    }
+
+    @Override
+    public Trigger getTrigger() {
+        return rule.getTrigger();
     }
 }

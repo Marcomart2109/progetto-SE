@@ -5,32 +5,28 @@ import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
 
 import java.io.Serializable;
 
-public class SimpleRule implements Rule, Serializable {
+public class SimpleRule extends Rule {
 
-    private String name;
-    private Action action;
-    private Trigger trigger;
     private Boolean fired;
 
     public SimpleRule(String name, Trigger trigger, Action action) {
-        this.name = name;
-        this.action = action;
-        this.trigger = trigger;
+        super(name, trigger, action);
         this.fired = false;
     }
 
     @Override
     public boolean evaluate() {
-        return trigger.evaluate();
+        if(!fired && trigger.evaluate()) {
+            System.out.println("Rule \"" + getName() + "\"is triggered");
+            return true;
+        }
+        return false;
     }
 
     @Override
     public void execute() {
-        if (!isFired()) {
-            action.execute();
-            System.out.println("Rule \"" + name + "\"is triggered");
-            fired = true;
-        }
+        action.execute();
+        fired = true;
     }
 
     @Override

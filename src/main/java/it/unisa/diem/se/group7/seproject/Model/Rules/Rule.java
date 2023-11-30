@@ -5,23 +5,47 @@ import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
 
 import java.io.Serializable;
 
-public interface Rule {
+public abstract class Rule implements Serializable {
+     String name;
+     Trigger trigger;
+     Action action;
 
+    public Rule(String name, Trigger trigger, Action action) {
+        this.name = name;
+        this.trigger = trigger;
+        this.action = action;
+    }
 
-    public abstract boolean evaluate();
+    public Rule() {
+    }
+
+    public boolean evaluate() {
+        return trigger.evaluate();
+    }
 
     public abstract void execute();
 
-    public abstract String getName();
+    public String getName() {
+        return name;
+    }
 
-    public abstract Action getAction();
+    public Action getAction() {
+        return action;
+    }
 
-    public abstract Trigger getTrigger();
+    public Trigger getTrigger() {
+        return trigger;
+    }
 
-    public abstract void setTrigger(Trigger trigger);
+    public void setTrigger(Trigger trigger) {
+        this.trigger = trigger;
+    }
 
-    public abstract void setAction(Action action);
+    public void setAction(Action action) {
+        this.action = action;
+    }
 
-    public abstract void setName(String name);
-
+    public void setName(String name) {
+        this.name = name;
+    }
 }

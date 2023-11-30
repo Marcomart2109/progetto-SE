@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.se.group7.seproject.Controller.RuleController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.se.group7.seproject.Controller.RuleController">
    <children>
-      <SplitPane dividerPositions="0.29797979797979796" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.35" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Label fx:id="titleLabel" text="Create a new rule">
                            <font>
@@ -24,6 +32,29 @@
                         <ComboBox fx:id="triggerMenu" prefWidth="150.0" />
                         <Label text="Specify an action" />
                         <ComboBox fx:id="actionMenu" prefWidth="150.0" />
+                        <VBox prefWidth="100.0" spacing="15.0">
+                           <children>
+                              <Label text="Activation" />
+                              <HBox prefWidth="200.0" spacing="15.0">
+                                 <children>
+                                    <CheckBox fx:id="onceActivationCheckbox" mnemonicParsing="false" text="Once" />
+                                    <CheckBox fx:id="twiceActivationCheckbox" mnemonicParsing="false" text="Twice" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
+                        <VBox fx:id="sleepingBoxInput" prefWidth="100.0" spacing="10.0">
+                           <children>
+                              <Label text="Set a sleeping period (DD:HH:MM)" />
+                              <HBox prefWidth="200.0" spacing="10.0">
+                                 <children>
+                                    <Spinner fx:id="sleepingDaySpinner" />
+                                    <Spinner fx:id="sleepingHourSpinner" />
+                                    <Spinner fx:id="sleepingMinuteSpinner" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </VBox>
                         <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
                            <children>
                               <Button fx:id="createRuleButton" mnemonicParsing="false" onAction="#createNewRule" text="Create" />
