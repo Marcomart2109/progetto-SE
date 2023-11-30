@@ -15,6 +15,8 @@ public class Application extends javafx.application.Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        String cssPath = getClass().getResource("style/style.css").toExternalForm();
+        scene.getStylesheets().add(cssPath);
 
         stage.setTitle("Desktop RuleMaster");
         stage.setMaximized(true);
@@ -28,8 +30,9 @@ public class Application extends javafx.application.Application {
         RuleManager rm = RuleManager.getInstance();
 
         stage.setOnCloseRequest(event -> {
-            //save rules content on binary file
-            RuleBackup.saveOnBinaryFile(rm.getRules());
+            //save rules content on the binary file with the specified path
+            String backupPath = "src/main/resources/saved.bin";
+            RuleBackup.saveOnBinaryFile(rm.getRules(), backupPath);
 
             // Stop the scheduler when the window is closed
             if (ruleScheduler != null) {
