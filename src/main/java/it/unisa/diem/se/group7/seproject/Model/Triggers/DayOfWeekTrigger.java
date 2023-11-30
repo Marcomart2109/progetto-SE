@@ -10,6 +10,9 @@ public class DayOfWeekTrigger implements Trigger, Serializable {
 
     private DayOfWeek day;
 
+    public DayOfWeekTrigger() {
+    }
+
     public DayOfWeekTrigger(DayOfWeek day) {
         this.day = day;
     }
@@ -25,5 +28,9 @@ public class DayOfWeekTrigger implements Trigger, Serializable {
     @Override
     public TriggerType getTYPE() {
         return TYPE;
+    }
+
+    public void setDayOfWeek(DayOfWeek currentDay) {
+        this.day = currentDay;
     }
 }

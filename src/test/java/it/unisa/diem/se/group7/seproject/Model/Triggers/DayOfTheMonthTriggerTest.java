@@ -1,5 +1,6 @@
 package it.unisa.diem.se.group7.seproject.Model.Triggers;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -8,12 +9,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DayOfTheMonthTriggerTest {
 
+    DayOfTheMonthTrigger trigger;
+    @BeforeEach
+    void setUp() {
+        trigger = new DayOfTheMonthTrigger();
+    }
+
     @Test
     void evaluateShouldReturnTrueForMatchingDay() {
         // Choose a day and create a trigger for that day
         int currentDayOfMonth = LocalDate.now().getDayOfMonth();
-
-        DayOfTheMonthTrigger trigger = new DayOfTheMonthTrigger(currentDayOfMonth);
+        trigger.setDayOfMonth(currentDayOfMonth);
 
         // Evaluate the trigger
         assertTrue(trigger.evaluate());
