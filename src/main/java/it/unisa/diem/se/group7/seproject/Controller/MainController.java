@@ -1,5 +1,6 @@
 package it.unisa.diem.se.group7.seproject.Controller;
 
+import it.unisa.diem.se.group7.seproject.Application;
 import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleBackup;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
@@ -142,6 +143,8 @@ public class MainController implements Initializable {
             // Set the new scene on the stage
             Scene scene = new Scene(root);
             newStage.setScene(scene);
+            String cssPath = Application.class.getResource("style/style.css").toExternalForm();
+            scene.getStylesheets().add(cssPath);
 
             // Show the new stage
             newStage.showAndWait();
@@ -173,6 +176,8 @@ public class MainController implements Initializable {
                 // Set the new scene on the stage
                 Scene scene = new Scene(root);
                 newStage.setScene(scene);
+                String cssPath = Application.class.getResource("style/style.css").toExternalForm();
+                scene.getStylesheets().add(cssPath);
 
                 // Show the new stage
                 newStage.showAndWait();

@@ -15,6 +15,8 @@ public class Application extends javafx.application.Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+        String cssPath = getClass().getResource("style/style.css").toExternalForm();
+        scene.getStylesheets().add(cssPath);
 
         stage.setTitle("Desktop RuleMaster");
         stage.setMaximized(true);
