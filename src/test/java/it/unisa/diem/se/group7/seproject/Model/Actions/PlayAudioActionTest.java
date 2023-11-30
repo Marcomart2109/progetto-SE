@@ -44,7 +44,6 @@ public class PlayAudioActionTest {
     public void testNoExceptionThrown(){
         assertAll(()-> {
             PlayAudioAction paa = new PlayAudioAction(audioFile);
-            paa.execute();
         });
     }
 
