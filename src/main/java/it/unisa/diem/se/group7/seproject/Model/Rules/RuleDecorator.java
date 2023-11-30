@@ -3,45 +3,55 @@ package it.unisa.diem.se.group7.seproject.Model.Rules;
 import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
 
-public class RuleDecorator implements Rule{
+import java.io.Serializable;
+
+public abstract class RuleDecorator implements Rule, Serializable {
     private Rule rule;
+    private String name;
+    private Action action;
+    private Trigger trigger;
+    private boolean fired;
 
-    @Override
-    public boolean evaluate() {
-        return rule.getTrigger().evaluate();
-    }
+    public abstract boolean evaluate();
 
-    @Override
-    public void execute() {
-        if(!isFired()){
-            rule.getAction().execute();
-            System.out.println("Rule \""+ this.rule.getName() + "\"is triggered");
-            setFired(true);
-        }
-    }
+    public abstract void execute();
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
     public Action getAction() {
-        return null;
+        return action;
     }
 
     @Override
     public Trigger getTrigger() {
-        return null;
+        return trigger;
     }
 
-    private void setFired(boolean b) {
-
+    @Override
+    public void setTrigger(Trigger trigger) {
+        setFired(false);
     }
 
-    private boolean isFired() {
-        return false;
+    @Override
+    public void setAction(Action action) {
+
+    }
+    @Override
+    public boolean isFired() {
+        return fired;
     }
 
+    @Override
+    public void setFired(boolean fired) {
+        this.fired = fired;
+    }
 
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 }

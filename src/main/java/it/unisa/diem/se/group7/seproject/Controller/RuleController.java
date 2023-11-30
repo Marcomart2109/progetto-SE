@@ -3,6 +3,7 @@ package it.unisa.diem.se.group7.seproject.Controller;
 import it.unisa.diem.se.group7.seproject.Model.Actions.*;
 import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
+import it.unisa.diem.se.group7.seproject.Model.Rules.SimpleRule;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.TimeTrigger;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.TriggerType;
@@ -120,7 +121,7 @@ public class RuleController implements Initializable {
         if(validInputs()) {
             //Creation of the Rule
 
-            Rule rule = new Rule(ruleNameField.getText(), createTrigger(triggerMenu.getSelectionModel().getSelectedItem()), createAction(actionMenu.getSelectionModel().getSelectedItem()));
+            Rule rule = new SimpleRule(ruleNameField.getText(), createTrigger(triggerMenu.getSelectionModel().getSelectedItem()), createAction(actionMenu.getSelectionModel().getSelectedItem()));
             ruleManager.addRule(rule);
             closeWindow();
 

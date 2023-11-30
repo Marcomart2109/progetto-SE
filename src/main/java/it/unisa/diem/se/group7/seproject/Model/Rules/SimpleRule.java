@@ -3,28 +3,34 @@ package it.unisa.diem.se.group7.seproject.Model.Rules;
 import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
 
-public class SimpleRule implements Rule{
+import java.io.Serializable;
+
+public class SimpleRule implements Rule, Serializable {
 
     private String name;
     private Action action;
     private Trigger trigger;
-    private Boolean active;
     private Boolean fired;
 
-    public void Rule(String name, Trigger trigger, Action action) {
+    public SimpleRule(String name, Trigger trigger, Action action) {
         this.name = name;
         this.action = action;
         this.trigger = trigger;
         this.fired = false;
     }
+
     @Override
     public boolean evaluate() {
-        return false;
+        return trigger.evaluate();
     }
 
     @Override
     public void execute() {
-
+        if (!isFired()) {
+            action.execute();
+            System.out.println("Rule \"" + name + "\"is triggered");
+            fired = true;
+        }
     }
 
     @Override
@@ -33,12 +39,10 @@ public class SimpleRule implements Rule{
     }
 
 
-
     @Override
     public Action getAction() {
         return action;
     }
-
 
 
     @Override
@@ -46,9 +50,33 @@ public class SimpleRule implements Rule{
         return name;
     }
 
+    @Override
     public boolean isFired() {
-        return false;
+        return fired;
+    }
+
+    public void setFired(boolean fired) {
+        this.fired = fired;
+    }
+
+    @Override
+    public void setTrigger(Trigger trigger) {
+        fired = false;
+        this.trigger = trigger;
+
+    }
+
+    @Override
+    public void setAction(Action action) {
+        fired = false;
+        this.action = action;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
     }
 }
+
 
 
