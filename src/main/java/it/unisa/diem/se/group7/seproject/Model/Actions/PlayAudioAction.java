@@ -4,8 +4,8 @@ import java.io.*;
 import javax.sound.sampled.*;
 
 public class PlayAudioAction implements Action, Serializable {
-    private Clip clip;
-    private File audioFile;
+    private final Clip clip;
+    private final File audioFile;
     private final ActionType TYPE = ActionType.PLAY_AUDIO;
 
     public PlayAudioAction(File audioFile){
@@ -35,23 +35,20 @@ public class PlayAudioAction implements Action, Serializable {
     public void execute() {
         if (clip != null) {
             // Create a new thread for audio playback
-            Thread audioThread = new Thread(){
-                @Override
-                public void run() {
-                    clip.addLineListener(event -> {
-                        if (event.getType() == LineEvent.Type.STOP) {
-                            clip = null;
-                        }
-                    });
-                    while (clip != null) {
-                        clip.start();
+            Thread audioThread = new Thread(() -> {
+                clip.addLineListener(event -> {
+                    if (event.getType() == LineEvent.Type.STOP) {
+                        clip.setFramePosition(0);
                     }
-                }
-            };
+                });
+                clip.start(); // Start audio playback
+            });
+
             // Start the audio playback in a separate thread
             audioThread.start();
         }
     }
+
 
     @Override
     public String toString() {

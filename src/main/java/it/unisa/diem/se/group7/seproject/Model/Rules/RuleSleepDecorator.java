@@ -82,4 +82,19 @@ public class RuleSleepDecorator extends RuleDecorator {
     public Trigger getTrigger() {
         return rule.getTrigger();
     }
+
+    @Override
+    public void setTrigger(Trigger trigger) {
+        rule.setTrigger(trigger);
+    }
+
+    @Override
+    public void setAction(Action action) {
+        rule.setAction(action);
+    }
+
+    @Override
+    public void setName(String name) {
+        rule.setName(name);
+    }
 }
