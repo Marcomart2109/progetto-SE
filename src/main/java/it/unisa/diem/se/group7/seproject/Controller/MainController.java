@@ -107,7 +107,7 @@ public class MainController implements Initializable {
         rulesClm.setCellValueFactory(new PropertyValueFactory<Rule,Action>("action"));*/
         statusClm.setCellValueFactory(new PropertyValueFactory<>("active"));
         statusClm.setCellFactory(column -> new TableCell<Rule, Boolean>() {
-            private final Circle circle = new Circle(8);
+            private final Circle circle = new Circle(5);
 
             @Override
             protected void updateItem(Boolean active, boolean empty) {
