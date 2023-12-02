@@ -9,14 +9,13 @@ public abstract class Rule implements Serializable {
      String name;
      Trigger trigger;
      Action action;
+     boolean active; // activation status of the current rule
 
     public Rule(String name, Trigger trigger, Action action) {
         this.name = name;
         this.trigger = trigger;
         this.action = action;
-    }
-
-    public Rule() {
+        this.active = true;
     }
 
     public boolean evaluate() {
@@ -37,6 +36,9 @@ public abstract class Rule implements Serializable {
         return trigger;
     }
 
+    public boolean isActive() {
+        return this.active;
+    }
     public void setTrigger(Trigger trigger) {
         this.trigger = trigger;
     }
@@ -47,5 +49,9 @@ public abstract class Rule implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

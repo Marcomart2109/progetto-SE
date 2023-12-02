@@ -25,12 +25,12 @@ public class RuleSleepDecorator extends RuleDecorator {
         // Check if the trigger condition is met and if the sleeping period has elapsed
         boolean triggerConditionMet = rule.getTrigger().evaluate();
 
-        if (!firedOnce && triggerConditionMet) {
+        if (!firedOnce && triggerConditionMet && isActive()) {
             System.out.println("Rule \"" + rule.getName() + "\" is triggered");
             return true;
         }
 
-        if (firedOnce && canFireAgain && isSleepingPeriodElapsed()) {
+        if (firedOnce && canFireAgain && isSleepingPeriodElapsed() && isActive()) {
             System.out.println("Rule \"" + rule.getName() + "\" is triggered again after " + sleepingPeriod + " of sleeping period");
             canFireAgain = false;
             return true;

@@ -42,4 +42,16 @@ public class RuleManager {
         return rules;
     }
 
+    public void activateRule(Rule rule){
+        if(!rule.isActive()){
+            rule.setActive(true);
+        }
+    }
+
+    public void deactivateRule(Rule rule){
+        if(rule.isActive()){
+            rule.setActive(false);
+        }
+    }
+
 }
