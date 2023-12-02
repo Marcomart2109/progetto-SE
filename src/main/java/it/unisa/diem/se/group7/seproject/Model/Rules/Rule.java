@@ -18,6 +18,10 @@ public abstract class Rule implements Serializable {
         this.active = true;
     }
 
+    public Rule(){
+
+    }
+
     public boolean evaluate() {
         return trigger.evaluate();
     }

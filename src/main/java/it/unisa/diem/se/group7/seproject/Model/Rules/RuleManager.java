@@ -43,13 +43,13 @@ public class RuleManager {
     }
 
     public void activateRule(Rule rule){
-        if(!rule.isActive()){
+        if(this.rules.contains(rule) && !rule.isActive()){
             rule.setActive(true);
         }
     }
 
     public void deactivateRule(Rule rule){
-        if(rule.isActive()){
+        if(this.rules.contains(rule) && rule.isActive()){
             rule.setActive(false);
         }
     }

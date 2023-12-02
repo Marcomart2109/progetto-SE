@@ -15,68 +15,86 @@ import java.sql.Time;
 import static org.junit.Assert.*;
 
 class RuleManagerTest {
-
-        private RuleManager ruleManager;
-        Rule rule1;
-        Rule rule2;
+    private RuleManager ruleManager;
+    private Rule rule1;
+    private Rule rule2;
 
     @BeforeEach
     public void setUp() {
-        // Inizializza RuleManager prima di ogni test
+        // Instantiate the rule manager
         ruleManager = RuleManager.getInstance();
-        // Pulisci la lista delle regole prima di ogni test
+
+        // clear the list of rules managed by the rule manager
         ruleManager.getRules().clear();
-        rule1 = new SimpleRule("prova1",new TimeTrigger(10,20), new ShowDialogBoxAction());
-        rule2 = new SimpleRule("prova2",new TimeTrigger(21,12), new ShowDialogBoxAction());
+
+        rule1 = new SimpleRule("test rule 1", new TimeTrigger(10,20), new ShowDialogBoxAction());
+        rule2 = new SimpleRule("test rule 2", new TimeTrigger(21,12), new ShowDialogBoxAction());
     }
 
-        @Test
-        public void testGetInstance() {
-            RuleManager instance1 = RuleManager.getInstance();
-            RuleManager instance2 = RuleManager.getInstance();
-            assertSame("Le istanze devono essere le stesse", instance1, instance2);
-        }
-
-        @Test
-        public void testAddRule() {
-
-            ruleManager.addRule(rule1);
-
-            assertTrue("La regola dovrebbe essere presente", ruleManager.getRules().contains(rule1));
-        }
-
-        @Test
-        public void testRemoveRule() {
-
-            ruleManager.addRule(rule1);
-            boolean removed = ruleManager.removeRule(rule1);
-
-            assertTrue("La regola dovrebbe essere rimossa", removed);
-            assertFalse("La regola non dovrebbe essere più presente", ruleManager.getRules().contains(rule1));
-        }
-
-        @Test
-        public void testGetRule() {
-
-            ruleManager.addRule(rule1);
-            Rule retrievedRule = ruleManager.getRule(0);
-
-            assertNotNull("La regola dovrebbe essere recuperata", retrievedRule);
-            assertSame("Le istanze devono essere le stesse", rule1, retrievedRule);
-        }
-
-        @Test
-        public void testGetRules() {
-            ObservableList<Rule> rules = ruleManager.getRules();
-            assertNotNull("La lista delle regole non dovrebbe essere nulla", rules);
-            assertEquals("La lista delle regole dovrebbe essere vuota inizialmente", 0, rules.size());
-
-
-            ruleManager.addRule(rule1);
-            ruleManager.addRule(rule2);
-
-            assertEquals("La lista delle regole dovrebbe contenere 2 elementi", 2, rules.size());
-            assertTrue("La lista delle regole dovrebbe contenere la regola 1", rules.contains(rule1));
-            assertTrue("La lista delle regole dovrebbe contenere la regola 2", rules.contains(rule2));
-        }
+    @Test
+    public void testGetInstance() {
+        RuleManager instance1 = RuleManager.getInstance();
+        RuleManager instance2 = RuleManager.getInstance();
+        assertSame("The two instances must be the same", instance1, instance2);
     }
+
+    @Test
+    public void testAddRule() {
+        ruleManager.addRule(rule1);
+        assertTrue(ruleManager.getRules().contains(rule1));
+    }
+
+    @Test
+    public void testRemoveRule() {
+        ruleManager.addRule(rule1);
+        boolean removed = ruleManager.removeRule(rule1);
+
+        assertTrue("The rule has not been removed from the list", removed);
+        assertFalse("The rule is still contained in the list", ruleManager.getRules().contains(rule1));
+    }
+
+    @Test
+    public void testGetRule() {
+        ruleManager.addRule(rule1);
+        Rule retrievedRule = ruleManager.getRule(0);
+
+        assertNotNull("No rule has been retrieved", retrievedRule);
+        assertSame("The retrieved rule differs from the expected one", rule1, retrievedRule);
+    }
+
+    @Test
+    public void testGetRules() {
+        ObservableList<Rule> rules = ruleManager.getRules();
+
+        assertNotNull("The retrieved rules list is null", rules);
+        assertEquals("The initial list length must be equal to zero", 0, rules.size());
+
+
+        ruleManager.addRule(rule1);
+        ruleManager.addRule(rule2);
+
+        assertEquals("The list length differs from the expected one", 2, rules.size());
+        assertTrue("Not all the added rules are contained in the list", rules.contains(rule1) && rules.contains(rule2));
+    }
+
+    @Test
+    public void testDeactivateRule(){
+        ruleManager.addRule(rule1);
+        ruleManager.addRule(rule2);
+
+        ruleManager.deactivateRule(rule1);
+        assertFalse("The specified rule has not been deactivated at all", rule1.isActive());
+        assertTrue("The specified rule should be active", rule2.isActive());
+    }
+
+    @Test
+    public void testActivateRule(){
+        rule1.setActive(false);
+        ruleManager.addRule(rule1);
+
+        ruleManager.activateRule(rule1);
+        assertTrue("The specified rule should be active", rule1.isActive());
+    }
+
+}
+
