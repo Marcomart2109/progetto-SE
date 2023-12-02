@@ -72,6 +72,9 @@ public class RuleController implements Initializable {
     public Spinner<Integer> dayOfTheMonthInput;
 
     @FXML
+    public VBox activationBoxInput;
+
+    @FXML
     private RuleManager ruleManager;
 
     @FXML
@@ -290,10 +293,11 @@ public class RuleController implements Initializable {
     public void editRuleInit(Rule ruleToEdit) {
         this.ruleBeingEdited = ruleToEdit;
         titleLabel.setText("Edit a rule");
-        ruleNameField.setEditable(false);
+        ruleNameField.setDisable(true);
         ruleNameField.setText(ruleToEdit.getName());
         triggerMenu.setValue(ruleToEdit.getTrigger().getTYPE());
         actionMenu.setValue(ruleToEdit.getAction().getTYPE());
+        activationBoxInput.setDisable(true);
         createRuleButton.setManaged(false);
         editRuleButton.setManaged(true);
 
