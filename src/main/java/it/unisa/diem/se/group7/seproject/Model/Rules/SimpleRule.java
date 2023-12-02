@@ -16,7 +16,7 @@ public class SimpleRule extends Rule {
 
     @Override
     public boolean evaluate() {
-        if(!fired && trigger.evaluate()) {
+        if(!fired && trigger.evaluate() && isActive()) {
             System.out.println("Rule \"" + getName() + "\"is triggered");
             return true;
         }
