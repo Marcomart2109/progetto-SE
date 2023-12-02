@@ -17,6 +17,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -34,6 +36,9 @@ public class MainController implements Initializable {
 
     @FXML
     private TableColumn<Rule, String> rulesClm;
+
+    @FXML
+    private TableColumn<Rule, Boolean> statusClm;
 
     @FXML
     private TableView<Rule> tableView;
@@ -93,6 +98,23 @@ public class MainController implements Initializable {
         });
 /*        indexClm.setCellValueFactory(new PropertyValueFactory<Rule,Trigger>("trigger"));
         rulesClm.setCellValueFactory(new PropertyValueFactory<Rule,Action>("action"));*/
+        statusClm.setCellValueFactory(new PropertyValueFactory<>("active"));
+        statusClm.setCellFactory(column -> new TableCell<Rule, Boolean>() {
+            private final Circle circle = new Circle(8);
+
+            @Override
+            protected void updateItem(Boolean active, boolean empty) {
+                super.updateItem(active, empty);
+
+                if (empty || active == null) {
+                    setGraphic(null);
+                } else {
+                    circle.setFill(active ? Color.GREEN : Color.RED);
+                    setGraphic(circle);
+                }
+            }
+        });
+
 
         //Allow multiple selection on tableView
         tableView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -221,5 +243,20 @@ public class MainController implements Initializable {
             alert.showAndWait();
         }
     }
-
+    @FXML
+    public void activateRuleAction(ActionEvent actionEvent) {
+        ObservableList<Rule> selectedRules = tableView.getSelectionModel().getSelectedItems();
+        for(Rule selectedRule: selectedRules) {
+            selectedRule.setActive(true);
+        }
+        tableView.refresh();
+    }
+    @FXML
+    public void deactivateRuleAction(ActionEvent actionEvent) {
+        ObservableList<Rule> selectedRules = tableView.getSelectionModel().getSelectedItems();
+        for(Rule selectedRule: selectedRules) {
+            selectedRule.setActive(false);
+        }
+        tableView.refresh();
+    }
 }
