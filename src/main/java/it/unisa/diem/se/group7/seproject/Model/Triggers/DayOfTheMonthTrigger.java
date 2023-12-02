@@ -10,6 +10,9 @@ public class DayOfTheMonthTrigger implements Trigger, Serializable {
 
     private int day;
 
+    public DayOfTheMonthTrigger() {
+    }
+
     public DayOfTheMonthTrigger(int day) {
         this.day = day;
     }
@@ -26,5 +29,9 @@ public class DayOfTheMonthTrigger implements Trigger, Serializable {
     @Override
     public TriggerType getTYPE() {
         return TYPE;
+    }
+
+    public void setDayOfMonth(int currentDayOfMonth) {
+        this.day = currentDayOfMonth;
     }
 }
