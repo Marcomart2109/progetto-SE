@@ -3,6 +3,7 @@ package it.unisa.diem.se.group7.seproject.Model;
 import it.unisa.diem.se.group7.seproject.Model.Actions.ShowDialogBoxAction;
 import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
+import it.unisa.diem.se.group7.seproject.Model.Rules.SimpleRule;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.TimeTrigger;
 import javafx.collections.ObservableList;
 
@@ -25,8 +26,8 @@ class RuleManagerTest {
         ruleManager = RuleManager.getInstance();
         // Pulisci la lista delle regole prima di ogni test
         ruleManager.getRules().clear();
-        rule1 = new Rule("prova1",new TimeTrigger(10,20), new ShowDialogBoxAction());
-        rule2 = new Rule("prova2",new TimeTrigger(21,12), new ShowDialogBoxAction());
+        rule1 = new SimpleRule("prova1",new TimeTrigger(10,20), new ShowDialogBoxAction());
+        rule2 = new SimpleRule("prova2",new TimeTrigger(21,12), new ShowDialogBoxAction());
     }
 
         @Test

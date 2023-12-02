@@ -5,48 +5,32 @@ import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
 
 import java.io.Serializable;
 
-public class Rule implements Serializable {
-
-    private String name;
-    private Action action;
-    private Trigger trigger;
-    private boolean fired;
+public abstract class Rule implements Serializable {
+     String name;
+     Trigger trigger;
+     Action action;
 
     public Rule(String name, Trigger trigger, Action action) {
         this.name = name;
-        this.action = action;
         this.trigger = trigger;
-        this.fired = false;
+        this.action = action;
+    }
+
+    public Rule() {
     }
 
     public boolean evaluate() {
         return trigger.evaluate();
     }
 
-    public void execute() {
-        if(!isFired()) {
-            action.execute();
-            System.out.println("Rule \"" + this.name + "\" is triggered");
-            setFired(true);
-        }
-    }
+    public abstract void execute();
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Action getAction() {
         return action;
-    }
-
-    public void setAction(Action action) {
-        //Whenever I change the action the rule became firable again
-        fired = false;
-        this.action = action;
     }
 
     public Trigger getTrigger() {
@@ -54,16 +38,14 @@ public class Rule implements Serializable {
     }
 
     public void setTrigger(Trigger trigger) {
-        //Whenever I change the trigger the rule became firable again
-        fired = false;
         this.trigger = trigger;
     }
 
-    public boolean isFired() {
-        return fired;
+    public void setAction(Action action) {
+        this.action = action;
     }
 
-    private void setFired(boolean fired) {
-        this.fired = fired;
+    public void setName(String name) {
+        this.name = name;
     }
 }
