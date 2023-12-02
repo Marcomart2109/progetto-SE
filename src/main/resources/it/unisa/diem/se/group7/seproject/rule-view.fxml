@@ -122,6 +122,12 @@
                               <Button fx:id="selectFileButton" mnemonicParsing="false" onAction="#chooseAudioFileAction" text="Choose an audio file" />
                            </children>
                         </HBox>
+                        <HBox fx:id="copyFileBoxInput" alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0" visible="false">
+                           <children>
+                              <Button fx:id="copyFileChooserButton" mnemonicParsing="false" onAction="#chooseCopyFileAction" text="Choose a file" />
+                              <Button fx:id="copyDirectoryChooserButton" mnemonicParsing="false" onAction="#chooseCopyDirectoryAction" text="Choose a directory" />
+                           </children>
+                        </HBox>
                         <HBox fx:id="appendToFileInputBox" alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0" visible="false">
                            <children>
                               <Button fx:id="appendFileChooserButton" mnemonicParsing="false" onAction="#appendFileChooseAction" text="Choose file" />

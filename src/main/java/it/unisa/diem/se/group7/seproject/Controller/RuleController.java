@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.stage.DirectoryChooser;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -27,6 +28,16 @@ import javafx.stage.Stage;
 public class RuleController implements Initializable {
     @FXML
     public Button appendFileChooserButton;
+
+    @FXML
+    public HBox copyFileBoxInput;
+
+    @FXML
+    public Button copyFileChooserButton;
+
+    @FXML
+    public Button copyDirectoryChooserButton;
+
     @FXML
     public Spinner<Integer> sleepingDaySpinner;
     @FXML
@@ -90,7 +101,12 @@ public class RuleController implements Initializable {
     private Button editRuleButton;
 
     private Rule ruleBeingEdited;
+
     private File selectedAppendFile;
+
+    private File selectedCopyFile;
+
+    private File selectedCopyDirectory;
 
 
     //TODO: Refractor initialize method creating a createRuleInit method to improve code readability
@@ -114,6 +130,7 @@ public class RuleController implements Initializable {
         dialogBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.SHOW_DIALOG_BOX));
         audioFileInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.PLAY_AUDIO));
         appendToFileInputBox.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.APPEND_TO_FILE));
+        copyFileBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.COPY_FILE));
 
         setUpTimeSpinner();
         setUpDateSpinner();
@@ -134,15 +151,14 @@ public class RuleController implements Initializable {
         Integer currenthours = LocalTime.now().getHour();
         Integer currentminutes = LocalTime.now().getMinute();
 
-        SpinnerValueFactory<Integer> hourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,23);
-        SpinnerValueFactory<Integer> minuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,59);
+        SpinnerValueFactory<Integer> hourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23);
+        SpinnerValueFactory<Integer> minuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59);
         hourValueFactory.setValue(currenthours);
         minuteValueFactory.setValue(currentminutes);
 
         hourTimeInput.setValueFactory(hourValueFactory);
         minuteTimeInput.setValueFactory(minuteValueFactory);
     }
-
     private void setUpDateSpinner() {
         SpinnerValueFactory<Integer> dayValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 99);
         SpinnerValueFactory<Integer> hourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23);
@@ -151,7 +167,6 @@ public class RuleController implements Initializable {
         sleepingDaySpinner.setValueFactory(dayValueFactory);
         sleepingHourSpinner.setValueFactory(hourValueFactory);
         sleepingMinuteSpinner.setValueFactory(minuteValueFactory);
-
     }
 
     @FXML
@@ -202,6 +217,7 @@ public class RuleController implements Initializable {
             case SHOW_DIALOG_BOX -> new ShowDialogBoxAction(messageActionInput.getText());
             case PLAY_AUDIO -> new PlayAudioAction(selectedAudioFile);
             case APPEND_TO_FILE -> new AppendToFileAction(selectedAppendFile,appendToFileTextfield.getText());
+            case COPY_FILE -> new CopyFileAction(selectedCopyDirectory, selectedCopyFile);
 
             default -> throw new IllegalStateException("Unexpected value: " + selectedAction);
         };
@@ -240,6 +256,8 @@ public class RuleController implements Initializable {
         editRuleButton.setManaged(true);
 
     }
+
+    @FXML
     public void editRule(ActionEvent event) {
         if (validInputs()) {
             if (ruleBeingEdited != null) {
@@ -256,6 +274,7 @@ public class RuleController implements Initializable {
         }
     }
 
+    @FXML
     public void appendFileChooseAction(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Text File");
@@ -269,6 +288,29 @@ public class RuleController implements Initializable {
         selectedAppendFile = fileChooser.showOpenDialog(null);
         if(selectedAppendFile != null) {
             appendFileChooserButton.setText("File selected");
+        }
+    }
+
+    @FXML
+    public void chooseCopyFileAction(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select a file to copy");
+
+        // Show the file chooser dialog
+        selectedCopyFile = fileChooser.showOpenDialog(null);
+        if(selectedCopyFile != null) {
+            copyFileChooserButton.setText("File selected");
+        }
+    }
+
+    @FXML
+    public void chooseCopyDirectoryAction(ActionEvent actionEvent) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Select a destination directory");
+
+        selectedCopyDirectory = directoryChooser.showDialog(null);
+        if (selectedCopyDirectory != null) {
+            copyDirectoryChooserButton.setText("Directory selected");
         }
     }
 }
