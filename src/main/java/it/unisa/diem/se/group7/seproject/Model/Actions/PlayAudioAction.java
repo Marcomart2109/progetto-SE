@@ -4,7 +4,7 @@ import java.io.*;
 import javax.sound.sampled.*;
 
 public class PlayAudioAction implements Action, Serializable {
-    private final Clip clip;
+    private transient Clip clip;
     private final File audioFile;
     private final ActionType TYPE = ActionType.PLAY_AUDIO;
 
@@ -26,6 +26,11 @@ public class PlayAudioAction implements Action, Serializable {
             throw new RuntimeException("IOException: " + exc);
         }
     }
+
+    public PlayAudioAction(String filePath){
+        this(new File(filePath));
+    }
+
     @Override
     public ActionType getTYPE() {
         return TYPE;
@@ -49,6 +54,36 @@ public class PlayAudioAction implements Action, Serializable {
         }
     }
 
+    private void writeObject(ObjectOutputStream out) throws IOException {
+
+        out.defaultWriteObject(); // write non-transient objects
+        out.writeObject(audioFile.getPath());
+
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+
+        in.defaultReadObject(); // read non-transient objects
+
+        // the following code is useful for restoring the clip object (which is not serializable)
+        String filePath = (String) in.readObject();
+        File audioFile = new File(filePath);
+
+        try {
+            AudioInputStream ais = AudioSystem.getAudioInputStream(audioFile);
+            clip = AudioSystem.getClip();
+            clip.open(ais);
+        } catch (LineUnavailableException exc) {
+            throw new RuntimeException("Sorry. Cannot play audio files.");
+        } catch (UnsupportedAudioFileException exc) {
+            throw new UnsupportedFileFormatException("Unsupported file format for: " + audioFile);
+        } catch (FileNotFoundException exc) {
+            throw new NoFileFoundException("File not found: " + audioFile);
+        } catch (IOException exc) {
+            throw new RuntimeException("IOException: " + exc);
+        }
+
+    }
 
     @Override
     public String toString() {
