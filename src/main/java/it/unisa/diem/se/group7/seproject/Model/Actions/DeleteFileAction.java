@@ -35,4 +35,9 @@ public class DeleteFileAction implements Action {
             System.out.println("File is not in the specifield folder.");
         }
     }
+
+    @Override
+    public ActionType getTYPE() {
+        return null;
+    }
 }

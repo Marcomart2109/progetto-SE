@@ -16,6 +16,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
@@ -316,6 +319,4 @@ public class MainController implements Initializable {
     private void deselectAllRules(ActionEvent event) {
         tableView.getSelectionModel().clearSelection();
     }
-
-
 }

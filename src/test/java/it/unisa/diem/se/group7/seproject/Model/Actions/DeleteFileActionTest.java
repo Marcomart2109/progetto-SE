@@ -13,9 +13,8 @@ class DeleteFileActionTest {
 
    @BeforeEach
     void setUp() {
-
-    testFolder =new File("src/main/resources/");
-    testFile = new File(testFolder, "testFile.txt");
+        testFolder =new File("src/main/resources/");
+        testFile = new File(testFolder, "testFile.txt");
     }
 
     @Test
