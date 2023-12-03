@@ -3,37 +3,60 @@ package it.unisa.diem.se.group7.seproject.Model.Actions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.io.File;
-import java.util.function.BooleanSupplier;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DeleteFileActionTest {
-    private File testFile;
-    private File testFolder;
+public class DeleteFileActionTest {
+    File testFile;
+        @BeforeEach
+        void setUp() throws IOException {
+            // Create a temporary file for the dummy script
+            File testFolder = new File("src/main/resources/");
+            testFile = new File(testFolder, "testFile.txt");
+            // Write the script content to the file
+            Files.write(testFile.toPath(),
+                    "ciao".getBytes());
 
-   @BeforeEach
-    void setUp() {
-        testFolder =new File("src/main/resources/");
-        testFile = new File(testFolder, "testFile.txt");
-    }
+        }
+
 
     @Test
-    void testDeleteFileSuccess() {
-    DeleteFileAction deleteFileAction= new DeleteFileAction(testFile, testFolder);
+    void testDeleteExistingFile() {
 
-    deleteFileAction.execute();
-    //check file is eliminated
-        assertFalse(testFile.exists());
-    }
-    @Test
-    //test per vedere che il file non presente non venga eliminato
-    void testDeleteFileSuccessFail(){
-        File Folder2 = new File("src/main/test/");
+        String testFileName = "testFile.txt";
+        File testFolder = new File("src/main/resources/");
 
-        DeleteFileAction deleteFileAction= new DeleteFileAction(testFile, Folder2);
 
+        File testFile = new File(testFolder, testFileName);
+
+
+
+        assertTrue(testFile.exists(), "Test file does not exist before deletion");
+
+
+        DeleteFileAction deleteFileAction = new DeleteFileAction(testFileName, testFolder);
         deleteFileAction.execute();
 
-        assertTrue(testFile.exists());
+
+        assertFalse(testFile.exists(), "Test file still exists after deletion");
+    }
+
+    @Test
+    void testDeleteNonExistingFile() {
+
+        String nonExistingFileName = "nonExistingFile.txt";
+        File testFolder = new File("main/java/resources/");
+
+
+        assertFalse(new File(testFolder, nonExistingFileName).exists(), "Non-existing file exists before deletion");
+
+
+        DeleteFileAction deleteFileAction = new DeleteFileAction(nonExistingFileName, testFolder);
+        deleteFileAction.execute();
+
+
     }
 }

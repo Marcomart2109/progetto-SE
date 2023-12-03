@@ -4,10 +4,10 @@ import java.io.File;
 
 public class DeleteFileAction implements Action {
 
-    private File file;
+    private String file;
     private File folder;
 
-    public DeleteFileAction(File file, File folder) {
+    public DeleteFileAction(String file, File folder) {
         this.file = file;
         this.folder = folder;
     }
@@ -15,25 +15,15 @@ public class DeleteFileAction implements Action {
     @Override
     public void execute() {
 
-        // get path complete of file
-        String fullPath = file.getAbsolutePath();
+        File checkFile = new File(folder, file);
 
-        // get path complete of folder
-        String folderPath = folder.getAbsolutePath();
-
-
-        if (fullPath.startsWith(folderPath)) {
-            System.out.println(file);
-          if(file.delete()) {
-              System.out.println("file is elimanated.");
-          }else {
-              System.out.println("file is not eliminated");
-          }
-
-             
+        if (checkFile.exists()) {
+            checkFile.delete();
+            System.out.println(" File " + file + " is elimanated");
         } else {
-            System.out.println("File is not in the specifield folder.");
+            System.out.println("File not exist");
         }
+
     }
 
     @Override
