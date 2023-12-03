@@ -49,8 +49,7 @@ public class CopyFileActionTest {
 
         cfa.execute();
 
-        assertTrue(copyFile.isFile() && copyFile.exists());
-
+        assertTrue(copyFile.isFile());
     }
 
     @After
