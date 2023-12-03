@@ -1,13 +1,13 @@
 package it.unisa.diem.se.group7.seproject.Model.Actions;
 
+import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.*;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayAudioActionTest {
     private File wrongFile, absentFile, audioFile;
@@ -47,38 +47,40 @@ public class PlayAudioActionTest {
             PlayAudioAction paa = new PlayAudioAction(audioFile);
         });
     }
-/*
-    @Test
-    public void testPlayAudioActionSerialization(){
-        PlayAudioAction paa = new PlayAudioAction(audioFile);
-        assertAll(()-> {
-            ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(backupPath)));
-            oos.writeObject(paa);
-        });
-    }
-    @Test
-    public void testPlayAudioActionDeserialization(){
-        assertAll(()-> {
-            ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(backupPath)));
-            PlayAudioAction paa = (PlayAudioAction) ois.readObject();
-        });
-    }
 
- */
     @Test
     public void testSerializationDeserialization(){
-        // Serialization Test
+        // the following code is useful to check the absence of exceptions during the serialization process
         PlayAudioAction serializedPaa = new PlayAudioAction(audioFile);
         assertAll(()-> {
-            ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(backupPath)));
-            oos.writeObject(serializedPaa);
+            writePlayAudioActionObject(serializedPaa, backupPath);
         });
 
-        //Deserialization Test
+        // the following code is useful to check the absence of exceptions during the deserialization process
         assertAll(()-> {
-            ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(backupPath)));
-            PlayAudioAction deserializedPaa = (PlayAudioAction) ois.readObject();
+            readPlayAudioActionObject(backupPath);
         });
+
+        // the following code check if the object we want to serialize is equal to the deserialized one
+        // according to the definition of the equals method in PlayAudioAudioAction class
+        PlayAudioAction deserializedPaa = readPlayAudioActionObject(backupPath);
+        assertEquals(serializedPaa, deserializedPaa);
+    }
+
+    private void writePlayAudioActionObject(PlayAudioAction paa, String backupPath){
+        try(ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(backupPath)))){
+            oos.writeObject(paa);
+        }catch(Exception ex){
+            throw new RuntimeException();
+        }
+    }
+
+    private PlayAudioAction readPlayAudioActionObject(String backupPath){
+        try (ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(backupPath)))) {
+            return (PlayAudioAction) ois.readObject();
+        }catch (Exception ex) {
+            throw new RuntimeException();
+        }
     }
 
     @After

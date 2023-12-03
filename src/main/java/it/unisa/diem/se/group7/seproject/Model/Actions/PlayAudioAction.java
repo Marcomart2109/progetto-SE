@@ -1,6 +1,7 @@
 package it.unisa.diem.se.group7.seproject.Model.Actions;
 
 import java.io.*;
+import java.util.Objects;
 import javax.sound.sampled.*;
 
 public class PlayAudioAction implements Action, Serializable {
@@ -86,8 +87,22 @@ public class PlayAudioAction implements Action, Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlayAudioAction that = (PlayAudioAction) o;
+        return Objects.equals(audioFile, that.audioFile) && TYPE == that.TYPE;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(clip, audioFile, TYPE);
+    }
+
+    @Override
     public String toString() {
         return "THEN play an audio from \"" + audioFile + "\"";
     }
+
 }
 
