@@ -35,8 +35,15 @@ public class RuleBackupTest {
     @Test
     public void testLoadFromBinaryFile(){
         RuleBackup.saveOnBinaryFile(testList, backupPath);
+
+        testList.clear(); // when the application is closed, the list of rules is emptied
+
         assertThrows(NoFileFoundException.class, () -> {
             RuleBackup.loadFromBinaryFile(testList, wrongPath);
+        });
+
+        assertAll(()-> {
+            RuleBackup.loadFromBinaryFile(testList, backupPath);
         });
 
         assertFalse(testList.isEmpty());   // when the application is launched, the list is populated
@@ -48,15 +55,10 @@ public class RuleBackupTest {
             RuleBackup.saveOnBinaryFile(testList, wrongPath);
         });
 
-        testList.clear();   // when the application is closed, the list becomes empty
-    }
-
-    @Test
-    public void testNoExceptionThrown(){
         assertAll(()-> {
             RuleBackup.saveOnBinaryFile(testList, backupPath);
-            RuleBackup.loadFromBinaryFile(testList, backupPath);
         });
+
     }
 
     @After
