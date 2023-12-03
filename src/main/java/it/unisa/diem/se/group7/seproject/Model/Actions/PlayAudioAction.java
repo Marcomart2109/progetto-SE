@@ -4,7 +4,7 @@ import java.io.*;
 import javax.sound.sampled.*;
 
 public class PlayAudioAction implements Action, Serializable {
-    private transient Clip clip;
+    private transient Clip clip; // clip is not serializable
     private final File audioFile;
     private final ActionType TYPE = ActionType.PLAY_AUDIO;
 
