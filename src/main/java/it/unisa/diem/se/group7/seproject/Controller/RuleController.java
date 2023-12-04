@@ -5,15 +5,14 @@ import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleSleepDecorator;
 import it.unisa.diem.se.group7.seproject.Model.Rules.SimpleRule;
-import it.unisa.diem.se.group7.seproject.Model.Triggers.TimeTrigger;
-import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
-import it.unisa.diem.se.group7.seproject.Model.Triggers.TriggerType;
+import it.unisa.diem.se.group7.seproject.Model.Triggers.*;
 import javafx.beans.binding.Bindings;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
 import java.io.File;
 import java.net.URL;
+import java.time.DayOfWeek;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
@@ -40,16 +39,38 @@ public class RuleController implements Initializable {
 
     @FXML
     public Spinner<Integer> sleepingDaySpinner;
+
     @FXML
     public Spinner<Integer> sleepingHourSpinner;
+
     @FXML
     public Spinner<Integer> sleepingMinuteSpinner;
+
     @FXML
     public VBox sleepingBoxInput;
+
     @FXML
     public CheckBox onceActivationCheckbox;
+
     @FXML
     public CheckBox twiceActivationCheckbox;
+
+    public HBox dayOfTheWeekBoxInput;
+    @FXML
+    public ComboBox<DayOfWeek> dayOfTheWeekInput;
+
+    @FXML
+    public HBox dayOfTheYearBoxInput;
+
+    @FXML
+    public DatePicker dayOfTheYearInput;
+
+    @FXML
+    public HBox dayOfTheMonthBoxInput;
+
+    @FXML
+    public Spinner<Integer> dayOfTheMonthInput;
+
     @FXML
     private RuleManager ruleManager;
 
@@ -119,13 +140,20 @@ public class RuleController implements Initializable {
         actionMenu.getItems().addAll(ActionType.values());
         //Hidden elements don't occupy space
         timeTriggerInput.managedProperty().bind(timeTriggerInput.visibleProperty());
+        dayOfTheWeekBoxInput.managedProperty().bind(dayOfTheWeekBoxInput.visibleProperty());
+        dayOfTheMonthBoxInput.managedProperty().bind(dayOfTheMonthBoxInput.visibleProperty());
+        dayOfTheYearBoxInput.managedProperty().bind(dayOfTheYearBoxInput.visibleProperty());
         dialogBoxInput.managedProperty().bind(dialogBoxInput.visibleProperty());
         audioFileInput.managedProperty().bind(audioFileInput.visibleProperty());
         appendToFileInputBox.managedProperty().bind(appendToFileInputBox.visibleProperty());
+        copyFileBoxInput.managedProperty().bind(copyFileBoxInput.visibleProperty());
 
         //Display of the inputs according to user choice in the comboBox menu
         //Triggers
         timeTriggerInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.TIME_TRIGGER));
+        dayOfTheWeekBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_WEEK));
+        dayOfTheMonthBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_MONTH));
+        dayOfTheYearBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_YEAR));
         //Actions
         dialogBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.SHOW_DIALOG_BOX));
         audioFileInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.PLAY_AUDIO));
@@ -134,6 +162,9 @@ public class RuleController implements Initializable {
 
         setUpTimeSpinner();
         setUpDateSpinner();
+
+        setUpDayOfTheWeekComboBox();
+        setUpDayOfTheMonthSpinner();
 
         //Bindings for Activation checkboxes
         onceActivationCheckbox.disableProperty().bind(twiceActivationCheckbox.selectedProperty());
@@ -144,6 +175,14 @@ public class RuleController implements Initializable {
 
         editRuleButton.setManaged(false);
 
+    }
+    private void setUpDayOfTheWeekComboBox() {
+        dayOfTheWeekInput.getItems().addAll(DayOfWeek.values());
+    }
+
+    private void setUpDayOfTheMonthSpinner() {
+        SpinnerValueFactory<Integer> dayOfTheMonthFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 31);
+        dayOfTheMonthInput.setValueFactory(dayOfTheMonthFactory);
     }
 
     private void setUpTimeSpinner() {
@@ -205,6 +244,9 @@ public class RuleController implements Initializable {
     private Trigger createTrigger(TriggerType selectedTrigger) {
         var trigger = switch (selectedTrigger) {
             case TIME_TRIGGER -> new TimeTrigger(hourTimeInput.getValue(), minuteTimeInput.getValue());
+            case DAY_OF_WEEK -> new DayOfWeekTrigger(dayOfTheWeekInput.getValue());
+            case DAY_OF_MONTH -> new DayOfTheMonthTrigger(dayOfTheMonthInput.getValue());
+            case DAY_OF_YEAR -> new DayOfTheYearTrigger(dayOfTheYearInput.getValue());
 
             default -> throw new IllegalStateException("Unexpected value: " + selectedTrigger);
         };
