@@ -28,12 +28,12 @@
                            </font>
                         </Label>
                         <Label text="Name" />
-                        <TextField fx:id="ruleNameField" />
+                        <TextField fx:id="ruleNameField" maxWidth="-Infinity" prefWidth="150.0" />
                         <Label text="Specify a trigger" />
                         <ComboBox fx:id="triggerMenu" prefWidth="150.0" />
                         <Label text="Specify an action" />
                         <ComboBox fx:id="actionMenu" prefWidth="150.0" />
-                        <VBox prefWidth="100.0" spacing="15.0">
+                        <VBox fx:id="activationBoxInput" prefWidth="100.0" spacing="15.0">
                            <children>
                               <Label text="Activation" />
                               <HBox prefWidth="200.0" spacing="15.0">

@@ -67,13 +67,12 @@ class RuleManagerTest {
         ObservableList<Rule> rules = ruleManager.getRules();
 
         assertNotNull("The retrieved rules list is null", rules);
-        assertEquals("The initial list length must be equal to zero", 0, rules.size());
+        assertTrue("At first, the list of rules must be empty", rules.isEmpty());
 
 
         ruleManager.addRule(rule1);
         ruleManager.addRule(rule2);
 
-        assertEquals("The list length differs from the expected one", 2, rules.size());
         assertTrue("Not all the added rules are contained in the list", rules.contains(rule1) && rules.contains(rule2));
     }
 

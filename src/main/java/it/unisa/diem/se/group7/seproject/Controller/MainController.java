@@ -4,7 +4,9 @@ import it.unisa.diem.se.group7.seproject.Application;
 import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleBackup;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringExpression;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +16,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
@@ -62,6 +67,9 @@ public class MainController implements Initializable {
 
     private RuleManager ruleManager;
 
+    @FXML
+    private Label selectedRuleLabel;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -74,6 +82,9 @@ public class MainController implements Initializable {
 
         initTableView();
         initDetailBox();
+        initBottomBar();
+
+
     }
 
     /**
@@ -88,7 +99,6 @@ public class MainController implements Initializable {
      * The TableView is populated with the rules list.
      */
     private void initTableView() {
-
         rulesClm.setCellValueFactory(new PropertyValueFactory<>("name"));
         indexClm.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(rules.indexOf(cellData.getValue()) + 1));
         rulesClm.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -100,7 +110,7 @@ public class MainController implements Initializable {
         rulesClm.setCellValueFactory(new PropertyValueFactory<Rule,Action>("action"));*/
         statusClm.setCellValueFactory(new PropertyValueFactory<>("active"));
         statusClm.setCellFactory(column -> new TableCell<Rule, Boolean>() {
-            private final Circle circle = new Circle(8);
+            private final Circle circle = new Circle(5);
 
             @Override
             protected void updateItem(Boolean active, boolean empty) {
@@ -147,6 +157,21 @@ public class MainController implements Initializable {
                 actionDetailText.setText("");
             }
         });
+    }
+
+    private void initBottomBar() {
+        StringExpression selectedItemsText = Bindings.createStringBinding(() -> {
+            int selectedItemsCount = tableView.getSelectionModel().getSelectedItems().size();
+
+            if (selectedItemsCount > 0) {
+                return String.format("%d selected %s", selectedItemsCount, selectedItemsCount > 1 ? "rules" : "rule");
+            } else {
+                return "";
+            }
+        }, tableView.getSelectionModel().getSelectedItems());
+
+        selectedRuleLabel.textProperty().bind(selectedItemsText);
+        selectedRuleLabel.visibleProperty().bind(Bindings.isNotEmpty(selectedItemsText));
     }
 
     @FXML
@@ -246,7 +271,17 @@ public class MainController implements Initializable {
     @FXML
     public void activateRuleAction(ActionEvent actionEvent) {
         ObservableList<Rule> selectedRules = tableView.getSelectionModel().getSelectedItems();
-        for(Rule selectedRule: selectedRules) {
+
+        if (selectedRules.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("No Rule Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a rule to activate.");
+            alert.showAndWait();
+            return;  // Exit the method if no rules are selected
+        }
+
+        for (Rule selectedRule : selectedRules) {
             selectedRule.setActive(true);
         }
         tableView.refresh();
@@ -254,9 +289,34 @@ public class MainController implements Initializable {
     @FXML
     public void deactivateRuleAction(ActionEvent actionEvent) {
         ObservableList<Rule> selectedRules = tableView.getSelectionModel().getSelectedItems();
-        for(Rule selectedRule: selectedRules) {
+
+        if (selectedRules.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("No Rule Selected");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a rule to deactivate.");
+            alert.showAndWait();
+            return;  // Exit the method if no rules are selected
+        }
+
+        for (Rule selectedRule : selectedRules) {
             selectedRule.setActive(false);
         }
         tableView.refresh();
+    }
+    @FXML
+    public void quitAction(ActionEvent actionEvent) {
+        RuleBackup.saveOnBinaryFile(rules, "src/main/resources/saved.bin");
+        Platform.exit();
+        System.exit(0);
+    }
+    @FXML
+    private void selectAllRules(ActionEvent event) {
+        tableView.getSelectionModel().selectAll();
+    }
+
+    @FXML
+    private void deselectAllRules(ActionEvent event) {
+        tableView.getSelectionModel().clearSelection();
     }
 }
