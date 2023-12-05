@@ -28,10 +28,6 @@ public class PlayAudioAction implements Action, Serializable {
         }
     }
 
-    public PlayAudioAction(String filePath){
-        this(new File(filePath));
-    }
-
     @Override
     public ActionType getTYPE() {
         return TYPE;
