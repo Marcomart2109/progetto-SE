@@ -9,10 +9,10 @@ import java.util.List;
 
 public class RuleBackup {
 
-    public static void saveOnBinaryFile(ObservableList<Rule> list, String backupPath){
+    public static void saveOnBinaryFile(ObservableList<Rule> list, File backupFile){
         List<Rule> newList = new ArrayList<>();
         newList.addAll(list);
-        try(ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(backupPath)))){
+        try(ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(backupFile)))){
             oos.writeObject(newList);
         }catch(FileNotFoundException ex){
             throw new NoFileFoundException("Error during the opening or creation of the specified backup file");
@@ -21,9 +21,9 @@ public class RuleBackup {
         }
     }
 
-    public static void loadFromBinaryFile(ObservableList<Rule> list, String backupPath){
+    public static void loadFromBinaryFile(ObservableList<Rule> list, File backupFile){
 
-        try (ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(backupPath)))) {
+        try (ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(backupFile)))) {
             List<Rule> newList = (ArrayList<Rule>) ois.readObject();
             list.addAll(newList);
         } catch (ClassNotFoundException ex) {
