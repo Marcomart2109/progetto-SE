@@ -147,6 +147,12 @@
                               <Button fx:id="copyDirectoryChooserButton" mnemonicParsing="false" onAction="#chooseCopyDirectoryAction" text="Choose a directory" />
                            </children>
                         </HBox>
+                        <HBox fx:id="externalProgramBoxInput" alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0" visible="false">
+                           <children>
+                              <Button fx:id="chooseProgramButton" mnemonicParsing="false" onAction="#chooseProgramAction" text="Choose a program" />
+                              <TextField fx:id="commandLineArgumentsTextField" prefHeight="26.0" prefWidth="229.0" promptText="Insert arguments separated by a space" />
+                           </children>
+                        </HBox>
                         <HBox fx:id="appendToFileInputBox" alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0" visible="false">
                            <children>
                               <Button fx:id="appendFileChooserButton" mnemonicParsing="false" onAction="#appendFileChooseAction" text="Choose file" />
