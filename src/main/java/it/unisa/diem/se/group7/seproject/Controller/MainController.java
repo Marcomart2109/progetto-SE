@@ -108,7 +108,7 @@ public class MainController implements Initializable {
         });
 /*        indexClm.setCellValueFactory(new PropertyValueFactory<Rule,Trigger>("trigger"));
         rulesClm.setCellValueFactory(new PropertyValueFactory<Rule,Action>("action"));*/
-        statusClm.setCellValueFactory(new PropertyValueFactory<>("active"));
+        statusClm.setCellValueFactory(cellData -> cellData.getValue().activeProperty());
         statusClm.setCellFactory(column -> new TableCell<Rule, Boolean>() {
             private final Circle circle = new Circle(5);
 
