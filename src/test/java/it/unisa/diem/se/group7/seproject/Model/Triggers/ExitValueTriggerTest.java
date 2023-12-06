@@ -18,6 +18,7 @@ public class ExitValueTriggerTest {
         String osName = System.getProperty("os.name").toLowerCase();
         String commands;
 
+        // the if-block is reserved to windows systems, the else-block to unix/linux systems
         if(osName.equals("windows")){
             program = new File("src/main/resources/testProgram.bat");
             commands = "@echo off" + System.lineSeparator() + "echo Hello world";
