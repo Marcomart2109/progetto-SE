@@ -28,4 +28,8 @@ public class FileExistsTrigger implements Trigger{
         return null;
     }
 
+    @Override
+    public String toString() {
+        return "IF the file:\"" + file + "\" in the directory: \"" + folder + "\" exists";
+    }
 }

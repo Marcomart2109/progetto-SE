@@ -41,4 +41,9 @@ public class ExitValueTrigger implements Trigger, Serializable {
     public TriggerType getTYPE() {
         return TYPE;
     }
+
+    @Override
+    public String toString() {
+        return "IF for the specified external program \"" + program + "\" the exit value is equal to " + expectedExitValue;
+    }
 }
