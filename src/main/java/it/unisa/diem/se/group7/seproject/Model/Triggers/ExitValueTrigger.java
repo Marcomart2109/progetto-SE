@@ -2,9 +2,10 @@ package it.unisa.diem.se.group7.seproject.Model.Triggers;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.concurrent.TimeUnit;
 
-public class ExitValueTrigger implements Trigger{
+public class ExitValueTrigger implements Trigger, Serializable {
 
     private final File program;
     private final int expectedExitValue;
