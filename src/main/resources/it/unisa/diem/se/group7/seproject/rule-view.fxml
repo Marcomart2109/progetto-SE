@@ -95,10 +95,23 @@
                               <Label text="Specify a day of the year" />
                            </children>
                         </HBox>
+                        <HBox fx:id="appendToFileInputBox" alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0" visible="false">
+                           <children>
+                              <Button fx:id="appendFileChooserButton" mnemonicParsing="false" onAction="#appendFileChooseAction" text="Choose file" />
+                              <TextField fx:id="appendToFileTextfield" prefWidth="250.0" promptText="Write a string to append to the selected file" />
+                           </children>
+                        </HBox>
                         <HBox fx:id="dayOfTheMonthBoxInput" alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" visible="false">
                            <children>
                               <Spinner fx:id="dayOfTheMonthInput" prefWidth="150.0" />
                               <Label text="Specify a day of the month" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="exitValueBoxInput" prefWidth="200.0" spacing="30.0" visible="false">
+                           <children>
+                              <Button fx:id="exitValueButton" mnemonicParsing="false" onAction="#exitValueFileChooseAction" text="Select a script" />
+                              <Spinner fx:id="exitValueSpinner" editable="true" prefHeight="31.0" prefWidth="98.0" />
+                              <Label text="Insert an exit value" />
                            </children>
                         </HBox>
                         <HBox fx:id="timeTriggerInput" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefWidth="376.0" visible="false">
