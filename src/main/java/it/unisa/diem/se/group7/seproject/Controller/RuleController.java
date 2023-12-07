@@ -55,7 +55,9 @@ public class RuleController implements Initializable {
     @FXML
     public CheckBox twiceActivationCheckbox;
 
+    @FXML
     public HBox dayOfTheWeekBoxInput;
+
     @FXML
     public ComboBox<DayOfWeek> dayOfTheWeekInput;
 
@@ -73,6 +75,15 @@ public class RuleController implements Initializable {
 
     @FXML
     public VBox activationBoxInput;
+
+    @FXML
+    public HBox exitValueBoxInput;
+
+    @FXML
+    public Button exitValueButton;
+
+    @FXML
+    public Spinner<Integer> exitValueSpinner;
 
     @FXML
     private RuleManager ruleManager;
@@ -132,6 +143,8 @@ public class RuleController implements Initializable {
 
     private File selectedCopyDirectory;
 
+    private File exitValueProgramFile;
+
 
     //TODO: Refractor initialize method creating a createRuleInit method to improve code readability
     @Override
@@ -150,6 +163,7 @@ public class RuleController implements Initializable {
         audioFileInput.managedProperty().bind(audioFileInput.visibleProperty());
         appendToFileInputBox.managedProperty().bind(appendToFileInputBox.visibleProperty());
         copyFileBoxInput.managedProperty().bind(copyFileBoxInput.visibleProperty());
+        exitValueBoxInput.managedProperty().bind(exitValueBoxInput.visibleProperty());
 
         //Display of the inputs according to user choice in the comboBox menu
         //Triggers
@@ -157,6 +171,7 @@ public class RuleController implements Initializable {
         dayOfTheWeekBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_WEEK));
         dayOfTheMonthBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_MONTH));
         dayOfTheYearBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_YEAR));
+        exitValueBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.EXIT_VALUE));
         //Actions
         dialogBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.SHOW_DIALOG_BOX));
         audioFileInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.PLAY_AUDIO));
@@ -168,6 +183,8 @@ public class RuleController implements Initializable {
 
         setUpDayOfTheWeekComboBox();
         setUpDayOfTheMonthSpinner();
+
+        setUpExitValueInput();
 
         //Bindings for Activation checkboxes
         onceActivationCheckbox.disableProperty().bind(twiceActivationCheckbox.selectedProperty());
@@ -211,6 +228,11 @@ public class RuleController implements Initializable {
         sleepingMinuteSpinner.setValueFactory(minuteValueFactory);
     }
 
+    private void setUpExitValueInput() {
+        SpinnerValueFactory<Integer> exitValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(-99, 99);
+        exitValueSpinner.setValueFactory(exitValueFactory);
+    }
+
     @FXML
     void createNewRule(ActionEvent event) {
         Rule rule = null;
@@ -250,6 +272,7 @@ public class RuleController implements Initializable {
             case DAY_OF_WEEK -> new DayOfWeekTrigger(dayOfTheWeekInput.getValue());
             case DAY_OF_MONTH -> new DayOfTheMonthTrigger(dayOfTheMonthInput.getValue());
             case DAY_OF_YEAR -> new DayOfTheYearTrigger(dayOfTheYearInput.getValue());
+            case EXIT_VALUE -> new ExitValueTrigger(exitValueProgramFile, exitValueSpinner.getValue());
 
             default -> throw new IllegalStateException("Unexpected value: " + selectedTrigger);
         };
@@ -357,6 +380,22 @@ public class RuleController implements Initializable {
         selectedCopyDirectory = directoryChooser.showDialog(null);
         if (selectedCopyDirectory != null) {
             copyDirectoryChooserButton.setText("Directory selected");
+        }
+    }
+
+    public void exitValueFileChooseAction(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open External Program File");
+
+        // Set the file extension filters if needed
+        // Example: Allow only text files
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Executable Files", "*.exe", "*.sh", "*.bat");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        // Show the file chooser dialog
+        exitValueProgramFile = fileChooser.showOpenDialog(null);
+        if(exitValueProgramFile != null) {
+            exitValueButton.setText("File selected");
         }
     }
 }

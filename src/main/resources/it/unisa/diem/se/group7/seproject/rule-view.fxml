@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.se.group7.seproject.Controller.RuleController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.se.group7.seproject.Controller.RuleController">
    <children>
       <SplitPane dividerPositions="0.35" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -95,10 +95,23 @@
                               <Label text="Specify a day of the year" />
                            </children>
                         </HBox>
+                        <HBox fx:id="appendToFileInputBox" alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0" visible="false">
+                           <children>
+                              <Button fx:id="appendFileChooserButton" mnemonicParsing="false" onAction="#appendFileChooseAction" text="Choose file" />
+                              <TextField fx:id="appendToFileTextfield" prefWidth="250.0" promptText="Write a string to append to the selected file" />
+                           </children>
+                        </HBox>
                         <HBox fx:id="dayOfTheMonthBoxInput" alignment="CENTER_LEFT" prefWidth="200.0" spacing="15.0" visible="false">
                            <children>
-                              <Spinner fx:id="dayOfTheMonthInput" prefWidth="150.0" />
+                              <Spinner fx:id="dayOfTheMonthInput" editable="true" prefWidth="150.0" />
                               <Label text="Specify a day of the month" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="exitValueBoxInput" prefWidth="200.0" spacing="30.0" visible="false">
+                           <children>
+                              <Button fx:id="exitValueButton" mnemonicParsing="false" onAction="#exitValueFileChooseAction" text="Select a script" />
+                              <Spinner fx:id="exitValueSpinner" editable="true" prefHeight="31.0" prefWidth="98.0" />
+                              <Label text="Insert an exit value" />
                            </children>
                         </HBox>
                         <HBox fx:id="timeTriggerInput" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefWidth="376.0" visible="false">
@@ -106,7 +119,7 @@
                               <Insets />
                            </VBox.margin>
                            <children>
-                              <Spinner fx:id="hourTimeInput" prefWidth="75.0">
+                              <Spinner fx:id="hourTimeInput" editable="true" prefWidth="75.0">
                                  <HBox.margin>
                                     <Insets />
                                  </HBox.margin>
@@ -115,7 +128,7 @@
                                  <padding>
                                     <Insets left="10.0" right="10.0" />
                                  </padding></Label>
-                              <Spinner fx:id="minuteTimeInput" prefWidth="75.0" />
+                              <Spinner fx:id="minuteTimeInput" editable="true" prefWidth="75.0" />
                               <Label text="Insert hours and minutes">
                                  <HBox.margin>
                                     <Insets left="10.0" />
@@ -145,12 +158,6 @@
                            <children>
                               <Button fx:id="copyFileChooserButton" mnemonicParsing="false" onAction="#chooseCopyFileAction" text="Choose a file" />
                               <Button fx:id="copyDirectoryChooserButton" mnemonicParsing="false" onAction="#chooseCopyDirectoryAction" text="Choose a directory" />
-                           </children>
-                        </HBox>
-                        <HBox fx:id="appendToFileInputBox" alignment="CENTER_LEFT" prefWidth="200.0" spacing="20.0" visible="false">
-                           <children>
-                              <Button fx:id="appendFileChooserButton" mnemonicParsing="false" onAction="#appendFileChooseAction" text="Choose file" />
-                              <TextField fx:id="appendToFileTextfield" prefWidth="250.0" promptText="Write a string to append to the selected file" />
                            </children>
                         </HBox>
                      </children>
