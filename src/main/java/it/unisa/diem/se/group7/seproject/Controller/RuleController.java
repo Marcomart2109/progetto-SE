@@ -86,6 +86,15 @@ public class RuleController implements Initializable {
     public Spinner<Integer> exitValueSpinner;
 
     @FXML
+    public HBox externalProgramBoxInput;
+
+    @FXML
+    public Button chooseProgramButton;
+
+    @FXML
+    public TextField commandLineArgumentsTextField;
+
+    @FXML
     private RuleManager ruleManager;
 
     @FXML
@@ -142,6 +151,7 @@ public class RuleController implements Initializable {
     private File selectedCopyFile;
 
     private File selectedCopyDirectory;
+    private File selectedExternalProgramFile;
 
     private File exitValueProgramFile;
 
@@ -164,6 +174,7 @@ public class RuleController implements Initializable {
         appendToFileInputBox.managedProperty().bind(appendToFileInputBox.visibleProperty());
         copyFileBoxInput.managedProperty().bind(copyFileBoxInput.visibleProperty());
         exitValueBoxInput.managedProperty().bind(exitValueBoxInput.visibleProperty());
+        externalProgramBoxInput.managedProperty().bind(externalProgramBoxInput.visibleProperty());
 
         //Display of the inputs according to user choice in the comboBox menu
         //Triggers
@@ -177,6 +188,7 @@ public class RuleController implements Initializable {
         audioFileInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.PLAY_AUDIO));
         appendToFileInputBox.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.APPEND_TO_FILE));
         copyFileBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.COPY_FILE));
+        externalProgramBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.EXECUTE_PROGRAM));
 
         setUpTimeSpinner();
         setUpDateSpinner();
@@ -286,6 +298,7 @@ public class RuleController implements Initializable {
             case PLAY_AUDIO -> new PlayAudioAction(selectedAudioFile);
             case APPEND_TO_FILE -> new AppendToFileAction(selectedAppendFile,appendToFileTextfield.getText());
             case COPY_FILE -> new CopyFileAction(selectedCopyDirectory, selectedCopyFile);
+            case EXECUTE_PROGRAM -> new ExecuteProgramAction(selectedExternalProgramFile, commandLineArgumentsTextField.getText());
 
             default -> throw new IllegalStateException("Unexpected value: " + selectedAction);
         };
@@ -396,6 +409,21 @@ public class RuleController implements Initializable {
         exitValueProgramFile = fileChooser.showOpenDialog(null);
         if(exitValueProgramFile != null) {
             exitValueButton.setText("File selected");
+        }
+    }
+    @FXML
+    public void chooseProgramAction(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Select External Program");
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Executable Files", "*.exe", "*.sh", "*.bat")
+        );
+        // Show open file dialog
+        selectedExternalProgramFile = fileChooser.showOpenDialog(null);
+
+        if (selectedExternalProgramFile != null) {
+            // The user selected a file, you can use 'selectedFile' in your logic
+            chooseProgramButton.setText("External program chosen");
         }
     }
 }

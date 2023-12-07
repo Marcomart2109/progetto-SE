@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -70,21 +71,37 @@ public class MainController implements Initializable {
     @FXML
     private Label selectedRuleLabel;
 
+    private File backupFile;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         ruleManager = RuleManager.getInstance();
         rules = ruleManager.getRules();
 
-        // load data from the binary file with the specified path to rules ObservableList
+        // Specify the path to the binary file
         String backupPath = "src/main/resources/saved.bin";
-        RuleBackup.loadFromBinaryFile(rules, backupPath);
+
+        // Check if the file exists
+        backupFile = new File(backupPath);
+        if (!backupFile.exists()) {
+            try {
+                // If the file doesn't exist, create a new file
+                if (backupFile.createNewFile()) {
+                    System.out.println("Backup file created");
+                } else {
+                    System.err.println("Failed to create the backup file.");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Load data from the binary file to the rules ObservableList
+        RuleBackup.loadFromBinaryFile(rules, backupFile);
 
         initTableView();
         initDetailBox();
         initBottomBar();
-
-
     }
 
     /**
@@ -108,7 +125,7 @@ public class MainController implements Initializable {
         });
 /*        indexClm.setCellValueFactory(new PropertyValueFactory<Rule,Trigger>("trigger"));
         rulesClm.setCellValueFactory(new PropertyValueFactory<Rule,Action>("action"));*/
-        statusClm.setCellValueFactory(new PropertyValueFactory<>("active"));
+        statusClm.setCellValueFactory(cellData -> cellData.getValue().activeProperty());
         statusClm.setCellFactory(column -> new TableCell<Rule, Boolean>() {
             private final Circle circle = new Circle(5);
 
@@ -306,7 +323,7 @@ public class MainController implements Initializable {
     }
     @FXML
     public void quitAction(ActionEvent actionEvent) {
-        RuleBackup.saveOnBinaryFile(rules, "src/main/resources/saved.bin");
+        RuleBackup.saveOnBinaryFile(rules, backupFile);
         Platform.exit();
         System.exit(0);
     }

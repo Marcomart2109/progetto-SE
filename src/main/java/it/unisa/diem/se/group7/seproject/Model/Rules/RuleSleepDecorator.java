@@ -2,11 +2,14 @@ package it.unisa.diem.se.group7.seproject.Model.Rules;
 
 import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
+import java.io.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class RuleSleepDecorator extends RuleDecorator {
+public class RuleSleepDecorator extends RuleDecorator implements Serializable {
     private Rule rule;
     private boolean firedOnce;
     private boolean canFireAgain;
@@ -44,6 +47,9 @@ public class RuleSleepDecorator extends RuleDecorator {
     public void execute() {
         rule.getAction().execute();
         lastExecutionTime = LocalDateTime.now();
+        if(firedOnce) {
+            setActive(false);
+        }
         firedOnce = true;
     }
 
@@ -94,7 +100,36 @@ public class RuleSleepDecorator extends RuleDecorator {
     }
 
     @Override
+    public BooleanProperty activeProperty() {
+        return rule.activeProperty();
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        rule.setActive(active);
+    }
+
+    @Override
+    public boolean isActive() {
+        return rule.isActive();
+    }
+
+    @Override
     public void setName(String name) {
         rule.setName(name);
+    }
+
+    @Serial
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        out.writeBoolean(activeProperty().get()); // Write the active status
+    }
+
+    // Custom deserialization method
+    @Serial
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        boolean isActive = in.readBoolean(); // Read the active status
+        setActiveProperty(new SimpleBooleanProperty(isActive));
     }
 }

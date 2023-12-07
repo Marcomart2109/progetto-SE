@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 public class Application extends javafx.application.Application {
@@ -32,7 +33,8 @@ public class Application extends javafx.application.Application {
         stage.setOnCloseRequest(event -> {
             //save rules content on the binary file with the specified path
             String backupPath = "src/main/resources/saved.bin";
-            RuleBackup.saveOnBinaryFile(rm.getRules(), backupPath);
+            File backupFile = new File(backupPath);
+            RuleBackup.saveOnBinaryFile(rm.getRules(), backupFile);
 
             // Stop the scheduler when the window is closed
             if (ruleScheduler != null) {

@@ -2,10 +2,11 @@ package it.unisa.diem.se.group7.seproject.Model.Rules;
 
 import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
+import javafx.beans.property.SimpleBooleanProperty;
 
-import java.io.Serializable;
+import java.io.*;
 
-public class SimpleRule extends Rule {
+public class SimpleRule extends Rule implements Serializable{
 
     private Boolean fired;
 
@@ -16,7 +17,7 @@ public class SimpleRule extends Rule {
 
     @Override
     public boolean evaluate() {
-        if(!fired && trigger.evaluate() && isActive()) {
+        if(!fired && getTrigger().evaluate() && isActive()) {
             System.out.println("Rule \"" + getName() + "\"is triggered");
             return true;
         }
@@ -25,25 +26,9 @@ public class SimpleRule extends Rule {
 
     @Override
     public void execute() {
-        action.execute();
+        getAction().execute();
         fired = true;
-    }
-
-    @Override
-    public Trigger getTrigger() {
-        return trigger;
-    }
-
-
-    @Override
-    public Action getAction() {
-        return action;
-    }
-
-
-    @Override
-    public String getName() {
-        return name;
+        setActive(false);
     }
 
     public boolean isFired() {
@@ -57,20 +42,31 @@ public class SimpleRule extends Rule {
     @Override
     public void setTrigger(Trigger trigger) {
         fired = false;
-        this.trigger = trigger;
+        super.setTrigger(trigger);
 
     }
 
     @Override
     public void setAction(Action action) {
         fired = false;
-        this.action = action;
+        super.setAction(action);
     }
 
-    @Override
-    public void setName(String name) {
-        this.name = name;
+    // Custom serialization method for the BooleanProperty
+    @Serial
+    private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        out.writeBoolean(activeProperty().get()); // Write the active status
     }
+
+    // Custom deserialization method
+    @Serial
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        boolean isActive = in.readBoolean(); // Read the active status
+        setActiveProperty(new SimpleBooleanProperty(isActive));
+    }
+
 }
 
 
