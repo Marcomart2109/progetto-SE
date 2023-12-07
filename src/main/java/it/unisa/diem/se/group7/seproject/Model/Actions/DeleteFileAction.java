@@ -30,4 +30,9 @@ public class DeleteFileAction implements Action {
     public ActionType getTYPE() {
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "THEN delete the file: \"" + file + "\" in the directory: \"" + folder + "\"";
+    }
 }
