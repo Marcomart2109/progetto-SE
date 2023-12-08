@@ -10,10 +10,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DayOfWeekTriggerTest {
 
-    DayOfWeekTrigger trigger;
+    DayOfTheWeekTrigger trigger;
     @BeforeEach
     void setUp() {
-        trigger = new DayOfWeekTrigger();
+        trigger = new DayOfTheWeekTrigger();
     }
 
     @Test
@@ -28,7 +28,7 @@ class DayOfWeekTriggerTest {
     void evaluateShouldReturnFalseForNonMatchingDay() {
         DayOfWeek notCurrentDay = LocalDate.now().plusDays(1).getDayOfWeek();
 
-        DayOfWeekTrigger trigger = new DayOfWeekTrigger(notCurrentDay);
+        DayOfTheWeekTrigger trigger = new DayOfTheWeekTrigger(notCurrentDay);
         // Evaluate the trigger
         assertFalse(trigger.evaluate());
     }
