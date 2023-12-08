@@ -63,4 +63,9 @@ public class ExecuteProgramAction implements Action, Serializable {
     public ActionType getTYPE() {
         return TYPE;
     }
+
+    @Override
+    public String toString() {
+        return "THEN execute the program: \"" + externalProgram + "\" with these command line arguments: \"" + arguments + "\"";
+    }
 }

@@ -38,4 +38,8 @@ public class CopyFileAction implements Action, Serializable {
         return TYPE;
     }
 
+    @Override
+    public String toString() {
+        return "THEN copy the file: \"" + file + "\" in the directory: \"" + destDir + "\"";
+    }
 }

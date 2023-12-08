@@ -55,7 +55,9 @@ public class RuleController implements Initializable {
     @FXML
     public CheckBox twiceActivationCheckbox;
 
+    @FXML
     public HBox dayOfTheWeekBoxInput;
+
     @FXML
     public ComboBox<DayOfWeek> dayOfTheWeekInput;
 
@@ -75,6 +77,15 @@ public class RuleController implements Initializable {
     public VBox activationBoxInput;
 
     @FXML
+    public HBox exitValueBoxInput;
+
+    @FXML
+    public Button exitValueButton;
+
+    @FXML
+    public Spinner<Integer> exitValueSpinner;
+
+    @FXML
     public HBox externalProgramBoxInput;
 
     @FXML
@@ -82,6 +93,15 @@ public class RuleController implements Initializable {
 
     @FXML
     public TextField commandLineArgumentsTextField;
+
+    @FXML
+    public HBox fileExistsBoxInput;
+
+    @FXML
+    public TextField fileExistsLabel;
+
+    @FXML
+    public Button fileExistsDirectoryChooserButton;
 
     @FXML
     private RuleManager ruleManager;
@@ -140,7 +160,12 @@ public class RuleController implements Initializable {
     private File selectedCopyFile;
 
     private File selectedCopyDirectory;
+
     private File selectedExternalProgramFile;
+
+    private File exitValueProgramFile;
+
+    private File selectedFileExistsDirectory;
 
 
     //TODO: Refractor initialize method creating a createRuleInit method to improve code readability
@@ -151,35 +176,22 @@ public class RuleController implements Initializable {
         //Initialization of the combo box menus
         triggerMenu.getItems().addAll(TriggerType.values());
         actionMenu.getItems().addAll(ActionType.values());
-        //Hidden elements don't occupy space
-        timeTriggerInput.managedProperty().bind(timeTriggerInput.visibleProperty());
-        dayOfTheWeekBoxInput.managedProperty().bind(dayOfTheWeekBoxInput.visibleProperty());
-        dayOfTheMonthBoxInput.managedProperty().bind(dayOfTheMonthBoxInput.visibleProperty());
-        dayOfTheYearBoxInput.managedProperty().bind(dayOfTheYearBoxInput.visibleProperty());
-        dialogBoxInput.managedProperty().bind(dialogBoxInput.visibleProperty());
-        audioFileInput.managedProperty().bind(audioFileInput.visibleProperty());
-        appendToFileInputBox.managedProperty().bind(appendToFileInputBox.visibleProperty());
-        copyFileBoxInput.managedProperty().bind(copyFileBoxInput.visibleProperty());
-        externalProgramBoxInput.managedProperty().bind(externalProgramBoxInput.visibleProperty());
+
+        setUpMangedPropertiesBindings();
 
         //Display of the inputs according to user choice in the comboBox menu
         //Triggers
-        timeTriggerInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.TIME_TRIGGER));
-        dayOfTheWeekBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_WEEK));
-        dayOfTheMonthBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_MONTH));
-        dayOfTheYearBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_YEAR));
+        setUpVisiblePropertiesTriggers();
         //Actions
-        dialogBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.SHOW_DIALOG_BOX));
-        audioFileInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.PLAY_AUDIO));
-        appendToFileInputBox.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.APPEND_TO_FILE));
-        copyFileBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.COPY_FILE));
-        externalProgramBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.EXECUTE_PROGRAM));
+        setUpVisiblePropertiesActions();
 
         setUpTimeSpinner();
         setUpDateSpinner();
 
         setUpDayOfTheWeekComboBox();
         setUpDayOfTheMonthSpinner();
+
+        setUpExitValueInput();
 
         //Bindings for Activation checkboxes
         onceActivationCheckbox.disableProperty().bind(twiceActivationCheckbox.selectedProperty());
@@ -191,6 +203,52 @@ public class RuleController implements Initializable {
         editRuleButton.setManaged(false);
 
     }
+
+    /**
+     * Binds the managed property of various input components to their visible property.
+     * This ensures that the input components are only managed (i.e., taken into account for layout)
+     * when they are also visible on the screen.
+     */
+    private void setUpMangedPropertiesBindings() {
+        timeTriggerInput.managedProperty().bind(timeTriggerInput.visibleProperty());
+        dayOfTheWeekBoxInput.managedProperty().bind(dayOfTheWeekBoxInput.visibleProperty());
+        dayOfTheMonthBoxInput.managedProperty().bind(dayOfTheMonthBoxInput.visibleProperty());
+        dayOfTheYearBoxInput.managedProperty().bind(dayOfTheYearBoxInput.visibleProperty());
+        dialogBoxInput.managedProperty().bind(dialogBoxInput.visibleProperty());
+        audioFileInput.managedProperty().bind(audioFileInput.visibleProperty());
+        appendToFileInputBox.managedProperty().bind(appendToFileInputBox.visibleProperty());
+        copyFileBoxInput.managedProperty().bind(copyFileBoxInput.visibleProperty());
+        exitValueBoxInput.managedProperty().bind(exitValueBoxInput.visibleProperty());
+        externalProgramBoxInput.managedProperty().bind(externalProgramBoxInput.visibleProperty());
+        fileExistsBoxInput.managedProperty().bind(fileExistsBoxInput.visibleProperty());
+    }
+
+    /**
+     * Binds the visible property of various input components based on the selected trigger type.
+     * This method ensures that the input components are only visible when the corresponding trigger type is selected.
+     */
+    private void setUpVisiblePropertiesTriggers() {
+        timeTriggerInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.TIME_TRIGGER));
+        dayOfTheWeekBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_WEEK));
+        dayOfTheMonthBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_MONTH));
+        dayOfTheYearBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_YEAR));
+        exitValueBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.EXIT_VALUE));
+        fileExistsBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.FILE_EXISTS));
+
+    }
+
+    /**
+     * Binds the visible property of various input components to the value property of the actionMenu.
+     * This ensures that the input components are only visible when the corresponding action is selected.
+     */
+    private void setUpVisiblePropertiesActions() {
+        dialogBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.SHOW_DIALOG_BOX));
+        audioFileInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.PLAY_AUDIO));
+        appendToFileInputBox.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.APPEND_TO_FILE));
+        copyFileBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.COPY_FILE));
+        externalProgramBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.EXECUTE_PROGRAM));
+    }
+
     private void setUpDayOfTheWeekComboBox() {
         dayOfTheWeekInput.getItems().addAll(DayOfWeek.values());
     }
@@ -223,6 +281,19 @@ public class RuleController implements Initializable {
         sleepingMinuteSpinner.setValueFactory(minuteValueFactory);
     }
 
+    private void setUpExitValueInput() {
+        SpinnerValueFactory<Integer> exitValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(-99, 99);
+        exitValueSpinner.setValueFactory(exitValueFactory);
+    }
+
+    /**
+     * Creates a new rule based on the user inputs.
+     * If the inputs are valid, the method creates a rule object using the selected trigger and action.
+     * The created rule is then added to the ruleManager and the window is closed.
+     * If the inputs are not valid, an error alert is displayed.
+     *
+     * @param event the ActionEvent representing the button click
+     */
     @FXML
     void createNewRule(ActionEvent event) {
         Rule rule = null;
@@ -262,6 +333,8 @@ public class RuleController implements Initializable {
             case DAY_OF_WEEK -> new DayOfWeekTrigger(dayOfTheWeekInput.getValue());
             case DAY_OF_MONTH -> new DayOfTheMonthTrigger(dayOfTheMonthInput.getValue());
             case DAY_OF_YEAR -> new DayOfTheYearTrigger(dayOfTheYearInput.getValue());
+            case EXIT_VALUE -> new ExitValueTrigger(exitValueProgramFile, exitValueSpinner.getValue());
+            case FILE_EXISTS -> new FileExistsTrigger(fileExistsLabel.getText(), selectedFileExistsDirectory);
 
             default -> throw new IllegalStateException("Unexpected value: " + selectedTrigger);
         };
@@ -373,6 +446,22 @@ public class RuleController implements Initializable {
         }
     }
     @FXML
+    public void exitValueFileChooseAction(ActionEvent actionEvent) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open External Program File");
+
+        // Set the file extension filters if needed
+        // Example: Allow only text files
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Executable Files", "*.exe", "*.sh", "*.bat");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        // Show the file chooser dialog
+        exitValueProgramFile = fileChooser.showOpenDialog(null);
+        if(exitValueProgramFile != null) {
+            exitValueButton.setText("File selected");
+        }
+    }
+    @FXML
     public void chooseProgramAction(ActionEvent actionEvent) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select External Program");
@@ -385,6 +474,16 @@ public class RuleController implements Initializable {
         if (selectedExternalProgramFile != null) {
             // The user selected a file, you can use 'selectedFile' in your logic
             chooseProgramButton.setText("External program chosen");
+        }
+    }
+
+    public void fileExistsDirectoryChooseAction(ActionEvent actionEvent) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Select a destination directory");
+
+        selectedFileExistsDirectory = directoryChooser.showDialog(null);
+        if (selectedFileExistsDirectory != null) {
+            fileExistsDirectoryChooserButton.setText("Directory selected");
         }
     }
 }

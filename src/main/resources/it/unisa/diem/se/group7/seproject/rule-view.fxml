@@ -101,6 +101,13 @@
                               <Label text="Specify a day of the month" />
                            </children>
                         </HBox>
+                        <HBox fx:id="exitValueBoxInput" prefWidth="200.0" spacing="30.0" visible="false">
+                           <children>
+                              <Button fx:id="exitValueButton" mnemonicParsing="false" onAction="#exitValueFileChooseAction" text="Select a script" />
+                              <Spinner fx:id="exitValueSpinner" editable="true" prefHeight="31.0" prefWidth="98.0" />
+                              <Label text="Insert an exit value" />
+                           </children>
+                        </HBox>
                         <HBox fx:id="timeTriggerInput" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefWidth="376.0" visible="false">
                            <VBox.margin>
                               <Insets />
@@ -121,6 +128,12 @@
                                     <Insets left="10.0" />
                                  </HBox.margin>
                               </Label>
+                           </children>
+                        </HBox>
+                        <HBox fx:id="fileExistsBoxInput" prefWidth="200.0" spacing="20.0" visible="false">
+                           <children>
+                              <TextField fx:id="fileExistsLabel" promptText="Insert a filename" />
+                              <Button fx:id="fileExistsDirectoryChooserButton" mnemonicParsing="false" onAction="#fileExistsDirectoryChooseAction" text="Choose a directory" />
                            </children>
                         </HBox>
                         <Label text="Action">
