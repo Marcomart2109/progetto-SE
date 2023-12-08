@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.Arrays;
 
 public class DayOfTheWeekTriggerView implements TriggerView {
@@ -19,15 +20,17 @@ public class DayOfTheWeekTriggerView implements TriggerView {
         dayComboBox = new ComboBox<>();
         ObservableList<DayOfWeek> daysOfWeek = FXCollections.observableArrayList(Arrays.asList(DayOfWeek.values()));
         dayComboBox.setItems(daysOfWeek);
-        //dayComboBox.getSelectionModel().selectFirst(); // Select the first day by default
+
+        // Select the current day by default
+        dayComboBox.getSelectionModel().select(LocalDate.now().getDayOfWeek());
     }
+
 
     @Override
     public Node getView() {
         VBox container = new VBox();
-
+        container.setSpacing(DEFAULT_SPACING);
         Label label = new Label("Select Day of the Week:");
-        label.setStyle("-fx-font-weight: bold");
 
         container.getChildren().addAll(label, dayComboBox);
 

@@ -2,6 +2,7 @@ package it.unisa.diem.se.group7.seproject.Views.ActionViews;
 
 import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
 import it.unisa.diem.se.group7.seproject.Model.Actions.ExecuteProgramAction;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,28 +17,31 @@ import java.io.File;
 public class ExecuteProgramActionView implements ActionView {
     private File selectedScript;
     private TextField argumentsTextField;
+    private Label selectedScriptLabel; // Added Label
 
     public ExecuteProgramActionView() {
         argumentsTextField = new TextField();
+        selectedScriptLabel = new Label("No script selected"); // Default label text
     }
 
     @Override
     public Node getView() {
         VBox container = new VBox();
+        container.setSpacing(INCREASED_SPACING);
 
         Label scriptLabel = new Label("Select Script:");
-        scriptLabel.setStyle("-fx-font-weight: bold");
 
         Button chooseScriptButton = new Button("Choose Script");
         chooseScriptButton.setOnAction(event -> openFileChooser());
 
-        HBox scriptBox = new HBox(10);
-        scriptBox.getChildren().addAll(scriptLabel, chooseScriptButton);
+        HBox scriptBox = new HBox(DEFAULT_SPACING);
+        scriptBox.setAlignment(Pos.CENTER_LEFT);
+        scriptBox.getChildren().addAll(scriptLabel, chooseScriptButton, selectedScriptLabel);
 
         Label argumentsLabel = new Label("Enter Command Line Arguments:");
-        argumentsLabel.setStyle("-fx-font-weight: bold");
 
-        HBox argumentsBox = new HBox(10);
+        HBox argumentsBox = new HBox(DEFAULT_SPACING);
+        argumentsBox.setAlignment(Pos.CENTER_LEFT);
         argumentsBox.getChildren().addAll(argumentsLabel, argumentsTextField);
 
         container.getChildren().addAll(scriptBox, argumentsBox);
@@ -49,6 +53,13 @@ public class ExecuteProgramActionView implements ActionView {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Script");
         selectedScript = fileChooser.showOpenDialog(new Stage());
+
+        // Update label text based on whether a script is selected or not
+        if (selectedScript != null) {
+            selectedScriptLabel.setText("Selected script: " + selectedScript.getName());
+        } else {
+            selectedScriptLabel.setText("No script selected");
+        }
     }
 
     private String getEnteredArguments() {

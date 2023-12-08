@@ -13,15 +13,15 @@ public class ShowDialogBoxActionView implements ActionView {
 
     public ShowDialogBoxActionView() {
         messageTextField = new TextField();
+        messageTextField.setMaxWidth(PREF_TEXTFIELD_SIZE);
     }
 
     @Override
     public Node getView() {
         VBox container = new VBox();
+        container.setSpacing(DEFAULT_SPACING);
 
         Label messageLabel = new Label("Enter Message:");
-        messageLabel.setStyle("-fx-font-weight: bold");
-
         container.getChildren().addAll(messageLabel, messageTextField);
 
         return container;
