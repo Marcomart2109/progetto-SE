@@ -7,9 +7,26 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RuleBackup {
+public class RuleBackupManager {
+    private final static String BACKUP_PATH = "src/main/resources/backupFile.bin";
+    private static final RuleBackupManager INSTANCE = new RuleBackupManager();
+    private static File backupFile;
 
-    public static void saveOnBinaryFile(ObservableList<Rule> list, File backupFile){
+    private RuleBackupManager(){
+        backupFile = new File(BACKUP_PATH);
+
+        try {
+            backupFile.createNewFile();
+        } catch (IOException ex) {
+            throw new RuntimeException("An I/O error occurred during the creation of the backup file!");
+        }
+    }
+
+    public static RuleBackupManager getInstance(){
+        return INSTANCE;
+    }
+
+    public void saveOnBinaryFile(ObservableList<Rule> list){
         List<Rule> newList = new ArrayList<>();
         newList.addAll(list);
         try(ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(backupFile)))){
@@ -21,7 +38,7 @@ public class RuleBackup {
         }
     }
 
-    public static void loadFromBinaryFile(ObservableList<Rule> list, File backupFile){
+    public void loadFromBinaryFile(ObservableList<Rule> list){
 
         try (ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(new FileInputStream(backupFile)))) {
             List<Rule> newList = (ArrayList<Rule>) ois.readObject();

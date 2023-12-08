@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public abstract class CompositeTrigger implements Trigger, Serializable {
-
     private List<Trigger> triggers;
     private static final int TRIGGER_LIMIT = 2;
 
@@ -14,6 +13,9 @@ public abstract class CompositeTrigger implements Trigger, Serializable {
     }
 
     public void add(Trigger t){
+        if(triggers.contains(t)){
+            throw new RuntimeException("The specified trigger is already contained in the list!");
+        }
         if(triggers.size() < TRIGGER_LIMIT){
             triggers.add(t);
         }else{
