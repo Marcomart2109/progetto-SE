@@ -2,7 +2,7 @@ package it.unisa.diem.se.group7.seproject.Controller;
 
 import it.unisa.diem.se.group7.seproject.Application;
 import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
-import it.unisa.diem.se.group7.seproject.Model.Rules.RuleBackup;
+import it.unisa.diem.se.group7.seproject.Model.Rules.RuleBackupManager;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -71,33 +71,16 @@ public class MainController implements Initializable {
     @FXML
     private Label selectedRuleLabel;
 
-    private File backupFile;
+    private RuleBackupManager rbm;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ruleManager = RuleManager.getInstance();
         rules = ruleManager.getRules();
 
-        // Specify the path to the binary file
-        String backupPath = "src/main/resources/saved.bin";
-
-        // Check if the file exists
-        backupFile = new File(backupPath);
-        if (!backupFile.exists()) {
-            try {
-                // If the file doesn't exist, create a new file
-                if (backupFile.createNewFile()) {
-                    System.out.println("Backup file created");
-                } else {
-                    System.err.println("Failed to create the backup file.");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
         // Load data from the binary file to the rules ObservableList
-        RuleBackup.loadFromBinaryFile(rules, backupFile);
+        rbm = RuleBackupManager.getInstance();
+        rbm.loadFromBinaryFile(rules);
 
         initTableView();
         initDetailBox();
@@ -323,7 +306,7 @@ public class MainController implements Initializable {
     }
     @FXML
     public void quitAction(ActionEvent actionEvent) {
-        RuleBackup.saveOnBinaryFile(rules, backupFile);
+        rbm.saveOnBinaryFile(rules);
         Platform.exit();
         System.exit(0);
     }
