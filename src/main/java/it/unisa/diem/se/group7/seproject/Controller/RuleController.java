@@ -7,6 +7,8 @@ import it.unisa.diem.se.group7.seproject.Model.Rules.RuleSleepDecorator;
 import it.unisa.diem.se.group7.seproject.Model.Rules.SimpleRule;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.*;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
@@ -104,6 +106,15 @@ public class RuleController implements Initializable {
     public Button fileExistsDirectoryChooserButton;
 
     @FXML
+    public HBox deleteFileInputBox;
+
+    @FXML
+    public TextField deleteFileLabel;
+
+    @FXML
+    public Button deleteFileDirectoryChooserButton;
+
+    @FXML
     private RuleManager ruleManager;
 
     @FXML
@@ -167,8 +178,9 @@ public class RuleController implements Initializable {
 
     private File selectedFileExistsDirectory;
 
+    private File selectedDeleteFileDirectory;
 
-    //TODO: Refractor initialize method creating a createRuleInit method to improve code readability
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ruleManager = RuleManager.getInstance();
@@ -202,7 +214,20 @@ public class RuleController implements Initializable {
 
         editRuleButton.setManaged(false);
 
+        BooleanProperty isTriggerActionSelected = new SimpleBooleanProperty(false);
+        isTriggerActionSelected.bind(Bindings.and(
+                triggerMenu.valueProperty().isNotNull(),
+                actionMenu.valueProperty().isNotNull()
+        ));
+
+        createRuleButton.disableProperty().bind(isTriggerActionSelected.not());
+        editRuleButton.disableProperty().bind(isTriggerActionSelected.not());
+
+
     }
+
+
+
 
     /**
      * Binds the managed property of various input components to their visible property.
@@ -221,6 +246,7 @@ public class RuleController implements Initializable {
         exitValueBoxInput.managedProperty().bind(exitValueBoxInput.visibleProperty());
         externalProgramBoxInput.managedProperty().bind(externalProgramBoxInput.visibleProperty());
         fileExistsBoxInput.managedProperty().bind(fileExistsBoxInput.visibleProperty());
+        deleteFileInputBox.managedProperty().bind(deleteFileInputBox.visibleProperty());
     }
 
     /**
@@ -247,6 +273,7 @@ public class RuleController implements Initializable {
         appendToFileInputBox.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.APPEND_TO_FILE));
         copyFileBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.COPY_FILE));
         externalProgramBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.EXECUTE_PROGRAM));
+        deleteFileInputBox.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.DELETE_FILE));
     }
 
     private void setUpDayOfTheWeekComboBox() {
@@ -349,6 +376,7 @@ public class RuleController implements Initializable {
             case APPEND_TO_FILE -> new AppendToFileAction(selectedAppendFile,appendToFileTextfield.getText());
             case COPY_FILE -> new CopyFileAction(selectedCopyDirectory, selectedCopyFile);
             case EXECUTE_PROGRAM -> new ExecuteProgramAction(selectedExternalProgramFile, commandLineArgumentsTextField.getText());
+            case DELETE_FILE -> new DeleteFileAction(deleteFileLabel.getText(), selectedDeleteFileDirectory);
 
             default -> throw new IllegalStateException("Unexpected value: " + selectedAction);
         };
@@ -484,6 +512,16 @@ public class RuleController implements Initializable {
         selectedFileExistsDirectory = directoryChooser.showDialog(null);
         if (selectedFileExistsDirectory != null) {
             fileExistsDirectoryChooserButton.setText("Directory selected");
+        }
+    }
+
+    public void deleteFileChooseDirectoryAction(ActionEvent actionEvent) {
+        DirectoryChooser directoryChooser = new DirectoryChooser();
+        directoryChooser.setTitle("Select a destination directory");
+
+        selectedDeleteFileDirectory = directoryChooser.showDialog(null);
+        if (selectedDeleteFileDirectory != null) {
+            deleteFileDirectoryChooserButton.setText("Directory selected");
         }
     }
 }

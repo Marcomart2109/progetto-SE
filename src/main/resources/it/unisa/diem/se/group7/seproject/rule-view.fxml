@@ -172,6 +172,11 @@
                               <TextField fx:id="appendToFileTextfield" prefWidth="250.0" promptText="Write a string to append to the selected file" />
                            </children>
                         </HBox>
+                        <HBox fx:id="deleteFileInputBox" spacing="20.0" visible="false">
+                           <children>
+                              <TextField fx:id="deleteFileLabel" promptText="Insert a file name" />
+                              <Button fx:id="deleteFileDirectoryChooserButton" mnemonicParsing="false" onAction="#deleteFileChooseDirectoryAction" text="Choose a directory" />
+                           </children></HBox>
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
