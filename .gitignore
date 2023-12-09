@@ -10,7 +10,7 @@ target/
 *.ipr
 
 ## PROJECT ##
-src/main/resources/saved.bin
+src/main/resources/backupFile.bin
 
 ### Mac OS ###
 .DS_Store
