@@ -10,7 +10,6 @@ public class ExitValueTrigger implements Trigger, Serializable {
     private final File program;
     private final int expectedExitValue;
     private final long TIME_LIMIT = 5;
-    private final TriggerType TYPE = TriggerType.EXIT_VALUE;
 
     public ExitValueTrigger(File program, int expectedExitValue){
         this.program = program;
@@ -37,10 +36,6 @@ public class ExitValueTrigger implements Trigger, Serializable {
         return expectedExitValue == actualExitValue;
     }
 
-    @Override
-    public TriggerType getTYPE() {
-        return TYPE;
-    }
 
     @Override
     public String toString() {

@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 public class DayOfTheYearTrigger implements Trigger, Serializable {
 
-    private final TriggerType TYPE = TriggerType.DAY_OF_YEAR;
 
     private LocalDate day;
 
@@ -26,10 +25,6 @@ public class DayOfTheYearTrigger implements Trigger, Serializable {
         return currentDate.equals(day);
     }
 
-    @Override
-    public TriggerType getTYPE() {
-        return null;
-    }
 
     public void setSpecifiedDay(LocalDate specifiedDay) {
         this.day = specifiedDay;

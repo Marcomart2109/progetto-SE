@@ -7,7 +7,6 @@ import javax.sound.sampled.*;
 public class PlayAudioAction implements Action, Serializable {
     private transient Clip clip; // clip is not serializable
     private final File audioFile;
-    private final ActionType TYPE = ActionType.PLAY_AUDIO;
 
     public PlayAudioAction(File audioFile){
         this.audioFile = audioFile;
@@ -28,10 +27,6 @@ public class PlayAudioAction implements Action, Serializable {
         }
     }
 
-    @Override
-    public ActionType getTYPE() {
-        return TYPE;
-    }
 
     @Override
     public void execute() {

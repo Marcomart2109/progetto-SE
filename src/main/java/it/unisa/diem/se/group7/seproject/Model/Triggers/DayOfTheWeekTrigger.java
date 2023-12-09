@@ -6,7 +6,6 @@ import java.time.LocalDate;
 
 public class DayOfTheWeekTrigger implements Trigger, Serializable {
 
-    private final TriggerType TYPE = TriggerType.DAY_OF_WEEK;
 
     private DayOfWeek day;
 
@@ -25,10 +24,6 @@ public class DayOfTheWeekTrigger implements Trigger, Serializable {
         return currentDay.equals(day);
     }
 
-    @Override
-    public TriggerType getTYPE() {
-        return TYPE;
-    }
 
     public void setDayOfWeek(DayOfWeek currentDay) {
         this.day = currentDay;

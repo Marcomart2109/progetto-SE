@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 public class ExecuteProgramAction implements Action, Serializable {
     private File externalProgram;
     private List<String> arguments;
-    private final ActionType TYPE = ActionType.EXECUTE_PROGRAM;
 
     private final int TIMEOUT_LIMIT = 5;
 
@@ -59,10 +58,6 @@ public class ExecuteProgramAction implements Action, Serializable {
         return arguments;
     }
 
-    @Override
-    public ActionType getTYPE() {
-        return TYPE;
-    }
 
     @Override
     public String toString() {

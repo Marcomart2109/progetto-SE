@@ -21,8 +21,4 @@ public class CompositeAndTrigger extends CompositeTrigger{
         return result;
     }
 
-    @Override
-    public TriggerType getTYPE() {
-        return null;
-    }
 }

@@ -6,7 +6,6 @@ import java.time.LocalDate;
 
 public class DayOfTheMonthTrigger implements Trigger, Serializable {
 
-    private final TriggerType TYPE = TriggerType.DAY_OF_MONTH;
 
     private int day;
 
@@ -26,10 +25,6 @@ public class DayOfTheMonthTrigger implements Trigger, Serializable {
         return currentDayOfMonth == day;
     }
 
-    @Override
-    public TriggerType getTYPE() {
-        return TYPE;
-    }
 
     public void setDayOfMonth(int currentDayOfMonth) {
         this.day = currentDayOfMonth;

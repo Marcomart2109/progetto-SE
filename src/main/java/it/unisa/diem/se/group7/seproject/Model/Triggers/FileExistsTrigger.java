@@ -24,10 +24,6 @@ public class FileExistsTrigger implements Trigger, Serializable {
 
     }
 
-    @Override
-    public TriggerType getTYPE() {
-        return null;
-    }
 
     @Override
     public String toString() {

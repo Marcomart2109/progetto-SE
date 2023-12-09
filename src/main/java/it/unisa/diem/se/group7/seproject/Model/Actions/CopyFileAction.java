@@ -12,7 +12,6 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 public class CopyFileAction implements Action, Serializable {
     File destDir; // destination directory
     File file;
-    private final ActionType TYPE = ActionType.COPY_FILE;
 
     public CopyFileAction(File destDir, File file){
         this.destDir = destDir;
@@ -33,10 +32,6 @@ public class CopyFileAction implements Action, Serializable {
         }
     }
 
-    @Override
-    public ActionType getTYPE() {
-        return TYPE;
-    }
 
     @Override
     public String toString() {

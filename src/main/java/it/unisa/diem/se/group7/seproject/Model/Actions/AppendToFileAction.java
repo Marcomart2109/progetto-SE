@@ -7,7 +7,6 @@ import java.io.Serializable;
 
 public class AppendToFileAction implements Action, Serializable {
 
-    private final ActionType TYPE = ActionType.APPEND_TO_FILE;
     private File filePath;
     private String text;
 
@@ -61,10 +60,6 @@ public class AppendToFileAction implements Action, Serializable {
 
     }
 
-    @Override
-    public ActionType getTYPE() {
-        return TYPE;
-    }
 
     @Override
     public String toString() {

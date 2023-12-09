@@ -8,7 +8,6 @@ public class FileSizeTrigger implements Trigger, Serializable {
     private long fileSize;
     private String filePath;
 
-    private TriggerType TYPE = TriggerType.FILE_SIZE;
 
     public FileSizeTrigger(long fileSize, String filePath) {
         this.fileSize = fileSize;
@@ -26,10 +25,6 @@ public class FileSizeTrigger implements Trigger, Serializable {
         return actualFileSize > fileSize;
     }
 
-    @Override
-    public TriggerType getTYPE() {
-        return TYPE;
-    }
     @Override
     public String toString() {
         return "IF the size of the file: \"" + filePath + "\" is greater than " + fileSize;

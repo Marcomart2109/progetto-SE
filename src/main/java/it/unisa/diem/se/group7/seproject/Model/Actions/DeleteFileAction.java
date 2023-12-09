@@ -27,10 +27,6 @@ public class DeleteFileAction implements Action, Serializable {
 
     }
 
-    @Override
-    public ActionType getTYPE() {
-        return null;
-    }
 
     @Override
     public String toString() {
