@@ -4,16 +4,16 @@ import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
-public class DayOfWeekTrigger implements Trigger, Serializable {
+public class DayOfTheWeekTrigger implements Trigger, Serializable {
 
     private final TriggerType TYPE = TriggerType.DAY_OF_WEEK;
 
     private DayOfWeek day;
 
-    public DayOfWeekTrigger() {
+    public DayOfTheWeekTrigger() {
     }
 
-    public DayOfWeekTrigger(DayOfWeek day) {
+    public DayOfTheWeekTrigger(DayOfWeek day) {
         this.day = day;
     }
 
@@ -32,5 +32,10 @@ public class DayOfWeekTrigger implements Trigger, Serializable {
 
     public void setDayOfWeek(DayOfWeek currentDay) {
         this.day = currentDay;
+    }
+
+    @Override
+    public String toString() {
+        return "IF the current day of the week is " + day;
     }
 }

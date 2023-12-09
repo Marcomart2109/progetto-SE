@@ -1,8 +1,9 @@
 package it.unisa.diem.se.group7.seproject.Model.Actions;
 
 import java.io.File;
+import java.io.Serializable;
 
-public class DeleteFileAction implements Action {
+public class DeleteFileAction implements Action, Serializable {
 
     private String file;
     private File folder;
@@ -29,5 +30,10 @@ public class DeleteFileAction implements Action {
     @Override
     public ActionType getTYPE() {
         return null;
+    }
+
+    @Override
+    public String toString() {
+        return "THEN delete the file: \"" + file + "\" in the directory: \"" + folder + "\"";
     }
 }

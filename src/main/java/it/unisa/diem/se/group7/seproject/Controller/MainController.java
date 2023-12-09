@@ -2,7 +2,7 @@ package it.unisa.diem.se.group7.seproject.Controller;
 
 import it.unisa.diem.se.group7.seproject.Application;
 import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
-import it.unisa.diem.se.group7.seproject.Model.Rules.RuleBackup;
+import it.unisa.diem.se.group7.seproject.Model.Rules.RuleBackupManager;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -70,21 +71,20 @@ public class MainController implements Initializable {
     @FXML
     private Label selectedRuleLabel;
 
+    private RuleBackupManager rbm;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         ruleManager = RuleManager.getInstance();
         rules = ruleManager.getRules();
 
-        // load data from the binary file with the specified path to rules ObservableList
-        String backupPath = "src/main/resources/saved.bin";
-        RuleBackup.loadFromBinaryFile(rules, backupPath);
+        // Load data from the binary file to the rules ObservableList
+        rbm = RuleBackupManager.getInstance();
+        rbm.loadFromBinaryFile(rules);
 
         initTableView();
         initDetailBox();
         initBottomBar();
-
-
     }
 
     /**
@@ -108,7 +108,7 @@ public class MainController implements Initializable {
         });
 /*        indexClm.setCellValueFactory(new PropertyValueFactory<Rule,Trigger>("trigger"));
         rulesClm.setCellValueFactory(new PropertyValueFactory<Rule,Action>("action"));*/
-        statusClm.setCellValueFactory(new PropertyValueFactory<>("active"));
+        statusClm.setCellValueFactory(cellData -> cellData.getValue().activeProperty());
         statusClm.setCellFactory(column -> new TableCell<Rule, Boolean>() {
             private final Circle circle = new Circle(5);
 
@@ -306,7 +306,7 @@ public class MainController implements Initializable {
     }
     @FXML
     public void quitAction(ActionEvent actionEvent) {
-        RuleBackup.saveOnBinaryFile(rules, "src/main/resources/saved.bin");
+        rbm.saveOnBinaryFile(rules);
         Platform.exit();
         System.exit(0);
     }

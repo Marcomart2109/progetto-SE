@@ -6,37 +6,24 @@ import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleSleepDecorator;
 import it.unisa.diem.se.group7.seproject.Model.Rules.SimpleRule;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.*;
-import javafx.beans.binding.Bindings;
+import it.unisa.diem.se.group7.seproject.Views.ActionViews.ActionView;
+import it.unisa.diem.se.group7.seproject.Views.Factories.ActionViewFactory;
+import it.unisa.diem.se.group7.seproject.Views.TriggerViews.TriggerView;
+import it.unisa.diem.se.group7.seproject.Views.Factories.TriggerViewFactory;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
-import java.io.File;
+
 import java.net.URL;
-import java.time.DayOfWeek;
-import java.time.LocalTime;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
-import javafx.stage.DirectoryChooser;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class RuleController implements Initializable {
-    @FXML
-    public Button appendFileChooserButton;
-
-    @FXML
-    public HBox copyFileBoxInput;
-
-    @FXML
-    public Button copyFileChooserButton;
-
-    @FXML
-    public Button copyDirectoryChooserButton;
-
     @FXML
     public Spinner<Integer> sleepingDaySpinner;
 
@@ -55,27 +42,14 @@ public class RuleController implements Initializable {
     @FXML
     public CheckBox twiceActivationCheckbox;
 
-    public HBox dayOfTheWeekBoxInput;
-    @FXML
-    public ComboBox<DayOfWeek> dayOfTheWeekInput;
-
-    @FXML
-    public HBox dayOfTheYearBoxInput;
-
-    @FXML
-    public DatePicker dayOfTheYearInput;
-
-    @FXML
-    public HBox dayOfTheMonthBoxInput;
-
-    @FXML
-    public Spinner<Integer> dayOfTheMonthInput;
-
     @FXML
     public VBox activationBoxInput;
 
     @FXML
-    private RuleManager ruleManager;
+    public VBox triggersBox;
+
+    @FXML
+    public VBox actionsBox;
 
     @FXML
     private Label titleLabel;
@@ -89,51 +63,21 @@ public class RuleController implements Initializable {
     @FXML
     private ComboBox<TriggerType> triggerMenu;
 
-    private File selectedAudioFile;
-
-    @FXML
-    private Button selectFileButton;
-
-    @FXML
-    private HBox timeTriggerInput;
-
-    @FXML
-    private HBox dialogBoxInput;
-
-    @FXML
-    private HBox audioFileInput;
-
-    @FXML
-    private HBox appendToFileInputBox;
-
-    @FXML
-    private Spinner<Integer> hourTimeInput;
-
-    @FXML
-    private Spinner<Integer> minuteTimeInput;
-
-    @FXML
-    private TextField messageActionInput;
-
-    @FXML
-    private  TextField appendToFileTextfield;
-
     @FXML
     private Button createRuleButton;
 
     @FXML
     private Button editRuleButton;
 
+    private RuleManager ruleManager;
+
     private Rule ruleBeingEdited;
 
-    private File selectedAppendFile;
+    private TriggerView currentTriggerView;
 
-    private File selectedCopyFile;
-
-    private File selectedCopyDirectory;
+    private ActionView currentActionView;
 
 
-    //TODO: Refractor initialize method creating a createRuleInit method to improve code readability
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ruleManager = RuleManager.getInstance();
@@ -141,33 +85,9 @@ public class RuleController implements Initializable {
         //Initialization of the combo box menus
         triggerMenu.getItems().addAll(TriggerType.values());
         actionMenu.getItems().addAll(ActionType.values());
-        //Hidden elements don't occupy space
-        timeTriggerInput.managedProperty().bind(timeTriggerInput.visibleProperty());
-        dayOfTheWeekBoxInput.managedProperty().bind(dayOfTheWeekBoxInput.visibleProperty());
-        dayOfTheMonthBoxInput.managedProperty().bind(dayOfTheMonthBoxInput.visibleProperty());
-        dayOfTheYearBoxInput.managedProperty().bind(dayOfTheYearBoxInput.visibleProperty());
-        dialogBoxInput.managedProperty().bind(dialogBoxInput.visibleProperty());
-        audioFileInput.managedProperty().bind(audioFileInput.visibleProperty());
-        appendToFileInputBox.managedProperty().bind(appendToFileInputBox.visibleProperty());
-        copyFileBoxInput.managedProperty().bind(copyFileBoxInput.visibleProperty());
 
-        //Display of the inputs according to user choice in the comboBox menu
-        //Triggers
-        timeTriggerInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.TIME_TRIGGER));
-        dayOfTheWeekBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_WEEK));
-        dayOfTheMonthBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_MONTH));
-        dayOfTheYearBoxInput.visibleProperty().bind(triggerMenu.valueProperty().isEqualTo(TriggerType.DAY_OF_YEAR));
-        //Actions
-        dialogBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.SHOW_DIALOG_BOX));
-        audioFileInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.PLAY_AUDIO));
-        appendToFileInputBox.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.APPEND_TO_FILE));
-        copyFileBoxInput.visibleProperty().bind(actionMenu.valueProperty().isEqualTo(ActionType.COPY_FILE));
-
-        setUpTimeSpinner();
         setUpDateSpinner();
 
-        setUpDayOfTheWeekComboBox();
-        setUpDayOfTheMonthSpinner();
 
         //Bindings for Activation checkboxes
         onceActivationCheckbox.disableProperty().bind(twiceActivationCheckbox.selectedProperty());
@@ -178,29 +98,45 @@ public class RuleController implements Initializable {
 
         editRuleButton.setManaged(false);
 
-    }
-    private void setUpDayOfTheWeekComboBox() {
-        dayOfTheWeekInput.getItems().addAll(DayOfWeek.values());
+        triggerMenu.setOnAction(event -> handleTriggerTypeSelection());
+        actionMenu.setOnAction(event -> handleActionTypeSelection());
+
+        createRuleButton.disableProperty().bind(
+                triggerMenu.valueProperty().isNull()
+                        .or(actionMenu.valueProperty().isNull())
+                        .or(onceActivationCheckbox.selectedProperty().not().and(twiceActivationCheckbox.selectedProperty().not()))
+        );
+
+
+
     }
 
-    private void setUpDayOfTheMonthSpinner() {
-        SpinnerValueFactory<Integer> dayOfTheMonthFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 31);
-        dayOfTheMonthInput.setValueFactory(dayOfTheMonthFactory);
+    private void handleTriggerTypeSelection() {
+        triggersBox.getChildren().clear();
+
+        // Add a label for the "Triggers" section
+        Label triggersLabel = new Label("Triggers");
+        triggersLabel.setStyle("-fx-font-size: 16;");
+        triggersBox.getChildren().add(triggersLabel);
+
+        TriggerType selectedTriggerType = triggerMenu.getValue();
+        currentTriggerView = TriggerViewFactory.createView(selectedTriggerType);
+        triggersBox.getChildren().add(currentTriggerView.getView());
     }
 
-    private void setUpTimeSpinner() {
-        //Setup spinner component for time and minutes
-        Integer currenthours = LocalTime.now().getHour();
-        Integer currentminutes = LocalTime.now().getMinute();
+    private void handleActionTypeSelection() {
+        actionsBox.getChildren().clear();
 
-        SpinnerValueFactory<Integer> hourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23);
-        SpinnerValueFactory<Integer> minuteValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 59);
-        hourValueFactory.setValue(currenthours);
-        minuteValueFactory.setValue(currentminutes);
+        // Add a label for the "Actions" section
+        Label actionsLabel = new Label("Actions");
+        actionsLabel.setStyle("-fx-font-size: 16;");
+        actionsBox.getChildren().add(actionsLabel);
 
-        hourTimeInput.setValueFactory(hourValueFactory);
-        minuteTimeInput.setValueFactory(minuteValueFactory);
+        ActionType selectedActionType = actionMenu.getValue();
+        currentActionView = ActionViewFactory.createView(selectedActionType);
+        actionsBox.getChildren().add(currentActionView.getView());
     }
+
     private void setUpDateSpinner() {
         SpinnerValueFactory<Integer> dayValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 99);
         SpinnerValueFactory<Integer> hourValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 23);
@@ -211,23 +147,31 @@ public class RuleController implements Initializable {
         sleepingMinuteSpinner.setValueFactory(minuteValueFactory);
     }
 
+
     @FXML
     void createNewRule(ActionEvent event) {
         Rule rule = null;
-        if(validInputs()) {
+        if(areInputsValid() && isAtLeastOneCheckboxSelected()) {
             if(onceActivationCheckbox.isSelected()) {
-                rule = new SimpleRule(ruleNameField.getText(), createTrigger(triggerMenu.getSelectionModel().getSelectedItem()), createAction(actionMenu.getSelectionModel().getSelectedItem()));
+                rule = new SimpleRule(ruleNameField.getText(), currentTriggerView.getTrigger(), currentActionView.getAction());
             }
             if(twiceActivationCheckbox.isSelected()) {
-                rule = new RuleSleepDecorator(new SimpleRule(ruleNameField.getText(), createTrigger(triggerMenu.getSelectionModel().getSelectedItem()), createAction(actionMenu.getSelectionModel().getSelectedItem())),
+                rule = new RuleSleepDecorator(new SimpleRule(ruleNameField.getText(), currentTriggerView.getTrigger(), currentActionView.getAction()),
                         sleepingDaySpinner.getValue(), sleepingHourSpinner.getValue(), sleepingMinuteSpinner.getValue());
             }
             ruleManager.addRule(rule);
             closeWindow();
-
         } else {
-            showErrorAlert("ERROR", "You need to fill all the inputs to create a Rule!");
+            showErrorAlert("Invalid Inputs", "Please make sure all inputs are valid.");
         }
+    }
+
+    private boolean areInputsValid() {
+        return currentActionView.isValid() && currentTriggerView.isValid() && !ruleNameField.getText().isEmpty();
+    }
+
+    private boolean isAtLeastOneCheckboxSelected() {
+        return onceActivationCheckbox.isSelected() || twiceActivationCheckbox.isSelected();
     }
 
     private void closeWindow() {
@@ -244,59 +188,12 @@ public class RuleController implements Initializable {
     }
 
 
-    private Trigger createTrigger(TriggerType selectedTrigger) {
-        var trigger = switch (selectedTrigger) {
-            case TIME_TRIGGER -> new TimeTrigger(hourTimeInput.getValue(), minuteTimeInput.getValue());
-            case DAY_OF_WEEK -> new DayOfWeekTrigger(dayOfTheWeekInput.getValue());
-            case DAY_OF_MONTH -> new DayOfTheMonthTrigger(dayOfTheMonthInput.getValue());
-            case DAY_OF_YEAR -> new DayOfTheYearTrigger(dayOfTheYearInput.getValue());
-
-            default -> throw new IllegalStateException("Unexpected value: " + selectedTrigger);
-        };
-
-        return trigger;
-    }
-
-    private Action createAction(ActionType selectedAction) {
-        var action = switch (selectedAction) {
-            case SHOW_DIALOG_BOX -> new ShowDialogBoxAction(messageActionInput.getText());
-            case PLAY_AUDIO -> new PlayAudioAction(selectedAudioFile);
-            case APPEND_TO_FILE -> new AppendToFileAction(selectedAppendFile,appendToFileTextfield.getText());
-            case COPY_FILE -> new CopyFileAction(selectedCopyDirectory, selectedCopyFile);
-
-            default -> throw new IllegalStateException("Unexpected value: " + selectedAction);
-        };
-        return action;
-    }
-    // TODO: This method should be implemented
-    private boolean validInputs() {
-        return true;
-    }
-
-    @FXML
-    public void chooseAudioFileAction(ActionEvent event) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Audio File");
-
-        // Set the file extension filters if needed
-        // Example: Allow only audio files
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Audio Files", "*.mp3", "*.wav", "*.ogg");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        // Show the file chooser dialog
-        selectedAudioFile = fileChooser.showOpenDialog(null);
-        if(selectedAudioFile != null) {
-            selectFileButton.setText("File selected");
-        }
-    }
 
     public void editRuleInit(Rule ruleToEdit) {
         this.ruleBeingEdited = ruleToEdit;
         titleLabel.setText("Edit a rule");
         ruleNameField.setDisable(true);
         ruleNameField.setText(ruleToEdit.getName());
-        triggerMenu.setValue(ruleToEdit.getTrigger().getTYPE());
-        actionMenu.setValue(ruleToEdit.getAction().getTYPE());
         activationBoxInput.setDisable(true);
         createRuleButton.setManaged(false);
         editRuleButton.setManaged(true);
@@ -305,59 +202,20 @@ public class RuleController implements Initializable {
 
     @FXML
     public void editRule(ActionEvent event) {
-        if (validInputs()) {
-            if (ruleBeingEdited != null) {
-                // Update the existing rule with the edited values
-                ruleBeingEdited.setName(ruleNameField.getText());
-                ruleBeingEdited.setTrigger(createTrigger(triggerMenu.getSelectionModel().getSelectedItem()));
-                ruleBeingEdited.setAction(createAction(actionMenu.getSelectionModel().getSelectedItem()));
-                closeWindow();
-            } else {
-                showErrorAlert("ERROR", "No rule is being edited.");
-            }
+        if (areInputsValid()) {
+            ruleBeingEdited.setTrigger(currentTriggerView.getTrigger());
+            ruleBeingEdited.setAction(currentActionView.getAction());
+            ruleBeingEdited.setActive(true);
+            System.out.println("Rule edited:\nTrigger: " + ruleBeingEdited.getTrigger() + "\nAction: " + ruleBeingEdited.getAction() +
+                    "\nActive status: " + ruleBeingEdited.isActive());
+            closeWindow();
         } else {
-            showErrorAlert("ERROR", "You need to fill all the inputs to edit a Rule!");
+            showErrorAlert("Invalid Inputs", "Please make sure all inputs are valid.");
         }
     }
 
-    @FXML
-    public void appendFileChooseAction(ActionEvent actionEvent) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Open Text File");
 
-        // Set the file extension filters if needed
-        // Example: Allow only text files
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Text Files", "*.txt");
-        fileChooser.getExtensionFilters().add(extFilter);
 
-        // Show the file chooser dialog
-        selectedAppendFile = fileChooser.showOpenDialog(null);
-        if(selectedAppendFile != null) {
-            appendFileChooserButton.setText("File selected");
-        }
-    }
 
-    @FXML
-    public void chooseCopyFileAction(ActionEvent actionEvent) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Select a file to copy");
-
-        // Show the file chooser dialog
-        selectedCopyFile = fileChooser.showOpenDialog(null);
-        if(selectedCopyFile != null) {
-            copyFileChooserButton.setText("File selected");
-        }
-    }
-
-    @FXML
-    public void chooseCopyDirectoryAction(ActionEvent actionEvent) {
-        DirectoryChooser directoryChooser = new DirectoryChooser();
-        directoryChooser.setTitle("Select a destination directory");
-
-        selectedCopyDirectory = directoryChooser.showDialog(null);
-        if (selectedCopyDirectory != null) {
-            copyDirectoryChooserButton.setText("Directory selected");
-        }
-    }
 }
 

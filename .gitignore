@@ -9,5 +9,8 @@ target/
 *.iml
 *.ipr
 
+## PROJECT ##
+src/main/resources/backupFile.bin
+
 ### Mac OS ###
 .DS_Store

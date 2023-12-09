@@ -34,4 +34,9 @@ public class DayOfTheYearTrigger implements Trigger, Serializable {
     public void setSpecifiedDay(LocalDate specifiedDay) {
         this.day = specifiedDay;
     }
+
+    @Override
+    public String toString() {
+        return "IF the current day is the " + day;
+    }
 }
