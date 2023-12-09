@@ -17,7 +17,6 @@ class NotTriggerDecoratorTest {
             return evaluationResult;
         }
 
-
     }
 
     @Test
