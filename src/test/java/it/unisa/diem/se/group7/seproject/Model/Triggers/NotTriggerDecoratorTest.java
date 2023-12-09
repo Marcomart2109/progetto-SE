@@ -17,10 +17,6 @@ class NotTriggerDecoratorTest {
             return evaluationResult;
         }
 
-        @Override
-        public TriggerType getTYPE() {
-            return null;
-        }
     }
 
     @Test
