@@ -1,11 +1,9 @@
 package it.unisa.diem.se.group7.seproject.Controller;
 
-import it.unisa.diem.se.group7.seproject.Model.Actions.*;
 import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleSleepDecorator;
 import it.unisa.diem.se.group7.seproject.Model.Rules.SimpleRule;
-import it.unisa.diem.se.group7.seproject.Model.Triggers.*;
 import it.unisa.diem.se.group7.seproject.Views.ActionViews.ActionView;
 import it.unisa.diem.se.group7.seproject.Views.CompositeTriggerView;
 import it.unisa.diem.se.group7.seproject.Views.ElementaryTriggerView;
@@ -85,9 +83,6 @@ public class RuleController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ruleManager = RuleManager.getInstance();
         titleLabel.setText("Create a rule");
-        //Initialization of the combo box menus
-/*        triggerMenu.getItems().addAll(TriggerType.values());
-        actionMenu.getItems().addAll(ActionType.values());*/
 
         setUpDateSpinner();
 
@@ -109,17 +104,6 @@ public class RuleController implements Initializable {
 
         triggersBox.setFillWidth(true);
         actionsBox.setFillWidth(true);
-
-/*        triggerMenu.setOnAction(event -> handleTriggerTypeSelection());
-        actionMenu.setOnAction(event -> handleActionTypeSelection());*/
-
-/*        createRuleButton.disableProperty().bind(
-                triggerMenu.valueProperty().isNull()
-                        .or(actionMenu.valueProperty().isNull())
-                        .or(onceActivationCheckbox.selectedProperty().not().and(twiceActivationCheckbox.selectedProperty().not()))
-        );*/
-
-
 
     }
 
@@ -145,34 +129,6 @@ public class RuleController implements Initializable {
             actionsBox.getChildren().add(currentActionView.getView());
         }
     }
-
-
-
-/*    private void handleTriggerTypeSelection() {
-        triggersBox.getChildren().clear();
-
-        // Add a label for the "Triggers" section
-        Label triggersLabel = new Label("Triggers");
-        triggersLabel.setStyle("-fx-font-size: 16;");
-        triggersBox.getChildren().add(triggersLabel);
-
-        TriggerType selectedTriggerType = triggerMenu.getValue();
-        currentTriggerView = TriggerViewFactory.createView(selectedTriggerType);
-        triggersBox.getChildren().add(currentTriggerView.getView());
-    }*/
-
-/*    private void handleActionTypeSelection() {
-        actionsBox.getChildren().clear();
-
-        // Add a label for the "Actions" section
-        Label actionsLabel = new Label("Actions");
-        actionsLabel.setStyle("-fx-font-size: 16;");
-        actionsBox.getChildren().add(actionsLabel);
-
-        ActionType selectedActionType = actionMenu.getValue();
-        currentActionView = ActionViewFactory.createView(selectedActionType);
-        actionsBox.getChildren().add(currentActionView.getView());
-    }*/
 
     private void setUpDateSpinner() {
         SpinnerValueFactory<Integer> dayValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 99);
