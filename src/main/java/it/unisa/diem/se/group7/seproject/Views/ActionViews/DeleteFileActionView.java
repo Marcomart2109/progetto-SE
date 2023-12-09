@@ -17,11 +17,11 @@ import java.io.File;
 public class DeleteFileActionView implements ActionView {
     private TextField fileNameTextField;
     private File selectedDirectory;
-    private Label selectedDirectoryLabel; // Added Label
+    private Label selectedDirectoryLabel;
 
     public DeleteFileActionView() {
         fileNameTextField = new TextField();
-        selectedDirectoryLabel = new Label("No directory selected"); // Default label text
+        selectedDirectoryLabel = new Label("No directory selected");
     }
 
     @Override

@@ -17,12 +17,12 @@ import java.io.File;
 public class CopyFileActionView implements ActionView {
     private File selectedSourceFile;
     private File selectedDestinationDirectory;
-    private Label selectedSourceFileLabel; // Added Label
-    private Label selectedDestinationDirectoryLabel; // Added Label
+    private Label selectedSourceFileLabel;
+    private Label selectedDestinationDirectoryLabel;
 
     public CopyFileActionView() {
-        selectedSourceFileLabel = new Label("No source file selected"); // Default label text
-        selectedDestinationDirectoryLabel = new Label("No destination directory selected"); // Default label text
+        selectedSourceFileLabel = new Label("No source file selected");
+        selectedDestinationDirectoryLabel = new Label("No destination directory selected");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class CopyFileActionView implements ActionView {
 
         HBox sourceFileBox = new HBox(DEFAULT_SPACING);
         sourceFileBox.setAlignment(Pos.CENTER_LEFT);
-        sourceFileBox.getChildren().addAll(sourceFileLabel, chooseSourceFileButton, selectedSourceFileLabel); // Added Label
+        sourceFileBox.getChildren().addAll(sourceFileLabel, chooseSourceFileButton, selectedSourceFileLabel);
 
         Label destinationDirectoryLabel = new Label("Select Destination Directory:");
 
@@ -46,7 +46,7 @@ public class CopyFileActionView implements ActionView {
 
         HBox destinationDirectoryBox = new HBox(DEFAULT_SPACING);
         destinationDirectoryBox.setAlignment(Pos.CENTER_LEFT);
-        destinationDirectoryBox.getChildren().addAll(destinationDirectoryLabel, chooseDestinationDirectoryButton, selectedDestinationDirectoryLabel); // Added Label
+        destinationDirectoryBox.getChildren().addAll(destinationDirectoryLabel, chooseDestinationDirectoryButton, selectedDestinationDirectoryLabel);
 
         container.getChildren().addAll(sourceFileBox, destinationDirectoryBox);
 

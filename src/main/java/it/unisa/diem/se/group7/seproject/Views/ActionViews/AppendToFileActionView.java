@@ -17,11 +17,11 @@ import java.io.File;
 public class AppendToFileActionView implements ActionView {
     private File selectedFile;
     private TextField messageTextField;
-    private Label selectedFileLabel; // Added Label
+    private Label selectedFileLabel;
 
     public AppendToFileActionView() {
         messageTextField = new TextField();
-        selectedFileLabel = new Label("No file selected"); // Default label text
+        selectedFileLabel = new Label("No file selected");
     }
 
     @Override
