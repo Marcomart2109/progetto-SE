@@ -79,6 +79,10 @@ public class RuleSleepDecorator extends RuleDecorator implements Serializable {
         return rule.getName();
     }
 
+    public Duration getSleepingPeriod() {
+        return sleepingPeriod;
+    }
+
     @Override
     public Action getAction() {
         return rule.getAction();

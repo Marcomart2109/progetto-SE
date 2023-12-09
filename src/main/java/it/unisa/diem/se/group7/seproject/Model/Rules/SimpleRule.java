@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 import java.io.*;
 
-public class SimpleRule extends Rule implements Serializable{
+public class SimpleRule extends Rule implements Serializable {
 
     private Boolean fired;
 
