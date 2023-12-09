@@ -82,12 +82,12 @@ public class PlayAudioAction implements Action, Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PlayAudioAction that = (PlayAudioAction) o;
-        return Objects.equals(audioFile, that.audioFile) && TYPE == that.TYPE;
+        return Objects.equals(audioFile, that.audioFile);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(clip, audioFile, TYPE);
+        return Objects.hash(clip, audioFile);
     }
 
     @Override
