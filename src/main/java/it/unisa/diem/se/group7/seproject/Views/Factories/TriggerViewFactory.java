@@ -18,6 +18,8 @@ public class TriggerViewFactory {
                 return new ExitValueTriggerView();
             case FILE_EXISTS:
                 return new FileExistsTriggerView();
+            case FILE_SIZE:
+                return new FileSizeTriggerView();
             default:
                 throw new IllegalArgumentException("Unsupported trigger type: " + triggerType);
         }
