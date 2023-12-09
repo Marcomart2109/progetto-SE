@@ -1,4 +1,4 @@
-package it.unisa.diem.se.group7.seproject.Model;
+package it.unisa.diem.se.group7.seproject.Model.Rules;
 
 import it.unisa.diem.se.group7.seproject.Model.Actions.ShowDialogBoxAction;
 import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
