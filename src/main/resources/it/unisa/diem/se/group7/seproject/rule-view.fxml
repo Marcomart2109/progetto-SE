@@ -5,6 +5,8 @@
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Spinner?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
@@ -13,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.se.group7.seproject.Controller.RuleController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.unisa.diem.se.group7.seproject.Controller.RuleController">
    <children>
       <SplitPane dividerPositions="0.35" prefHeight="160.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -23,15 +25,15 @@
                      <children>
                         <Label fx:id="titleLabel" text="Create a new rule">
                            <font>
-                              <Font size="18.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
                         <Label text="Name" />
                         <TextField fx:id="ruleNameField" maxWidth="-Infinity" prefWidth="150.0" />
-                        <Label text="Specify a trigger" />
-                        <ComboBox fx:id="triggerMenu" prefWidth="150.0" />
-                        <Label text="Specify an action" />
-                        <ComboBox fx:id="actionMenu" prefWidth="150.0" />
+                        <Label text="Specify the tipology of trigger" />
+                        <ComboBox fx:id="triggerTypeMenu" prefWidth="150.0" />
+                        <Label text="Specify the tipology of action" />
+                        <ComboBox fx:id="actionTypeMenu" prefWidth="150.0" />
                         <VBox fx:id="activationBoxInput" prefWidth="100.0" spacing="15.0">
                            <children>
                               <Label text="Activation" />
@@ -70,25 +72,35 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <VBox fx:id="triggersBox" fillWidth="false" prefHeight="200.0" prefWidth="100.0" spacing="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Label text="Triggers">
                            <font>
-                              <Font size="16.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                     </children>
-                     <padding>
-                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-                     </padding>
-                  </VBox>
-                  <VBox fx:id="actionsBox" layoutY="242.0" prefHeight="240.0" prefWidth="450.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                     <children>
+                        <ScrollPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                           <content>
+                              <VBox fx:id="triggersBox" fillWidth="false" spacing="20.0" />
+                           </content>
+                        </ScrollPane>
+                        <Separator prefWidth="200.0" />
                         <Label text="Actions">
                            <font>
-                              <Font size="16.0" />
+                              <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
+                        <ScrollPane prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+                           <padding>
+                              <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                           </padding>
+                           <content>
+                              <VBox fx:id="actionsBox" spacing="20.0" />
+                           </content>
+                        </ScrollPane>
                      </children>
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

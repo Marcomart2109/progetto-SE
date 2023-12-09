@@ -7,10 +7,13 @@ import it.unisa.diem.se.group7.seproject.Model.Rules.RuleSleepDecorator;
 import it.unisa.diem.se.group7.seproject.Model.Rules.SimpleRule;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.*;
 import it.unisa.diem.se.group7.seproject.Views.ActionViews.ActionView;
-import it.unisa.diem.se.group7.seproject.Views.Factories.ActionViewFactory;
+import it.unisa.diem.se.group7.seproject.Views.CompositeTriggerView;
+import it.unisa.diem.se.group7.seproject.Views.ElementaryTriggerView;
+import it.unisa.diem.se.group7.seproject.Views.SequenceActionView;
+import it.unisa.diem.se.group7.seproject.Views.SingleActionView;
 import it.unisa.diem.se.group7.seproject.Views.TriggerViews.TriggerView;
-import it.unisa.diem.se.group7.seproject.Views.Factories.TriggerViewFactory;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 
@@ -55,19 +58,19 @@ public class RuleController implements Initializable {
     private Label titleLabel;
 
     @FXML
-    private ComboBox<ActionType> actionMenu;
-
-    @FXML
     private TextField ruleNameField;
-
-    @FXML
-    private ComboBox<TriggerType> triggerMenu;
 
     @FXML
     private Button createRuleButton;
 
     @FXML
     private Button editRuleButton;
+
+    @FXML
+    private ComboBox<String> triggerTypeMenu;
+
+    @FXML
+    private ComboBox<String> actionTypeMenu;
 
     private RuleManager ruleManager;
 
@@ -83,8 +86,8 @@ public class RuleController implements Initializable {
         ruleManager = RuleManager.getInstance();
         titleLabel.setText("Create a rule");
         //Initialization of the combo box menus
-        triggerMenu.getItems().addAll(TriggerType.values());
-        actionMenu.getItems().addAll(ActionType.values());
+/*        triggerMenu.getItems().addAll(TriggerType.values());
+        actionMenu.getItems().addAll(ActionType.values());*/
 
         setUpDateSpinner();
 
@@ -98,20 +101,54 @@ public class RuleController implements Initializable {
 
         editRuleButton.setManaged(false);
 
-        triggerMenu.setOnAction(event -> handleTriggerTypeSelection());
-        actionMenu.setOnAction(event -> handleActionTypeSelection());
+        triggerTypeMenu.setItems(FXCollections.observableArrayList("ELEMENTARY", "COMPOSITE"));
+        actionTypeMenu.setItems(FXCollections.observableArrayList("SINGLE", "SEQUENCE"));
 
-        createRuleButton.disableProperty().bind(
+        triggerTypeMenu.setOnAction(actionEvent -> handleTriggerTypeSelection());
+        actionTypeMenu.setOnAction(actionEvent -> handleActionTypeSelection());
+
+        triggersBox.setFillWidth(true);
+        actionsBox.setFillWidth(true);
+
+/*        triggerMenu.setOnAction(event -> handleTriggerTypeSelection());
+        actionMenu.setOnAction(event -> handleActionTypeSelection());*/
+
+/*        createRuleButton.disableProperty().bind(
                 triggerMenu.valueProperty().isNull()
                         .or(actionMenu.valueProperty().isNull())
                         .or(onceActivationCheckbox.selectedProperty().not().and(twiceActivationCheckbox.selectedProperty().not()))
-        );
+        );*/
 
 
 
     }
 
     private void handleTriggerTypeSelection() {
+        triggersBox.getChildren().clear();
+
+        if (triggerTypeMenu.getValue().equals("ELEMENTARY")) {
+            currentTriggerView = new ElementaryTriggerView();
+            triggersBox.getChildren().add(currentTriggerView.getView());
+        } else if (triggerTypeMenu.getValue().equals("COMPOSITE")) {
+            currentTriggerView = new CompositeTriggerView();
+            triggersBox.getChildren().add(currentTriggerView.getView());
+        }
+    }
+    private void handleActionTypeSelection() {
+        actionsBox.getChildren().clear();
+
+        if (actionTypeMenu.getValue().equals("SINGLE")) {
+            currentActionView = new SingleActionView();
+            actionsBox.getChildren().add(currentActionView.getView());
+        } else if (actionTypeMenu.getValue().equals("SEQUENCE")) {
+            currentActionView = new SequenceActionView();
+            actionsBox.getChildren().add(currentActionView.getView());
+        }
+    }
+
+
+
+/*    private void handleTriggerTypeSelection() {
         triggersBox.getChildren().clear();
 
         // Add a label for the "Triggers" section
@@ -122,9 +159,9 @@ public class RuleController implements Initializable {
         TriggerType selectedTriggerType = triggerMenu.getValue();
         currentTriggerView = TriggerViewFactory.createView(selectedTriggerType);
         triggersBox.getChildren().add(currentTriggerView.getView());
-    }
+    }*/
 
-    private void handleActionTypeSelection() {
+/*    private void handleActionTypeSelection() {
         actionsBox.getChildren().clear();
 
         // Add a label for the "Actions" section
@@ -135,7 +172,7 @@ public class RuleController implements Initializable {
         ActionType selectedActionType = actionMenu.getValue();
         currentActionView = ActionViewFactory.createView(selectedActionType);
         actionsBox.getChildren().add(currentActionView.getView());
-    }
+    }*/
 
     private void setUpDateSpinner() {
         SpinnerValueFactory<Integer> dayValueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 99);

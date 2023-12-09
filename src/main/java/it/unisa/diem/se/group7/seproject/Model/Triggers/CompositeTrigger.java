@@ -2,6 +2,7 @@ package it.unisa.diem.se.group7.seproject.Model.Triggers;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class CompositeTrigger implements Trigger, Serializable {
@@ -10,6 +11,9 @@ public abstract class CompositeTrigger implements Trigger, Serializable {
 
     public CompositeTrigger(){
         triggers = new ArrayList<Trigger>();
+    }
+    public CompositeTrigger(Trigger... triggers) {
+        this.triggers = new ArrayList<Trigger>(Arrays.asList(triggers));
     }
 
     public void add(Trigger t){
