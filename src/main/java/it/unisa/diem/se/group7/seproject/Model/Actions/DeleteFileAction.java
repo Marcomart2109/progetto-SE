@@ -1,8 +1,9 @@
 package it.unisa.diem.se.group7.seproject.Model.Actions;
 
 import java.io.File;
+import java.io.Serializable;
 
-public class DeleteFileAction implements Action {
+public class DeleteFileAction implements Action, Serializable {
 
     private String file;
     private File folder;

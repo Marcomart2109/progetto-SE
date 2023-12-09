@@ -1,8 +1,9 @@
 package it.unisa.diem.se.group7.seproject.Model.Triggers;
 
 import java.io.File;
+import java.io.Serializable;
 
-public class FileExistsTrigger implements Trigger{
+public class FileExistsTrigger implements Trigger, Serializable {
     private String file;
     private File folder;
 

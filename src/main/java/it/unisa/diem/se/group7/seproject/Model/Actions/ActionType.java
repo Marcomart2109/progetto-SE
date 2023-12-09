@@ -5,5 +5,6 @@ public enum ActionType {
     PLAY_AUDIO,
     APPEND_TO_FILE,
     COPY_FILE,
+    DELETE_FILE,
     EXECUTE_PROGRAM;
 }

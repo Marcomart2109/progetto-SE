@@ -7,5 +7,7 @@ public enum TriggerType {
     DAY_OF_YEAR,
     EXIT_VALUE,
     FILE_EXISTS,
-    NOT_TRIGGER;
+    NOT_TRIGGER,
+    FILE_SIZE,
+    COMPOSITE;
 }
