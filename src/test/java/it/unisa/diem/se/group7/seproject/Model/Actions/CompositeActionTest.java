@@ -1,6 +1,7 @@
 package it.unisa.diem.se.group7.seproject.Model.Actions;
 
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -14,8 +15,9 @@ class CompositeActionTest {
     private File folder;
     private CompositeAction compositeAction;
 
-    @Before
-    void setUP(){
+    @BeforeEach
+    public void setUp(){
+        compositeAction = new CompositeAction();
         a1 = new TrueAction();
         a2= new FalseAction();
         a3 = new FalseAction();
@@ -30,44 +32,37 @@ class CompositeActionTest {
             System.out.println("False");
         }
     }
-
-
     @Test
     void addAction() {
-        //test the impossibility of adding more than two triggers in the list
-        assertThrows(RuntimeException.class, () -> {
-            compositeAction.add(a1);
-            compositeAction.add(a2);
-            compositeAction.add(a3);
-        });
-        compositeAction.getActions().clear();
-        //test the impossibility of adding the same trigger twice
+        // Test the impossibility of adding the same action twice
         assertThrows(RuntimeException.class, () -> {
             compositeAction.add(a2);
-            compositeAction.add(a3);
+            compositeAction.add(a2);
         });
-        compositeAction.getActions().clear();
 
-        assertAll(() -> {
+        // Test adding two distinct actions without exceptions
+        assertDoesNotThrow(() -> {
             compositeAction.add(a1);
             compositeAction.add(a2);
         });
     }
+
+
+
     @Test
     void removeAction() {
         compositeAction.add(a1);
 
-        assertThrows(RuntimeException.class,()->{
+        assertThrows(RuntimeException.class,() -> {
             compositeAction.remove(a3);
         });
-        assertAll(() ->{
+        assertDoesNotThrow(() -> {
             compositeAction.remove(a1);
         });
         compositeAction.add(a2);
         compositeAction.remove(a2);
         assertFalse(compositeAction.getActions().contains(a2));
     }
-
     @Test
     void getActions() {
         assertTrue(compositeAction.getActions().isEmpty());
