@@ -16,24 +16,30 @@ public class CompositeAction implements Action, Serializable {
         this.actions = new ArrayList<>();
         this.actions.addAll(Arrays.asList(actions));
     }
+    public void add(Action action){
+        if(actions.contains(action)) {
+            throw new RuntimeException("The specified action is already in the list!");
+        }else{
+            actions.add(action);
+        }
 
-    public void add(Action action) {
-        actions.add(action);
     }
-    public List<Action> getActions() {
+    public void remove(Action action){
+
+        if(!actions.remove(action)){
+            throw new RuntimeException("The specified action is not contained in the list!");
+        }
+    }
+    public List<Action> getActions(){
+
         return actions;
     }
-    public void remove(Action action) {
-        actions.remove(action);
-    }
-
     @Override
     public void execute() {
         for (Action action : actions) {
             action.execute();
         }
     }
-
     @Override
     public String toString() {
         return actions.toString();
