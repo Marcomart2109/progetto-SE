@@ -55,9 +55,7 @@ public class CompositeActionTest {
         compositeAction.add(a1);
 
         assertThrows(RuntimeException.class,() -> compositeAction.remove(a3));
-        assertDoesNotThrow(() -> {
-            compositeAction.remove(a1);
-        });
+        assertDoesNotThrow(() -> compositeAction.remove(a1));
         compositeAction.add(a2);
         compositeAction.remove(a2);
         assertFalse(compositeAction.getActions().contains(a2));

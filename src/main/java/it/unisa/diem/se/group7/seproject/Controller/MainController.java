@@ -190,7 +190,6 @@ public class MainController implements Initializable {
      * and shows the new stage.
      * This method is associated with a button click event in the main view.
      *
-     * @param event The button click event that triggers the method.
      */
     @FXML
     public void addNewRule() {

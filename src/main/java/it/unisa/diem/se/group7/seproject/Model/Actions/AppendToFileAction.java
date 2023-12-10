@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * The AppendToFileAction class represents an action that appends text to a specified file.
  * It implements the Action interface and is Serializable.
- *
+ * <p>
  * Example usage:
  * AppendToFileAction appendAction = new AppendToFileAction(file, "Text to append");
  * appendAction.execute();
