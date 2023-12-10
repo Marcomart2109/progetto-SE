@@ -1,4 +1,5 @@
 module it.unisa.diem.se.group7.seproject {
+    requires javafx.graphics;
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
