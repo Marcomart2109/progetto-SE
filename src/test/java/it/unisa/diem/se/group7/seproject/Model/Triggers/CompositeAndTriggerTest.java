@@ -45,7 +45,6 @@ public class CompositeAndTriggerTest {
 
     @Test
     public void testAddTrigger(){
-
         //test the impossibility of adding more than two triggers in the list
         assertThrows(RuntimeException.class, () ->{
             cat.add(t1);
@@ -60,7 +59,6 @@ public class CompositeAndTriggerTest {
             cat.add(t1);
         });
         cat.getTriggers().clear();
-
 
         assertAll(() ->{
             cat.add(t1);
@@ -98,7 +96,6 @@ public class CompositeAndTriggerTest {
 
     @Test
     public void testEvaluateTrue(){
-        cat = new CompositeAndTrigger();
         cat.add(t1);
         cat.add(t2);
 
@@ -107,7 +104,6 @@ public class CompositeAndTriggerTest {
 
     @Test
     public void testEvaluateFalse(){
-        cat = new CompositeAndTrigger();
         cat.add(t1);
         cat.add(t3);
 
