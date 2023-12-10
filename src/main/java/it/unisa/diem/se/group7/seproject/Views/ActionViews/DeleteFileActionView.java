@@ -14,10 +14,16 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+/**
+ * The DeleteFileActionView class represents a view for deleting a file in a selected directory.
+ *
+ * <p>The DeleteFileActionView class implements the ActionView interface. It provides methods to retrieve the view
+ * for deleting a file, retrieve the corresponding action, and check if the view is valid.
+ */
 public class DeleteFileActionView implements ActionView {
-    private TextField fileNameTextField;
+    private final TextField fileNameTextField;
     private File selectedDirectory;
-    private Label selectedDirectoryLabel;
+    private final Label selectedDirectoryLabel;
 
     public DeleteFileActionView() {
         fileNameTextField = new TextField();

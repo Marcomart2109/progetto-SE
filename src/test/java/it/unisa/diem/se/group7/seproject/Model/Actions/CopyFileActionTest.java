@@ -6,11 +6,10 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CopyFileActionTest {
     private File origDir; // origin directory
@@ -29,16 +28,14 @@ public class CopyFileActionTest {
         origFile = new File("src/main/resources/origin_directory/testFile.txt");
         try{
             origFile.createNewFile();
-        }catch(IOException exc){}
+        }catch(IOException ignored){}
 
         cfa = new CopyFileAction(destDir, origFile);
     }
 
     @Test
     public void testNoExceptionThrown(){
-        assertAll(()-> {
-            cfa.execute();
-        });
+        assertAll(()-> cfa.execute());
     }
 
     @Test
@@ -55,12 +52,12 @@ public class CopyFileActionTest {
     @After
     public void cleanUp(){
         // deletion of files located into the origin directory
-        for(File file : origDir.listFiles()){
+        for(File file : Objects.requireNonNull(origDir.listFiles())){
             file.delete();
         }
 
         // deletion of files located into the destination directory
-        for(File file : destDir.listFiles()){
+        for(File file : Objects.requireNonNull(destDir.listFiles())){
             file.delete();
         }
 

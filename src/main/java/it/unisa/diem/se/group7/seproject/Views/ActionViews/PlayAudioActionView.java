@@ -13,9 +13,14 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+/**
+ * The PlayAudioActionView class implements the ActionView interface and provides
+ * a view for playing an audio file. It creates a graphical user interface with
+ * a button for selecting an audio file and a label to display the selected file.
+ */
 public class PlayAudioActionView implements ActionView {
     private File selectedAudioFile;
-    private Label selectedFileLabel; // Added Label
+    private final Label selectedFileLabel; // Added Label
 
     public PlayAudioActionView() {
         selectedFileLabel = new Label("No audio file selected"); // Default label text

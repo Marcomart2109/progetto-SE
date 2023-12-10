@@ -5,8 +5,32 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The CompositeAction class represents a composite action that can be executed.
+ * It implements the Action and Serializable interfaces.
+ * <p>
+ * A composite action is a collection of individual actions that are executed in sequence.
+ * When the composite action is executed, each individual action in the collection is executed in the order they were added.
+ * <p>
+ * Example Usage:
+ * <p>
+ * // Create an instance of CompositeAction
+ * CompositeAction compositeAction = new CompositeAction();
+ * <p>
+ * // Create individual actions
+ * Action action1 = new TrueAction();
+ * Action action2 = new FalseAction();
+ * <p>
+ * // Add individual actions to composite action
+ * compositeAction.add(action1);
+ * compositeAction.add(action2);
+ * <p>
+ * // Execute the composite action
+ * compositeAction.execute();
+ *
+ */
 public class CompositeAction implements Action, Serializable {
-    private List<Action> actions;
+    private final List<Action> actions;
 
     public CompositeAction() {
         actions = new ArrayList<>();

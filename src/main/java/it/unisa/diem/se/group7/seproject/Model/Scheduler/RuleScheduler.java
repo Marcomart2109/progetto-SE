@@ -8,6 +8,16 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * The RuleScheduler class represents a scheduler for evaluating and executing rules periodically.
+ * It uses a ScheduledExecutorService to schedule the evaluation of rules at a fixed rate.
+ * RuleScheduler is implemented as a singleton class.
+ * <p>
+ * Usage:
+ * RuleScheduler ruleScheduler = RuleScheduler.getInstance();
+ * ruleScheduler.startScheduler();
+ * ruleScheduler.stopScheduler();
+ */
 public class RuleScheduler {
 
     private static final RuleScheduler INSTANCE = new RuleScheduler();

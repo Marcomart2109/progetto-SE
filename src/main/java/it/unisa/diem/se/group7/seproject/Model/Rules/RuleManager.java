@@ -5,8 +5,22 @@ import javafx.collections.ObservableList;
 
 import java.util.Collection;
 
+/**
+ * The RuleManager class is responsible for managing a collection of Rule objects.
+ * It provides methods to add, remove, and retrieve rules from the collection.
+ * RuleManager is implemented as a singleton class.
+ * <p>
+ * Usage:
+ * RuleManager ruleManager = RuleManager.getInstance();
+ * ruleManager.addRule(rule);
+ * ruleManager.removeRule(rule);
+ * Rule retrievedRule = ruleManager.getRule(index);
+ * ObservableList<Rule> rules = ruleManager.getRules();
+ * ruleManager.activateRule(rule);
+ * ruleManager.deactivateRule(rule);
+ */
 public class RuleManager {
-    private ObservableList<Rule> rules;
+    private final ObservableList<Rule> rules;
     private static final RuleManager INSTANCE = new RuleManager();
 
     private RuleManager() {
@@ -26,8 +40,8 @@ public class RuleManager {
         return rules.remove(rule);
     }
 
-    public boolean removeAll(Collection<Rule> rules) {
-        return this.rules.removeAll(rules);
+    public void removeAll(Collection<Rule> rules) {
+        this.rules.removeAll(rules);
     }
 
     public Rule getRule(int index) {

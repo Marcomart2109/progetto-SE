@@ -7,11 +7,17 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 import java.io.*;
 
+/**
+ * The abstract class Rule represents a rule that can be evaluated and executed based on its trigger and action.
+ * A Rule has a name, a trigger, an action, and an active state.
+ * The active state represents the current activation state of a Rule and can be observed and modified using the active property.
+ * The active property is transient, meaning it will not be serialized or deserialized.
+ */
 public abstract class Rule implements Serializable {
      private String name;
      private Trigger trigger;
      private Action action;
-     private transient BooleanProperty active; // activation status of the current rule
+     private transient BooleanProperty active;
 
     public Rule(String name, Trigger trigger, Action action) {
         this.name = name;

@@ -12,9 +12,22 @@ import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
 
+/**
+ * The DayOfMonthTriggerView class is an implementation of the TriggerView interface
+ * that allows the user to select a specific day of the month.
+ *
+ * <p>
+ * The view consists of a spinner component where the user can select a day of the month.
+ * </p>
+ *
+ * <p>
+ * Usage example:
+ * </p>
+ *
+ */
 public class DayOfMonthTriggerView implements TriggerView {
 
-    private Spinner<Integer> daySpinner;
+    private final Spinner<Integer> daySpinner;
 
     public DayOfMonthTriggerView() {
         daySpinner = new Spinner<>();

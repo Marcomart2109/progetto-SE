@@ -2,6 +2,11 @@ package it.unisa.diem.se.group7.seproject.Model.Triggers;
 
 import java.util.List;
 
+/**
+ * The `CompositeAndTrigger` class is a concrete implementation of the `CompositeTrigger` abstract class.
+ * It represents a composite trigger that combines multiple triggers using the logical AND operator.
+ * The trigger is considered true only if all the triggers it contains evaluate to true.
+ */
 public class CompositeAndTrigger extends CompositeTrigger{
 
     public CompositeAndTrigger(){

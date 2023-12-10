@@ -5,6 +5,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 
+/**
+ * The AppendToFileAction class represents an action that appends text to a specified file.
+ * It implements the Action interface and is Serializable.
+ *
+ * Example usage:
+ * AppendToFileAction appendAction = new AppendToFileAction(file, "Text to append");
+ * appendAction.execute();
+ *
+ */
 public class AppendToFileAction implements Action, Serializable {
 
     private File filePath;
@@ -21,8 +30,6 @@ public class AppendToFileAction implements Action, Serializable {
         } else {
             System.err.println("File validation failed. Unable to create AppendToFileAction instance.");
         }
-
-
     }
 
     private boolean validateFile(File filePath) {
@@ -46,7 +53,6 @@ public class AppendToFileAction implements Action, Serializable {
         return true;
     }
 
-
     @Override
     public void execute() {
         try (FileWriter fileWriter = new FileWriter(filePath,true)) {
@@ -59,7 +65,6 @@ public class AppendToFileAction implements Action, Serializable {
         }
 
     }
-
 
     @Override
     public String toString() {

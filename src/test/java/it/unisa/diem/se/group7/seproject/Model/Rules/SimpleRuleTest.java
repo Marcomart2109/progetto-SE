@@ -15,14 +15,14 @@ class SimpleRuleTest {
     private Action action;
 
     // Concrete trigger that always evaluates to true
-    private class TrueTrigger implements Trigger {
+    private static class TrueTrigger implements Trigger {
         public boolean evaluate() {
             return true;
         }
     }
 
     // Concrete action that prints a message to the console
-    private class ConsoleAction implements Action {
+    private static class ConsoleAction implements Action {
         public void execute() {
             System.out.println("[Action triggered]");
         }

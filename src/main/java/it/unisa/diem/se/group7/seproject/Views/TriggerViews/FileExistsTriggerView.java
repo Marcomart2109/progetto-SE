@@ -14,10 +14,20 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+/**
+ * FileExistsTriggerView implements the TriggerView interface and represents a view for a file exists trigger.
+ *
+ * <p> The view allows the user to enter a file name and select a directory. The trigger is considered valid
+ * if both the file name and directory are specified.
+ *
+ * <p> The view provides a text field to enter the file name and a button to open a directory chooser dialog
+ * to select the directory. The selected directory is displayed in a label.
+ *
+ */
 public class FileExistsTriggerView implements TriggerView {
-    private TextField fileNameTextField;
+    private final TextField fileNameTextField;
     private File selectedDirectory;
-    private Label selectedDirectoryLabel; // Added Label
+    private final Label selectedDirectoryLabel; // Added Label
 
     public FileExistsTriggerView() {
         fileNameTextField = new TextField();

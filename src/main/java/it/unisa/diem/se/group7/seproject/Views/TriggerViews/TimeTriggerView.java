@@ -11,9 +11,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import java.time.LocalTime;
 
+/**
+ * The TimeTriggerView class is an implementation of the TriggerView interface that allows the user to select a specific time as a trigger.
+ * The user can select the hour and minute using spinner components.
+ */
 public class TimeTriggerView implements TriggerView {
-    private Spinner<Integer> hourSpinner;
-    private Spinner<Integer> minuteSpinner;
+    private final Spinner<Integer> hourSpinner;
+    private final Spinner<Integer> minuteSpinner;
 
     public TimeTriggerView() {
         hourSpinner = new Spinner<>();

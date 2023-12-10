@@ -14,11 +14,15 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+/**
+ * The CopyFileActionView class is an implementation of the ActionView interface. It represents a view for the "Copy File" action.
+ * The class provides methods to display the view, retrieve the corresponding action, and determine if the view is valid.
+ */
 public class CopyFileActionView implements ActionView {
     private File selectedSourceFile;
     private File selectedDestinationDirectory;
-    private Label selectedSourceFileLabel;
-    private Label selectedDestinationDirectoryLabel;
+    private final Label selectedSourceFileLabel;
+    private final Label selectedDestinationDirectoryLabel;
 
     public CopyFileActionView() {
         selectedSourceFileLabel = new Label("No source file selected");

@@ -27,7 +27,7 @@ public class CompositeAndTriggerTest {
 
         try{
             correctFile.createNewFile();
-        }catch(Exception ex){}
+        }catch(Exception ignored){}
 
         File folder = new File("src/main/resources");
 
@@ -70,13 +70,9 @@ public class CompositeAndTriggerTest {
     public void testRemoveTrigger(){
         cat.add(t1);
 
-        assertThrows(RuntimeException.class, () ->{
-            cat.remove(t2);
-        });
+        assertThrows(RuntimeException.class, () -> cat.remove(t2));
 
-        assertAll(() ->{
-            cat.remove(t1);
-        });
+        assertAll(() -> cat.remove(t1));
 
         cat.add(t1);
         cat.remove(t1);
@@ -91,7 +87,7 @@ public class CompositeAndTriggerTest {
         assertFalse(cat.getTriggers().isEmpty());
 
         cat.add(t2);
-        assertTrue(cat.getTriggers().contains(t1) && cat.getTriggers().contains(t1));
+        assertTrue(cat.getTriggers().contains(t1) && cat.getTriggers().contains(t2));
     }
 
     @Test

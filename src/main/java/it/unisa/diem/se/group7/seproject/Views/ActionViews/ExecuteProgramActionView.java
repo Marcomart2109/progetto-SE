@@ -14,10 +14,16 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+/**
+ * The ExecuteProgramActionView class represents a view for executing a program action.
+ * It implements the ActionView interface.
+ * The class allows the user to select a script file and enter command line arguments for the script.
+ * The selected script file and command line arguments are used to create an ExecuteProgramAction.
+ */
 public class ExecuteProgramActionView implements ActionView {
     private File selectedScript;
-    private TextField argumentsTextField;
-    private Label selectedScriptLabel; // Added Label
+    private final TextField argumentsTextField;
+    private final Label selectedScriptLabel; // Added Label
 
     public ExecuteProgramActionView() {
         argumentsTextField = new TextField();

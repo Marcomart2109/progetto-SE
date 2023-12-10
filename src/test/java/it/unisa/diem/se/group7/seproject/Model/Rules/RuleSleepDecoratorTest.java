@@ -14,12 +14,12 @@ class RuleSleepDecoratorTest {
     private RuleSleepDecorator rule;
 
     // Concrete trigger that always evaluates to true
-    private class TrueTrigger implements Trigger {
+    private static class TrueTrigger implements Trigger {
         public boolean evaluate() { return true; }
     }
 
     // Concrete action that does nothing
-    private class EmptyAction implements Action {
+    private static class EmptyAction implements Action {
         public void execute() { }
     }
 
@@ -38,7 +38,7 @@ class RuleSleepDecoratorTest {
     }
 
     @Test
-    public void testEvaluateAfterFiring() throws InterruptedException {
+    public void testEvaluateAfterFiring() {
         // After firing, it should not be able to evaluate to true again immediately
         rule.execute();
         assertFalse(rule.evaluate());
@@ -53,7 +53,7 @@ class RuleSleepDecoratorTest {
     }
 
     @Test
-    public void testEvaluateAfterExecutingAgain() throws InterruptedException {
+    public void testEvaluateAfterExecutingAgain() {
         // After executing once more, it shouldn't evaluate to true anymore
         rule.execute();
         assertFalse(rule.evaluate());

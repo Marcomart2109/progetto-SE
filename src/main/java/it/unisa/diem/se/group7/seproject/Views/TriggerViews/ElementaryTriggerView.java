@@ -14,12 +14,17 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-
+/**
+ * ElementaryTriggerView is a class that implements the TriggerView interface.
+ * It represents a view for elementary triggers, allowing users to select a trigger type and configure it.
+ * The view contains a ComboBox to select a trigger type, a CheckBox to negate the trigger, and a container to display the trigger-specific configuration.
+ *
+ */
 public class ElementaryTriggerView implements TriggerView {
-    private HBox triggersBox;
-    private ComboBox<TriggerType> triggerMenu;
+    private final HBox triggersBox;
+    private final ComboBox<TriggerType> triggerMenu;
     private TriggerView currentTriggerView;
-    private CheckBox negateTriggerCheckbox;
+    private final CheckBox negateTriggerCheckbox;
 
     public ElementaryTriggerView() {
         triggersBox = new HBox(DEFAULT_SPACING);

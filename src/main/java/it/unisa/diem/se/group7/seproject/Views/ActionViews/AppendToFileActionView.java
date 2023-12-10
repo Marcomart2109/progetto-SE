@@ -14,10 +14,14 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+/**
+ * The AppendToFileActionView class represents a view for appending text to a file.
+ * It implements the ActionView interface.
+ */
 public class AppendToFileActionView implements ActionView {
     private File selectedFile;
-    private TextField messageTextField;
-    private Label selectedFileLabel;
+    private final TextField messageTextField;
+    private final Label selectedFileLabel;
 
     public AppendToFileActionView() {
         messageTextField = new TextField();

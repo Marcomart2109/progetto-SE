@@ -36,7 +36,7 @@ class FileSizeTriggerTest {
 
     @Test
     void testEvaluateFileExistsButDoesNotMeetCondition() {
-        long fileSize = 0; // Set the file size to a value that does not meet the condition
+        long fileSize; // Set the file size to a value that does not meet the condition
         try {
             fileSize = Files.size(testFilePath) + 1;
         } catch (IOException e) {

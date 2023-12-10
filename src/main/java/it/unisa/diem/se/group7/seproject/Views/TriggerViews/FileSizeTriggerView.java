@@ -14,10 +14,17 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+/**
+ * The FileSizeTriggerView class implements the TriggerView interface and represents a view for a file size trigger.
+ * <p>
+ * This view allows the user to enter a file length in bytes and select a file. It provides a button to open a file chooser dialog and display the selected file name.
+ * The view also provides methods to get the entered file length and create a file size trigger based on the entered data.
+ *
+ */
 public class FileSizeTriggerView implements TriggerView {
-    private Spinner<Integer> fileLengthSpinner;
+    private final Spinner<Integer> fileLengthSpinner;
     private File selectedFile;
-    private Label selectedFileLabel;
+    private final Label selectedFileLabel;
 
     public FileSizeTriggerView() {
         fileLengthSpinner = new Spinner<>(0, Integer.MAX_VALUE, 0);

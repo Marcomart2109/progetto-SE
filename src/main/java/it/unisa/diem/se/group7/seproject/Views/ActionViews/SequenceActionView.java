@@ -10,8 +10,19 @@ import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The SequenceActionView class represents a view for a sequence of actions.
+ * It implements the ActionView interface.
+ * <p>
+ * The SequenceActionView class has the following responsibilities:
+ * - Create a container node to hold the sequence of actions.
+ * - Provide a method to add a new action to the sequence.
+ * - Handle the user action of adding a new action to the sequence.
+ * - Retrieve the composite action that represents the sequence of actions.
+ * - Check if all the actions in the sequence are valid.
+ */
 public class SequenceActionView implements ActionView {
-    private List<ActionView> actionViewList;
+    private final List<ActionView> actionViewList;
 
     public SequenceActionView() {
         actionViewList = new ArrayList<>();

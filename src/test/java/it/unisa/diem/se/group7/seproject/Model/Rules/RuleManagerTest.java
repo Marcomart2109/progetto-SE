@@ -1,16 +1,10 @@
 package it.unisa.diem.se.group7.seproject.Model.Rules;
 
 import it.unisa.diem.se.group7.seproject.Model.Actions.ShowDialogBoxAction;
-import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
-import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
-import it.unisa.diem.se.group7.seproject.Model.Rules.SimpleRule;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.TimeTrigger;
 import javafx.collections.ObservableList;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.sql.Time;
 
 import static org.junit.Assert.*;
 

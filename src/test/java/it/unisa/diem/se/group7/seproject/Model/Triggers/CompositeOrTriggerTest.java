@@ -74,13 +74,9 @@ public class CompositeOrTriggerTest {
     public void testRemoveTrigger() {
         cot.add(t1);
 
-        assertThrows(RuntimeException.class, () -> {
-            cot.remove(t2);
-        });
+        assertThrows(RuntimeException.class, () -> cot.remove(t2));
 
-        assertAll(() -> {
-            cot.remove(t1);
-        });
+        assertAll(() -> cot.remove(t1));
 
         cot.add(t1);
         cot.remove(t1);

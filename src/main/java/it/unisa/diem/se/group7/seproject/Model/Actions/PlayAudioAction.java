@@ -4,6 +4,19 @@ import java.io.*;
 import java.util.Objects;
 import javax.sound.sampled.*;
 
+/**
+ * The PlayAudioAction class represents an action that plays an audio file.
+ * It implements the Action interface.
+ *
+ * <p>
+ * Sample usage:
+ * <pre>
+ * File audioFile = new File("audio.wav");
+ * PlayAudioAction playAudioAction = new PlayAudioAction(audioFile);
+ * playAudioAction.execute();
+ * </pre>
+ * </p>
+ */
 public class PlayAudioAction implements Action, Serializable {
     private transient Clip clip; // clip is not serializable
     private final File audioFile;
@@ -46,6 +59,7 @@ public class PlayAudioAction implements Action, Serializable {
         }
     }
 
+    @Serial
     private void writeObject(ObjectOutputStream out) throws IOException {
 
         out.defaultWriteObject(); // write non-transient objects
@@ -53,6 +67,7 @@ public class PlayAudioAction implements Action, Serializable {
 
     }
 
+    @Serial
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
 
         in.defaultReadObject(); // read non-transient objects

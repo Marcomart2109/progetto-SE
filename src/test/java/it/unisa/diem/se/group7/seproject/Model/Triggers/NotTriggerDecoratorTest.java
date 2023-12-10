@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class NotTriggerDecoratorTest {
     private static class RealTrigger implements Trigger {
-        private boolean evaluationResult;
+        private final boolean evaluationResult;
 
         public RealTrigger(boolean evaluationResult) {
             this.evaluationResult = evaluationResult;

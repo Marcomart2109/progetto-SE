@@ -8,9 +8,26 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * This class represents an executable, parameterized action, which is to run an external program.
+ * <p>
+ * It implements the Action interface and java.io.Serializable interface.
+ * <p>
+ * The class is initialized with the external program (as a Java File object) and a series of command line arguments.
+ * The file is set to be executable, and the command line arguments are split into an List<String>.
+ * <p>
+ * This class also comes with a TIMEOUT_LIMIT constant which denotes the time limit before the process is forcefully closed.
+ * <p>
+ * Example usage:
+ * File program = new File("/path/to/your/program");
+ * ExecuteProgramAction action = new ExecuteProgramAction(program, "-a argument -b another_argument");
+ * action.execute();
+ * ```
+ */
+
 public class ExecuteProgramAction implements Action, Serializable {
-    private File externalProgram;
-    private List<String> arguments;
+    private final File externalProgram;
+    private final List<String> arguments;
 
     private final int TIMEOUT_LIMIT = 5;
 
@@ -18,7 +35,7 @@ public class ExecuteProgramAction implements Action, Serializable {
         this.externalProgram = externalProgram;
         externalProgram.setExecutable(true); //Set executable permissions for the file
         // Arguments initialization in the constructor
-        arguments = Arrays.asList(commandLineArguments.split("\s+"));
+        arguments = Arrays.asList(commandLineArguments.split(" +"));
     }
 
     @Override
@@ -47,11 +64,6 @@ public class ExecuteProgramAction implements Action, Serializable {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException("Error in the execution of the external program");
         }
-    }
-
-
-    public File getExternalProgram() {
-        return externalProgram;
     }
 
     public List<String> getArguments() {

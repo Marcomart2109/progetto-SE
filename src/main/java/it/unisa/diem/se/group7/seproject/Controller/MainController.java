@@ -16,9 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
@@ -28,13 +25,17 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * The MainController class handles the main functionality of the application's main view.
+ * It initializes and manages the TableView that displays a list of Rule objects,
+ * and includes methods for adding, editing, and deleting rules.
+ */
 public class MainController implements Initializable {
 
     @FXML
@@ -64,15 +65,21 @@ public class MainController implements Initializable {
     @FXML
     private TextArea actionDetailText;
 
+    @FXML
+    private Label selectedRuleLabel;
+
     private ObservableList<Rule> rules;
 
     private RuleManager ruleManager;
 
-    @FXML
-    private Label selectedRuleLabel;
-
     private RuleBackupManager rbm;
 
+    /**
+     * Initializes the MainController by setting up the necessary components and loading data.
+     *
+     * @param url             The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle  The resource bundle that contains the localized strings for the root object, or null if the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         ruleManager = RuleManager.getInstance();
@@ -88,15 +95,10 @@ public class MainController implements Initializable {
     }
 
     /**
-     * Initializes the TableView by setting up the cell value factories, cell factories, and event handlers.
-     * The TableView displays a list of Rule objects.
-     * The name property of each Rule is displayed in the rulesClm column.
-     * The index of each Rule object in the rules list plus one is displayed in the indexClm column.
-     * The rulesClm column uses a TextFieldTableCell cell factory for editing the name property.
-     * When the name is edited in the rulesClm column, the corresponding Rule object's name property is updated.
-     *
-     * Multiple selection is enabled on the TableView.
-     * The TableView is populated with the rules list.
+     * Initializes the TableView component with appropriate cell factories and event handlers.
+     * This method is called during the initialization of the MainController class.
+     * It sets up the columns, cell factories, and event handlers for the TableView.
+     * Additionally, it allows multiple selection on the TableView and binds the items to the rules ObservableList.
      */
     private void initTableView() {
         rulesClm.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -106,10 +108,9 @@ public class MainController implements Initializable {
             Rule rule = event.getRowValue();
             rule.setName(event.getNewValue());
         });
-/*        indexClm.setCellValueFactory(new PropertyValueFactory<Rule,Trigger>("trigger"));
-        rulesClm.setCellValueFactory(new PropertyValueFactory<Rule,Action>("action"));*/
+
         statusClm.setCellValueFactory(cellData -> cellData.getValue().activeProperty());
-        statusClm.setCellFactory(column -> new TableCell<Rule, Boolean>() {
+        statusClm.setCellFactory(column -> new TableCell<>() {
             private final Circle circle = new Circle(5);
 
             @Override
@@ -159,6 +160,13 @@ public class MainController implements Initializable {
         });
     }
 
+    /**
+     * Initializes the bottom bar component.
+     * This method binds the text property of the selectedRuleLabel with a StringExpression based on the number of selected items in the tableView.
+     * If at least one item is selected, it sets the text to "{selectedItemsCount} selected {rules/rule}", depending on the number of selected items.
+     * If no item is selected, it clears the text of the selectedRuleLabel.
+     * Additionally, it binds the visibility property of the selectedRuleLabel with the isEmpty property of the selectedItemsText.
+     */
     private void initBottomBar() {
         StringExpression selectedItemsText = Bindings.createStringBinding(() -> {
             int selectedItemsCount = tableView.getSelectionModel().getSelectedItems().size();
@@ -174,6 +182,16 @@ public class MainController implements Initializable {
         selectedRuleLabel.visibleProperty().bind(Bindings.isNotEmpty(selectedItemsText));
     }
 
+    /**
+     * Opens a new window for adding a new rule.
+     * This method loads the FXML file for the new view, creates a new stage for the view,
+     * and sets the new scene on the stage.
+     * It also sets the title of the stage, adds a CSS stylesheet to the scene,
+     * and shows the new stage.
+     * This method is associated with a button click event in the main view.
+     *
+     * @param event The button click event that triggers the method.
+     */
     @FXML
     public void addNewRule() {
         try {
@@ -190,7 +208,7 @@ public class MainController implements Initializable {
             // Set the new scene on the stage
             Scene scene = new Scene(root);
             newStage.setScene(scene);
-            String cssPath = Application.class.getResource("style/style.css").toExternalForm();
+            String cssPath = Objects.requireNonNull(Application.class.getResource("style/style.css")).toExternalForm();
             scene.getStylesheets().add(cssPath);
 
             // Show the new stage
@@ -200,12 +218,20 @@ public class MainController implements Initializable {
             e.printStackTrace();
         }
     }
+    /**
+     * Opens a new window for editing a selected rule.
+     * This method loads the FXML file for the new view, creates a new stage for the view,
+     * and sets the new scene on the stage. It also sets the title of the stage, adds a CSS stylesheet to the scene,
+     * and shows the new stage. This method is associated with an action event, typically triggered by a button click.
+     *
+     * @param event The action event that triggers the method.
+     */
     @FXML
     public void editRuleAction(ActionEvent event) {
         ObservableList<Rule> selectedItems = tableView.getSelectionModel().getSelectedItems();
 
         if (selectedItems.size() == 1) {
-            Rule selectedItem = selectedItems.get(0);
+            Rule selectedItem = selectedItems.getFirst();
             try {
                 // Load the FXML file for the new view
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/it/unisa/diem/se/group7/seproject/rule-view.fxml"));
@@ -223,7 +249,7 @@ public class MainController implements Initializable {
                 // Set the new scene on the stage
                 Scene scene = new Scene(root);
                 newStage.setScene(scene);
-                String cssPath = Application.class.getResource("style/style.css").toExternalForm();
+                String cssPath = Objects.requireNonNull(Application.class.getResource("style/style.css")).toExternalForm();
                 scene.getStylesheets().add(cssPath);
 
                 // Show the new stage
@@ -241,6 +267,11 @@ public class MainController implements Initializable {
             alert.showAndWait();
         }
     }
+    /**
+     * Deletes the selected rule(s) from the TableView.
+     *
+     * @param event the ActionEvent triggered by the delete button
+     */
     @FXML
     public void deleteRuleAction(ActionEvent event) {
         ObservableList<Rule> selectedItems = tableView.getSelectionModel().getSelectedItems();
@@ -268,6 +299,13 @@ public class MainController implements Initializable {
             alert.showAndWait();
         }
     }
+    /**
+     * Activate the selected rule(s) in the TableView.
+     * If no rule is selected, display an error message.
+     * Refresh the TableView after activating the rule(s).
+     *
+     * @param actionEvent The action event that triggers the method.
+     */
     @FXML
     public void activateRuleAction(ActionEvent actionEvent) {
         ObservableList<Rule> selectedRules = tableView.getSelectionModel().getSelectedItems();
@@ -286,6 +324,13 @@ public class MainController implements Initializable {
         }
         tableView.refresh();
     }
+    /**
+     * Deactivates the selected rule(s) in the TableView.
+     * If no rule is selected, displays an error message.
+     * After deactivating the rule(s), refreshes the TableView.
+     *
+     * @param actionEvent The action event that triggers the method.
+     */
     @FXML
     public void deactivateRuleAction(ActionEvent actionEvent) {
         ObservableList<Rule> selectedRules = tableView.getSelectionModel().getSelectedItems();
@@ -304,17 +349,32 @@ public class MainController implements Initializable {
         }
         tableView.refresh();
     }
+    /**
+     * Saves the current rules to a binary file and exits the application.
+     *
+     * @param actionEvent The action event that triggers the method.
+     */
     @FXML
     public void quitAction(ActionEvent actionEvent) {
         rbm.saveOnBinaryFile(rules);
         Platform.exit();
         System.exit(0);
     }
+    /**
+     * Selects all rules in the TableView component.
+     *
+     * @param event The ActionEvent triggered by selecting all rules.
+     */
     @FXML
     private void selectAllRules(ActionEvent event) {
         tableView.getSelectionModel().selectAll();
     }
 
+    /**
+     * Deselects all rules in the TableView component.
+     *
+     * @param event The ActionEvent triggered by deselecting all rules.
+     */
     @FXML
     private void deselectAllRules(ActionEvent event) {
         tableView.getSelectionModel().clearSelection();

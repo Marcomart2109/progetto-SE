@@ -18,7 +18,7 @@ public class ExitValueTriggerTest {
         String osName = System.getProperty("os.name").toLowerCase();
         String commands;
 
-        // the if-block is reserved to windows systems, the else-block to unix/linux systems
+        // the if-block is reserved to Windows systems, the else-block to unix/linux systems
         if(osName.equals("windows")){
             program = new File("src/main/resources/testProgram.bat");
             commands = "@echo off" + System.lineSeparator() + "echo Hello world";
@@ -30,7 +30,7 @@ public class ExitValueTriggerTest {
         //script creation in folder src/main/resources
         try{
             program.createNewFile();
-        }catch(IOException exc){}
+        }catch(IOException ignored){}
 
         //the following block is useful for writing the command lines in the empty script
         try {

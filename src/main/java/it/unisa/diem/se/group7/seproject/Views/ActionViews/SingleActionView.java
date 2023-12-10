@@ -12,9 +12,20 @@ import javafx.scene.control.Separator;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * The SingleActionView class represents a view for a single action.
+ * It implements the ActionView interface.
+ * <p>
+ * The SingleActionView class has the following responsibilities:
+ * - Create a container node to hold the single action view.
+ * - Provide a ComboBox to select the action type.
+ * - Provide a method to handle the action choice and update the view accordingly.
+ * - Retrieve the action from the current action view.
+ * - Check if the current action view is valid.
+ */
 public class SingleActionView implements ActionView {
-    private HBox actionsBox;
-    private ComboBox<ActionType> actionMenu;
+    private final HBox actionsBox;
+    private final ComboBox<ActionType> actionMenu;
     private ActionView currentActionView;
 
     public SingleActionView() {

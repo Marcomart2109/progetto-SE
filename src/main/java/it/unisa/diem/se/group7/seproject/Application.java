@@ -1,6 +1,5 @@
 package it.unisa.diem.se.group7.seproject;
 
-import it.unisa.diem.se.group7.seproject.Controller.MainController;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleBackupManager;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
 import it.unisa.diem.se.group7.seproject.Model.Scheduler.RuleScheduler;
@@ -8,15 +7,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
+/**
+ * The Application class extends the javafx.application.Application class and represents the main entry point of the application.
+ * It is responsible for initializing and configuring the application's user interface.
+ * The start() method is overridden to load the main view, set the application title, and start the rule scheduler.
+ * The main() method is used to launch the application.
+ */
 public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Application.class.getResource("main-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-        String cssPath = getClass().getResource("style/style.css").toExternalForm();
+        String cssPath = Objects.requireNonNull(getClass().getResource("style/style.css")).toExternalForm();
         scene.getStylesheets().add(cssPath);
 
         stage.setTitle("Desktop RuleMaster");
@@ -35,9 +40,7 @@ public class Application extends javafx.application.Application {
             rbm.saveOnBinaryFile(rm.getRules());
 
             // Stop the scheduler when the window is closed
-            if (ruleScheduler != null) {
-                ruleScheduler.stopScheduler();
-            }
+            ruleScheduler.stopScheduler();
         });
     }
 

@@ -9,8 +9,25 @@ import java.io.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+/**
+ * RuleSleepDecorator is a class that extends RuleDecorator and represents a rule
+ * that can be triggered multiple times with a sleep period between each trigger.
+ * It wraps an existing Rule object and adds the functionality of sleeping
+ * for a specified duration before allowing the rule to trigger again.
+ * <p>
+ * The RuleSleepDecorator evaluates the trigger condition of the wrapped rule.
+ * If the trigger condition is met and the rule has not been triggered before,
+ * it will trigger the rule and set itself as inactive.
+ * If the rule has been triggered before and the canFireAgain flag is set to true,
+ * it will trigger the rule again only if the sleeping period has elapsed.
+ * The sleeping period is set during object construction and can be changed later.
+ * <p>
+ * The RuleSleepDecorator overrides the execute method of the Rule object to
+ * execute the action of the wrapped rule and update its own state.
+ * It also provides getter and setter methods for the sleeping period and canFireAgain flag.
+ */
 public class RuleSleepDecorator extends RuleDecorator implements Serializable {
-    private Rule rule;
+    private final Rule rule;
     private boolean firedOnce;
     private boolean canFireAgain;
     private Duration sleepingPeriod;

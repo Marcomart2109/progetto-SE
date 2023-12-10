@@ -2,14 +2,18 @@ package it.unisa.diem.se.group7.seproject.Views.ActionViews;
 
 import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
 import it.unisa.diem.se.group7.seproject.Model.Actions.ShowDialogBoxAction;
-import it.unisa.diem.se.group7.seproject.Views.ActionViews.ActionView;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
+/**
+ * The ShowDialogBoxActionView class implements the ActionView interface and provides
+ * a view for showing a dialog box with a custom message. It creates a graphical user interface
+ * with a text field for entering the message.
+ */
 public class ShowDialogBoxActionView implements ActionView {
-    private TextField messageTextField;
+    private final TextField messageTextField;
 
     public ShowDialogBoxActionView() {
         messageTextField = new TextField();

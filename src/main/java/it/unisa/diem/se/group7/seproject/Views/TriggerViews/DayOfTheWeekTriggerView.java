@@ -13,8 +13,12 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Arrays;
 
+/**
+ * The DayOfTheWeekTriggerView class is an implementation of the TriggerView interface that
+ * allows the user to select a specific day of the week as a trigger.
+ */
 public class DayOfTheWeekTriggerView implements TriggerView {
-    private ComboBox<DayOfWeek> dayComboBox;
+    private final ComboBox<DayOfWeek> dayComboBox;
 
     public DayOfTheWeekTriggerView() {
         dayComboBox = new ComboBox<>();

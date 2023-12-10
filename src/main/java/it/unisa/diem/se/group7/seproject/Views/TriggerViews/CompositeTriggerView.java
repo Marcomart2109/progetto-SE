@@ -9,11 +9,20 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 
 
+/**
+ * The CompositeTriggerView class implements the TriggerView interface.
+ * It represents a composite trigger view that combines multiple triggers using a selected comparator.
+ * The composite trigger view contains two ElementaryTriggerViews and a ComboBox to select the comparator.
+ * <p>
+ * The getView() method returns a Node that represents the composite trigger view.
+ * The getTrigger() method returns a Trigger that combines the triggers based on the selected comparator.
+ * The isValid() method checks if the composite trigger view and its components are valid.
+ */
 public class CompositeTriggerView implements TriggerView {
 
-    private TriggerView firstTriggerView;
-    private TriggerView secondTriggerView;
-    private ComboBox<String> triggerComparator;
+    private final TriggerView firstTriggerView;
+    private final TriggerView secondTriggerView;
+    private final ComboBox<String> triggerComparator;
 
     public CompositeTriggerView() {
         firstTriggerView = new ElementaryTriggerView();

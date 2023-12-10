@@ -12,8 +12,18 @@ import javafx.scene.layout.VBox;
 
 import java.time.LocalDate;
 
+/**
+ * DayOfTheYearTriggerView is a class that implements the TriggerView interface.
+ * It represents a view for selecting a specific day of the year as a trigger.
+ *
+ * <p> The selected day of the year is used to create a DayOfTheYearTrigger instance,
+ * which is then used as the trigger for evaluating events or actions.
+ *
+ * <p> The view provides a DatePicker component for selecting the day of the year.
+ * It disables days before the current date to prevent invalid selections.
+ */
 public class DayOfTheYearTriggerView implements TriggerView {
-    private DatePicker datePicker;
+    private final DatePicker datePicker;
 
     public DayOfTheYearTriggerView() {
         datePicker = new DatePicker();

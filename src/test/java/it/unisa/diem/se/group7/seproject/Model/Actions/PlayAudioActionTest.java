@@ -1,6 +1,5 @@
 package it.unisa.diem.se.group7.seproject.Model.Actions;
 
-import it.unisa.diem.se.group7.seproject.Model.Rules.Rule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,7 +17,7 @@ public class PlayAudioActionTest {
         wrongFile = new File("src/main/resources/testFile.txt");
         try{
             wrongFile.createNewFile();
-        }catch(IOException exc){}
+        }catch(IOException ignored){}
 
         absentFile = new File("");
 
@@ -52,14 +51,10 @@ public class PlayAudioActionTest {
     public void testSerializationDeserialization(){
         // the following code is useful to check the absence of exceptions during the serialization process
         PlayAudioAction serializedPaa = new PlayAudioAction(audioFile);
-        assertAll(()-> {
-            writePlayAudioActionObject(serializedPaa, backupPath);
-        });
+        assertAll(()-> writePlayAudioActionObject(serializedPaa, backupPath));
 
         // the following code is useful to check the absence of exceptions during the deserialization process
-        assertAll(()-> {
-            readPlayAudioActionObject(backupPath);
-        });
+        assertAll(()-> readPlayAudioActionObject(backupPath));
 
         // the following code check if the object we want to serialize is equal to the deserialized one
         // according to the definition of the equals method in PlayAudioAudioAction class

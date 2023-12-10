@@ -1,11 +1,11 @@
 package it.unisa.diem.se.group7.seproject.Model.Triggers;
 
-import it.unisa.diem.se.group7.seproject.Model.Triggers.TimeTrigger;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class TimeTriggerTest {
 
@@ -13,14 +13,13 @@ class TimeTriggerTest {
     public void testEvaluateFalse() {
 
         LocalTime currentTime = LocalTime.now().plusMinutes(10);
-        // Ottieni solo l'ora e i minuti
+        // Get only the hour and minutes
         int currentHour = currentTime.getHour();
         int currentMinute = currentTime.getMinute();
-        // Imposta un orario di attivazione futuro
+        // Set a future activation time
         TimeTrigger timeTrigger = new TimeTrigger(currentHour, currentMinute);
 
-
-        // Valuta il trigger e verifica che sia attivo
+        // Evaluate the trigger and verify that it is not active
         assertFalse(timeTrigger.evaluate());
     }
 
@@ -29,14 +28,13 @@ class TimeTriggerTest {
 
         LocalTime currentTime = LocalTime.now();
 
-        // Ottieni solo l'ora e i minuti
+        // Get only the hour and minutes
         int currentHour = currentTime.getHour();
         int currentMinute = currentTime.getMinute();
-        // Imposta un orario di attivazione futuro
+        // Set a future activation time
         TimeTrigger timeTrigger = new TimeTrigger(currentHour, currentMinute);
 
-
-        // Valuta il trigger e verifica che sia attivo
+        // Evaluate the trigger and verify that it is active
         assertTrue(timeTrigger.evaluate());
     }
 }

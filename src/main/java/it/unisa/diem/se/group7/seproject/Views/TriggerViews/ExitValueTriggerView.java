@@ -14,17 +14,38 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+/**
+ * The ExitValueTriggerView class represents a view component for configuring an ExitValueTrigger.
+ * It implements the TriggerView interface.
+ *
+ * <p>
+ * The ExitValueTriggerView class displays a user interface that allows the user to select a script file and specify an exit value.
+ * It provides methods to get the selected script file and exit value.
+ * The class also provides a method to create an ExitValueTrigger based on the selected options.
+ * </p>
+ *
+ * <p>
+ * The user interface consists of a file selection button, a spinner for selecting the exit value, and a label to display the selected file.
+ * The user can click on the file selection button to open a file chooser dialog and select a script file.
+ * The selected file name is then displayed in the label.
+ * </p>
+ *
+ * <p>
+ * The ExitValueTriggerView class depends on the FileChooser and Stage classes from the JavaFX library.
+ * </p>
+ *
+ */
 public class ExitValueTriggerView implements TriggerView {
     private File selectedScript;
-    private Spinner<Integer> exitValueSpinner;
-    private Label selectedFileLabel; // Added Label
+    private final Spinner<Integer> exitValueSpinner;
+    private final Label selectedFileLabel;
 
     public ExitValueTriggerView() {
         exitValueSpinner = new Spinner<>(0, Integer.MAX_VALUE, 0);
         exitValueSpinner.setEditable(true);
         exitValueSpinner.setPrefWidth(60);
 
-        selectedFileLabel = new Label("No file selected"); // Default label text
+        selectedFileLabel = new Label("No file selected");
     }
 
     @Override
@@ -47,7 +68,7 @@ public class ExitValueTriggerView implements TriggerView {
         spinnerBox.setAlignment(Pos.CENTER_LEFT);
         spinnerBox.getChildren().addAll(exitValueLabel, exitValueSpinner);
 
-        container.getChildren().addAll(fileBox, spinnerBox); // Added Label
+        container.getChildren().addAll(fileBox, spinnerBox);
 
         return container;
     }

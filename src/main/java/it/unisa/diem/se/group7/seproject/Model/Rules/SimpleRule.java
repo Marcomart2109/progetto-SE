@@ -6,6 +6,14 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 import java.io.*;
 
+/**
+ * The SimpleRule class represents a rule that can be evaluated and executed based on its trigger and action.
+ * It extends the Rule abstract class and implements the Serializable interface.
+ * <p>
+ * A SimpleRule has a name, a trigger, an action, and an active state.
+ * The active state represents the current activation state of the rule and can be observed and modified using the active property.
+ * The active property is transient, meaning it will not be serialized or deserialized.
+ */
 public class SimpleRule extends Rule implements Serializable {
 
     private Boolean fired;

@@ -1,6 +1,5 @@
 package it.unisa.diem.se.group7.seproject.Model.Actions;
 
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,12 +14,12 @@ public class CompositeActionTest {
     private File folder;
     private CompositeAction compositeAction;
 
-    public class TrueAction implements Action{
+    public static class TrueAction implements Action{
         public void execute(){
             System.out.println("True");
         }
     }
-    public class FalseAction implements Action{
+    public static class FalseAction implements Action{
         public void execute(){
             System.out.println("False");
         }
@@ -55,9 +54,7 @@ public class CompositeActionTest {
         compositeAction.getActions().clear();
         compositeAction.add(a1);
 
-        assertThrows(RuntimeException.class,() -> {
-            compositeAction.remove(a3);
-        });
+        assertThrows(RuntimeException.class,() -> compositeAction.remove(a3));
         assertDoesNotThrow(() -> {
             compositeAction.remove(a1);
         });
