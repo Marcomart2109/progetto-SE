@@ -1,12 +1,13 @@
-package it.unisa.diem.se.group7.seproject.Views;
+package it.unisa.diem.se.group7.seproject.Views.TriggerViews;
 
+import it.unisa.diem.se.group7.seproject.Model.Triggers.NotTriggerDecorator;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.TriggerType;
 import it.unisa.diem.se.group7.seproject.Views.Factories.TriggerViewFactory;
-import it.unisa.diem.se.group7.seproject.Views.TriggerViews.TriggerView;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
@@ -18,10 +19,12 @@ public class ElementaryTriggerView implements TriggerView {
     private HBox triggersBox;
     private ComboBox<TriggerType> triggerMenu;
     private TriggerView currentTriggerView;
+    private CheckBox negateTriggerCheckbox;
 
     public ElementaryTriggerView() {
         triggersBox = new HBox(DEFAULT_SPACING);
         triggerMenu = new ComboBox<>();
+        negateTriggerCheckbox = new CheckBox();
         triggerMenu.getItems().setAll(TriggerType.values());
     }
 
@@ -30,16 +33,15 @@ public class ElementaryTriggerView implements TriggerView {
         VBox container = new VBox();
         container.setSpacing(DEFAULT_SPACING);
 
-/*        Label titleLabel = new Label("Triggers");
-        titleLabel.setStyle("-fx-font-size: 16;");*/
-
         HBox triggerContainer = new HBox(DEFAULT_SPACING);
         triggerContainer.setAlignment(Pos.CENTER_LEFT);
 
         Label triggerLabel = new Label("Select a trigger");
 
+
         triggerMenu.setOnAction(actionEvent -> handleTriggerChoice());
-        triggerContainer.getChildren().addAll(triggerMenu, triggersBox);
+        Label negateTriggerLabel = new Label("NOT");
+        triggerContainer.getChildren().addAll(negateTriggerLabel, negateTriggerCheckbox, triggerMenu, triggersBox);
 
         container.getChildren().addAll(triggerLabel, triggerContainer);
 
@@ -56,6 +58,9 @@ public class ElementaryTriggerView implements TriggerView {
 
     @Override
     public Trigger getTrigger() {
+        if (negateTriggerCheckbox.isSelected()) {
+            return new NotTriggerDecorator(currentTriggerView.getTrigger());
+        }
         return currentTriggerView.getTrigger();
     }
 

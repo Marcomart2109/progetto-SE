@@ -1,8 +1,7 @@
-package it.unisa.diem.se.group7.seproject.Views;
+package it.unisa.diem.se.group7.seproject.Views.ActionViews;
 
 import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
 import it.unisa.diem.se.group7.seproject.Model.Actions.ActionType;
-import it.unisa.diem.se.group7.seproject.Views.ActionViews.ActionView;
 import it.unisa.diem.se.group7.seproject.Views.Factories.ActionViewFactory;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -50,8 +49,6 @@ public class SingleActionView implements ActionView {
             currentActionView = ActionViewFactory.createView(selectedActionType);
             Separator separator = new Separator(Orientation.VERTICAL);
             actionsBox.getChildren().addAll(separator, currentActionView.getView());
-        } else {
-            // Handle the case where no action type is selected (e.g., display an error message).
         }
     }
 

@@ -5,10 +5,10 @@ import it.unisa.diem.se.group7.seproject.Model.Rules.RuleManager;
 import it.unisa.diem.se.group7.seproject.Model.Rules.RuleSleepDecorator;
 import it.unisa.diem.se.group7.seproject.Model.Rules.SimpleRule;
 import it.unisa.diem.se.group7.seproject.Views.ActionViews.ActionView;
-import it.unisa.diem.se.group7.seproject.Views.CompositeTriggerView;
-import it.unisa.diem.se.group7.seproject.Views.ElementaryTriggerView;
-import it.unisa.diem.se.group7.seproject.Views.SequenceActionView;
-import it.unisa.diem.se.group7.seproject.Views.SingleActionView;
+import it.unisa.diem.se.group7.seproject.Views.TriggerViews.CompositeTriggerView;
+import it.unisa.diem.se.group7.seproject.Views.TriggerViews.ElementaryTriggerView;
+import it.unisa.diem.se.group7.seproject.Views.ActionViews.SequenceActionView;
+import it.unisa.diem.se.group7.seproject.Views.ActionViews.SingleActionView;
 import it.unisa.diem.se.group7.seproject.Views.TriggerViews.TriggerView;
 
 import javafx.collections.FXCollections;

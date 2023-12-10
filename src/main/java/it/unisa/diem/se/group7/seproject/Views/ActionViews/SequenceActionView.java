@@ -1,8 +1,7 @@
-package it.unisa.diem.se.group7.seproject.Views;
+package it.unisa.diem.se.group7.seproject.Views.ActionViews;
 
 import it.unisa.diem.se.group7.seproject.Model.Actions.Action;
 import it.unisa.diem.se.group7.seproject.Model.Actions.CompositeAction;
-import it.unisa.diem.se.group7.seproject.Views.ActionViews.ActionView;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
@@ -39,7 +38,7 @@ public class SequenceActionView implements ActionView {
 
     private void handleAddAction(VBox container) {
         actionViewList.add(new SingleActionView());
-        container.getChildren().add(actionViewList.get(actionViewList.size() - 1).getView());
+        container.getChildren().add(actionViewList.getLast().getView());
     }
 
     @Override

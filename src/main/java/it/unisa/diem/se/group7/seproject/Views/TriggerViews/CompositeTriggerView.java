@@ -1,9 +1,8 @@
-package it.unisa.diem.se.group7.seproject.Views;
+package it.unisa.diem.se.group7.seproject.Views.TriggerViews;
 
 import it.unisa.diem.se.group7.seproject.Model.Triggers.CompositeAndTrigger;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.CompositeOrTrigger;
 import it.unisa.diem.se.group7.seproject.Model.Triggers.Trigger;
-import it.unisa.diem.se.group7.seproject.Views.TriggerViews.TriggerView;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
