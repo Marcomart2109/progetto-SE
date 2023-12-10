@@ -16,13 +16,15 @@ public class CompositeAction implements Action, Serializable {
     public void add(Action action){
         if(actions.contains(action)) {
             throw new RuntimeException("The specified action is already in the list!");
+        }else{
+            actions.add(action);
         }
 
     }
 
     public void remove(Action action){
 
-        if(actions.remove(action)){
+        if(!actions.remove(action)){
             throw new RuntimeException("The specified action is not contained in the list!");
         }
     }

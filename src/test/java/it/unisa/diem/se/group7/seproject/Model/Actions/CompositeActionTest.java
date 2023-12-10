@@ -8,13 +8,23 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CompositeActionTest {
+public class CompositeActionTest {
     private Action a1, a2, a3;
     private File testFile;
 
     private File folder;
     private CompositeAction compositeAction;
 
+    public class TrueAction implements Action{
+        public void execute(){
+            System.out.println("True");
+        }
+    }
+    public class FalseAction implements Action{
+        public void execute(){
+            System.out.println("False");
+        }
+    }
     @BeforeEach
     public void setUp(){
         compositeAction = new CompositeAction();
@@ -22,24 +32,15 @@ class CompositeActionTest {
         a2= new FalseAction();
         a3 = new FalseAction();
     }
-    public class TrueAction implements Action{
-        public void execute(){
-            System.out.println("True");
-       }
-    }
-    public class FalseAction implements Action{
-        public void execute(){
-            System.out.println("False");
-        }
-    }
+
     @Test
-    void addAction() {
+    public void addAction() {
         // Test the impossibility of adding the same action twice
         assertThrows(RuntimeException.class, () -> {
             compositeAction.add(a2);
             compositeAction.add(a2);
         });
-
+        compositeAction.getActions().clear();
         // Test adding two distinct actions without exceptions
         assertDoesNotThrow(() -> {
             compositeAction.add(a1);
@@ -51,6 +52,7 @@ class CompositeActionTest {
 
     @Test
     void removeAction() {
+        compositeAction.getActions().clear();
         compositeAction.add(a1);
 
         assertThrows(RuntimeException.class,() -> {
