@@ -63,7 +63,7 @@ public class AppendToFileAction implements Action, Serializable {
 
     @Override
     public String toString() {
-        return "THEN append to the file: \"" + filePath + "\" the message: \"" + text + "\"";
+        return "append to the file: \"" + filePath + "\" the message: \"" + text + "\"";
     }
 }
 

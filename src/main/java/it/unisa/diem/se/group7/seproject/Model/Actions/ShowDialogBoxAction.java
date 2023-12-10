@@ -37,6 +37,6 @@ public class ShowDialogBoxAction implements Action, Serializable {
 
     @Override
     public String toString() {
-        return "THEN show an alert displaying the message \"" + message + "\"";
+        return "show an alert displaying the message \"" + message + "\"";
     }
 }

@@ -32,6 +32,6 @@ public class DayOfTheMonthTrigger implements Trigger, Serializable {
 
     @Override
     public String toString() {
-        return "IF the current day is " + day;
+        return "the current day is " + day;
     }
 }

@@ -32,6 +32,6 @@ public class DayOfTheYearTrigger implements Trigger, Serializable {
 
     @Override
     public String toString() {
-        return "IF the current day is the " + day;
+        return "the current day is the " + day;
     }
 }

@@ -27,6 +27,6 @@ public class FileExistsTrigger implements Trigger, Serializable {
 
     @Override
     public String toString() {
-        return "IF the file:\"" + file + "\" in the directory: \"" + folder + "\" exists";
+        return "the file:\"" + file + "\" in the directory: \"" + folder + "\" exists";
     }
 }

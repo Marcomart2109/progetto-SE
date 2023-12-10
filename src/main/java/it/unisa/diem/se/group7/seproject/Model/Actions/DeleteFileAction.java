@@ -30,6 +30,6 @@ public class DeleteFileAction implements Action, Serializable {
 
     @Override
     public String toString() {
-        return "THEN delete the file: \"" + file + "\" in the directory: \"" + folder + "\"";
+        return "delete the file: \"" + file + "\" in the directory: \"" + folder + "\"";
     }
 }

@@ -31,6 +31,6 @@ public class DayOfTheWeekTrigger implements Trigger, Serializable {
 
     @Override
     public String toString() {
-        return "IF the current day of the week is " + day;
+        return "the current day of the week is " + day;
     }
 }

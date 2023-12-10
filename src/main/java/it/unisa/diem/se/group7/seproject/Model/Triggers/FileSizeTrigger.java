@@ -27,6 +27,6 @@ public class FileSizeTrigger implements Trigger, Serializable {
 
     @Override
     public String toString() {
-        return "IF the size of the file: \"" + filePath + "\" is greater than " + fileSize;
+        return "the size of the file: \"" + filePath + "\" is greater than " + fileSize;
     }
 }

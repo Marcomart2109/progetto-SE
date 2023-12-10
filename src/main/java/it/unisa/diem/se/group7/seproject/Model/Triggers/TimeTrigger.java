@@ -27,6 +27,6 @@ public class TimeTrigger implements Trigger, Serializable {
 
     @Override
     public String toString() {
-        return "IF the current time is " + activationTime;
+        return "the current time is " + activationTime;
     }
 }

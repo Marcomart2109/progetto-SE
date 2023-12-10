@@ -92,7 +92,7 @@ public class PlayAudioAction implements Action, Serializable {
 
     @Override
     public String toString() {
-        return "THEN play an audio from \"" + audioFile + "\"";
+        return "play an audio from \"" + audioFile + "\"";
     }
 
 }

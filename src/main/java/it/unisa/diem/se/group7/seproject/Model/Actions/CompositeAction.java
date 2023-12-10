@@ -40,8 +40,20 @@ public class CompositeAction implements Action, Serializable {
             action.execute();
         }
     }
+
     @Override
     public String toString() {
-        return actions.toString();
+
+        final StringBuilder sb = new StringBuilder();
+        int actionNumber = 1;
+
+        for(Action action: actions) {
+            sb.append(actionNumber);
+            sb.append(" - ");
+            sb.append(action.toString());
+            sb.append("\n");
+            actionNumber++;
+        }
+        return sb.toString();
     }
 }

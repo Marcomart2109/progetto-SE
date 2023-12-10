@@ -61,6 +61,6 @@ public class ExecuteProgramAction implements Action, Serializable {
 
     @Override
     public String toString() {
-        return "THEN execute the program: \"" + externalProgram + "\" with these command line arguments: \"" + arguments + "\"";
+        return "execute the program: \"" + externalProgram + "\" with these command line arguments: \"" + arguments + "\"";
     }
 }
