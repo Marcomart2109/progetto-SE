@@ -15,4 +15,8 @@ public class NotTriggerDecorator implements Trigger, Serializable {
         return !trigger.evaluate();
     }
 
+    @Override
+    public String toString() {
+        return "NOT " + trigger.toString();
+    }
 }

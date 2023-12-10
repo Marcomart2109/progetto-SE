@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Spinner;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -28,7 +29,7 @@ public class FileSizeTriggerView implements TriggerView {
 
     @Override
     public Node getView() {
-        HBox container = new HBox();
+        VBox container = new VBox();
         container.setSpacing(INCREASED_SPACING);
 
         Label fileLengthLabel = new Label("Enter File Length (in bytes):");

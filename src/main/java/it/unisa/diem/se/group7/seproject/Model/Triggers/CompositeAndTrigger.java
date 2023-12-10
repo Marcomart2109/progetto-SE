@@ -7,6 +7,9 @@ public class CompositeAndTrigger extends CompositeTrigger{
     public CompositeAndTrigger(){
         super();
     }
+    public CompositeAndTrigger(Trigger... triggers) {
+        super(triggers);
+    }
 
     @Override
     public boolean evaluate() {
@@ -19,6 +22,10 @@ public class CompositeAndTrigger extends CompositeTrigger{
         }
 
         return true;
+    }
+    @Override
+    public String toString() {
+        return getTriggers().get(0) + "\nAND\n" + getTriggers().get(1);
     }
 
 }

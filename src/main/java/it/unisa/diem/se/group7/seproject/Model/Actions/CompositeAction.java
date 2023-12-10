@@ -1,17 +1,20 @@
 package it.unisa.diem.se.group7.seproject.Model.Actions;
 
 import java.io.Serializable;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
 public class CompositeAction implements Action, Serializable {
+    private List<Action> actions;
 
-    private List<Action>  actions;
-
-
-    public CompositeAction(){
-
+    public CompositeAction() {
         actions = new ArrayList<>();
+    }
+
+    public CompositeAction(Action... actions) {
+        this.actions = new ArrayList<>();
+        this.actions.addAll(Arrays.asList(actions));
     }
     public void add(Action action){
         if(actions.contains(action)) {
@@ -21,24 +24,24 @@ public class CompositeAction implements Action, Serializable {
         }
 
     }
-
     public void remove(Action action){
 
         if(!actions.remove(action)){
             throw new RuntimeException("The specified action is not contained in the list!");
         }
     }
-
     public List<Action> getActions(){
 
         return actions;
     }
-
     @Override
     public void execute() {
         for (Action action : actions) {
             action.execute();
         }
     }
-
+    @Override
+    public String toString() {
+        return actions.toString();
+    }
 }
