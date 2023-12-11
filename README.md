@@ -14,7 +14,7 @@ The development of Desktop RuleMaster followed the Scrum methodology, emphasizin
 * [Architecture scheme](./UML%20class%20Diagram.png)
 * [1st sprint review and retrospective](https://docs.google.com/document/d/1sxcKF2btXkr5yAJtk5ca-K8bEJkUK2iYYw-kcvKxfhU/edit?usp=sharing)
 * [2nd sprint review and retrospective](https://docs.google.com/document/d/17iMXyen1Yn60ok5ck_RDtThG-RDzsl05RDGURZTpf_E/edit?usp=sharing)
-* [3rd sprint review and retrospective]() (not linked yet)
+* [3rd sprint review and retrospective](https://docs.google.com/document/d/1P3ok3wzddh2Rbuy3exAZz-Pm8PiFpxtbuqfDvstMZ7Y/edit)
 ### Contributors
 - [Iannaccone Eugenio](https://github.com/Eugenio2001)
 - [Marmo Alberto](https://github.com/berto2001)
